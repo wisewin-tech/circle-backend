@@ -136,6 +136,49 @@ public class AdminController  extends BaseCotroller {
         roleBO.setCreateTime(new Date());
         roleBO.setUpdateTime(new Date());
         adminService.addRole(roleBO);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleBO.getId())) ;
+        super.safeJsonPrint(response, result);
+    }
+
+    /**
+     * 添加角色 就给角色赋予权限
+     * @param request
+     * @param response
+     * @param roleName  角色名称
+     * @param menuIds  权限ids
+     */
+    @RequestMapping("addRoleGrantAuthority")
+    public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds){
+        // 非空判断
+        if(StringUtils.isEmpty(roleName) || StringUtils.isEmpty(menuIds)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        try {
+            RoleBO roleBO = new RoleBO();
+            roleBO.setRoleName(roleName);
+            roleBO.setCreateTime(new Date());
+            roleBO.setUpdateTime(new Date());
+            // 添加角色
+            adminService.addRole(roleBO);
+            String[] ids = menuIds.split(".");
+            for (String id:
+                    ids) {
+                RoleMenuBO roleMenuBO = new RoleMenuBO();
+                roleMenuBO.setRoleId(roleBO.getId());
+                roleMenuBO.setMenuId(Integer.parseInt(id));
+                roleMenuBO.setCreateTime(new Date());
+                roleMenuBO.setUpdateTime(new Date());
+                adminService.addRoleMenu(roleMenuBO);
+            }
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
+            super.safeJsonPrint(response, result);
+        }catch (Exception e){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加角色给角色赋予权限异常")) ;
+            super.safeJsonPrint(response, result);
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -217,6 +260,19 @@ public class AdminController  extends BaseCotroller {
         super.safeJsonPrint(response, result);
     }
 
+    // 根据id查询菜单信息
+    public void selectMenuById(HttpServletRequest request,HttpServletResponse response,Integer id){
+
+    }
+
+    // 根据id查询角色信息
+
+    // 删除用户
+
+    // 删除菜单信息
+
+    // 删除角色信息
+
 
 
 
@@ -230,9 +286,26 @@ public class AdminController  extends BaseCotroller {
 
 
     public static void main(String[] args) {
-        System.out.println(MD5Util.digest("123456"));
-        System.out.println(MD5Util.digest("456789"));
-        System.out.println(MD5Util.digest("zhang"));
-        System.out.println(MD5Util.digest("123456789"));
+//        System.out.println(MD5Util.digest("123456"));
+//        System.out.println(MD5Util.digest("456789"));
+//        System.out.println(MD5Util.digest("zhang"));
+//        System.out.println(MD5Util.digest("123456789"));
+
+        String str = "1,2,3,4,5,6,7,8,9,10";
+        String [] strs =  str.split(",");
+        for (String s:
+             strs) {
+            // System.out.println(s);
+        }
+        //System.out.println(strs);
+
+        try{
+            int a =  1/0;
+            System.out.println("bbb");
+            System.out.println(1+1);
+
+        }catch (Exception e){
+            System.out.println("出现异常了");
+        }
     }
 }

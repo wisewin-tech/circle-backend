@@ -111,4 +111,10 @@ public class AdminService {
         return adminDAO.addMenuByPid(menuBO);
     }
 
+    /**
+     * 根据id查询权限表(菜单信息)
+     * @param id  权限id
+     * @return 菜单信息
+     */
+
 }

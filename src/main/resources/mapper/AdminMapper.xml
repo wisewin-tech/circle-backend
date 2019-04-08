@@ -5,6 +5,37 @@
 <!-- 【管理员】 -->
 <mapper namespace="com.wisewin.backend.dao.AdminDAO">
 
+    <!--<resultMap type="com.wisewin.backend.entity.bo.MenuBO" id="menuResult">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="pid" property="pid"/>
+        <result column="mark" property="mark"/>
+        <result column="img" property="img"/>
+        <result column="insertTime" property="insertTime"/>
+        <result column="intro" property="intro"/>
+        <result column="sortNum" property="sortNum"/>
+        <result column="status" property="status"/>
+        &lt;!&ndash; 一对一关系  &ndash;&gt;
+        &lt;!&ndash; property: 指的是属性的值, javaType：指的是属性的类型&ndash;&gt;
+        &lt;!&ndash;<association property="parentCate" javaType="com.cxgt.mvc.gede.pojo.Cate" column="pid" select="get">
+        </association>&ndash;&gt;
+        &lt;!&ndash; 多对一的关系 &ndash;&gt;
+        <collection property="ch" ofType="com.cxgt.mvc.gede.pojo.Cate" column="id" select="getCh">
+        </collection>
+    </resultMap>
+    <select id="get" resultMap="cateResult">
+        select * from cate where id=#{id}
+    </select>
+
+    <select id="getCh" parameterType="java.lang.Long" resultMap="cateResult">&lt;!&ndash; resultType="com.cxgt.mvc.gede.pojo.Cate" &ndash;&gt;
+        select * from cate where pid=#{pid};
+    </select>
+
+    <select id="getCh" parameterType="java.lang.Long" resultMap="cateResult">&lt;!&ndash; resultType="com.cxgt.mvc.gede.pojo.Cate" &ndash;&gt;
+        select * from cate where pid=#{pid};
+    </select>-->
+
+
     <!--根据手机号查找管理员信息-->
     <select id="queryAdminInfoByMobile" parameterType="String" resultType="com.wisewin.backend.entity.bo.AdminBO">
         SELECT *
@@ -29,7 +60,7 @@
 
     <!-- 查找用户名是否注册过  -->
     <select id="selectCountByname" parameterType="String" resultType="int">
-        SELECT count(id) FROM ce_admin WHERE phone_number = #{mobile}
+        SELECT count(name) FROM ce_admin WHERE phone_number = #{mobile}
     </select>
 
     <!-- 添加角色信息  -->

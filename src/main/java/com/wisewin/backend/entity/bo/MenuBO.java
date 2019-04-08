@@ -17,6 +17,26 @@ public class MenuBO {
 
     private String url;
 
+    private String icon;
+
+    private String index;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
+
     public Integer getId() {
         return id;
     }
