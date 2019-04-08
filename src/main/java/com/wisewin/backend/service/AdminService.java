@@ -131,4 +131,14 @@ public class AdminService {
         return adminDAO.selectRoleToMenu(roleName);
     }
 
+    /**
+     * 根据角色名称查询对应的权限(模糊查询)
+     * @param dimName 模糊查询的名字
+     * @return 查询的权限信息
+     */
+    public List<MenuDTO> getDimRoleMenu(String dimName){
+        return adminDAO.getDimRoleMenu(dimName);
+    }
+
+
 }

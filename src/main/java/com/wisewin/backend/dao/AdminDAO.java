@@ -81,4 +81,11 @@ public interface AdminDAO {
      * @return 返回对应的权限
      */
     List<MenuDTO> selectRoleToMenu(String roleName);
+
+    /**
+     * 根据角色名称查找对应的权限(模糊查询)
+     * @param dimName 角色名称
+     * @return 返回对应的权限
+     */
+    List<MenuDTO> getDimRoleMenu(String dimName);
 }

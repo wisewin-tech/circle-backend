@@ -163,16 +163,27 @@ public class AdminController  extends BaseCotroller {
             roleBO.setUpdateTime(new Date());
             // 添加角色
             adminService.addRole(roleBO);
-            String[] ids = menuIds.split(",");
-            for (String id:
-                    ids) {
+            boolean status = menuIds.contains(",");
+            if(status){
+                String[] ids = menuIds.split(",");
+                for (String id:
+                        ids) {
+                    RoleMenuBO roleMenuBO = new RoleMenuBO();
+                    roleMenuBO.setRoleId(roleBO.getId());
+                    roleMenuBO.setMenuId(Integer.parseInt(id));
+                    roleMenuBO.setCreateTime(new Date());
+                    roleMenuBO.setUpdateTime(new Date());
+                    adminService.addRoleMenu(roleMenuBO);
+                }
+            }else{
                 RoleMenuBO roleMenuBO = new RoleMenuBO();
                 roleMenuBO.setRoleId(roleBO.getId());
-                roleMenuBO.setMenuId(Integer.parseInt(id));
+                roleMenuBO.setMenuId(Integer.parseInt(menuIds));
                 roleMenuBO.setCreateTime(new Date());
                 roleMenuBO.setUpdateTime(new Date());
                 adminService.addRoleMenu(roleMenuBO);
             }
+
 
             // 查询角色所拥有的权限
             List<MenuDTO> menuList = adminService.selectRoleToMenu(roleName);
@@ -191,6 +202,7 @@ public class AdminController  extends BaseCotroller {
      * @param response
      * @param roleName
      */
+    @RequestMapping("getRoleMenu")
     public void getRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName){
         if(StringUtils.isEmpty(roleName)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
@@ -281,6 +293,39 @@ public class AdminController  extends BaseCotroller {
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
         super.safeJsonPrint(response, result);
     }
+
+    /**
+     * 模糊查询角色信息
+     * @param request
+     * @param response
+     * @param dimName 模糊的名字
+     */
+    @RequestMapping("getDimRoleMenu")
+    public void getDimRoleMenu(HttpServletRequest request,HttpServletResponse response,String dimName){
+        if(StringUtils.isEmpty(dimName)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        List<MenuDTO> menuList = adminService.getDimRoleMenu(dimName);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
+        super.safeJsonPrint(response, result);
+    }
+
+    /**
+     * 编辑角色的权限
+     */
+    public void editRoleMenu(){
+
+    }
+
+    public void delRoleMenu(HttpServletRequest request){
+
+    }
+
+
+
+
 
     // 根据id查询菜单信息
     public void selectMenuById(HttpServletRequest request,HttpServletResponse response,Integer id){

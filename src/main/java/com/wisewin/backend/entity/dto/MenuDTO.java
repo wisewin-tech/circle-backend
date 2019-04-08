@@ -5,6 +5,24 @@ public class MenuDTO {
     private String menuName; // 权限名称
     private String index;
     private String icon;
+    private Integer roleId; // 角色id
+    private Integer menuId; // 权限id
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public Integer getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
+    }
 
     public String getIndex() {
         return index;
