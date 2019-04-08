@@ -8,7 +8,7 @@
     <!--根据手机号查找管理员信息-->
     <select id="queryAdminInfoByMobile" parameterType="String" resultType="com.wisewin.backend.entity.bo.AdminBO">
         SELECT *
-        FROM ce_admin WHERE phone_number = #{mobile}
+        FROM ce_admin WHERE name = #{mobile}
     </select>
     <!--添加管理员信息(管理員注冊)-->
     <insert id="adminRegister" parameterType="com.wisewin.backend.entity.bo.AdminBO" useGeneratedKeys="true"

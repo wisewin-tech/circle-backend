@@ -108,8 +108,7 @@ public class AdminService {
      * @return 受影响的行数
      */
     public int addMenuByPid(MenuBO menuBO){
-        adminDAO.addMenuByPid(menuBO);
-        return 1;
+        return adminDAO.addMenuByPid(menuBO);
     }
 
 }
