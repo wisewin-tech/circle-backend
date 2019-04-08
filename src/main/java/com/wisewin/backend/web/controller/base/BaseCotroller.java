@@ -2,7 +2,8 @@ package com.wisewin.backend.web.controller.base;
 
 import com.google.common.collect.Lists;
 import com.wisewin.backend.common.constants.SysConstants;
-import com.wisewin.backend.entity.bo.TestBO;
+import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.query.PageObject;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.util.redisUtils.RedissonHandler;
@@ -222,15 +223,18 @@ public class BaseCotroller {
     }
 
     /** 获取登录用户*/
-    public TestBO getLoginUser (HttpServletRequest request ) {
-        return (TestBO)this.getSession(request, SysConstants.CURRENT_LOGIN_USER) ;
+    public AdminBO getLoginUser (HttpServletRequest request ) {
+        return (AdminBO)this.getSession(request, SysConstants.CURRENT_LOGIN_USER) ;
     }
 
     /** putLoginUser*/
-    public void putLoginUser (String loginId , TestBO loginUser) {
+    public void putLoginUser (String loginId , AdminBO loginUser) {
         this.putSession(createKey(loginId, SysConstants.CURRENT_LOGIN_USER), loginUser) ;
     }
-
+    /** putLoginUser*/
+    public void putLoginUser1 (String loginId , UserBO loginUser) {
+        this.putSession(createKey(loginId, SysConstants.CURRENT_LOGIN_USER), loginUser) ;
+    }
 
 //    /** 获取登录用户*/
 //    public ClientInfo getLoginClientInfo (HttpServletRequest request ) {
