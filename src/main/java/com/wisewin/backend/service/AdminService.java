@@ -27,9 +27,13 @@ public class AdminService {
         }
         AdminBO adminBO = adminDAO.queryAdminInfoByMobile(mobile);
         // 查询用户所对应的权限
-        List<MenuBO> menuBOS = adminDAO.getAdminToMenu(adminBO.getId());
-        adminBO.setMenuBO(menuBOS);
-        return adminBO;
+
+        if(adminBO != null){
+            List<MenuBO> menuBOS = adminDAO.getAdminToMenu(adminBO.getId());
+            adminBO.setMenuBO(menuBOS);
+            return adminBO;
+        }
+        return null;
     }
 
     /**
