@@ -27,6 +27,11 @@
         SELECT count(id) FROM ce_admin WHERE phone_number = #{mobile}
     </select>
 
+    <!-- 查找用户名是否注册过  -->
+    <select id="selectCountByname" parameterType="String" resultType="int">
+        SELECT count(id) FROM ce_admin WHERE phone_number = #{mobile}
+    </select>
+
     <!-- 添加角色信息  -->
     <insert id="addRole" parameterType="com.wisewin.backend.entity.bo.RoleBO" useGeneratedKeys="true"
             keyProperty="id">

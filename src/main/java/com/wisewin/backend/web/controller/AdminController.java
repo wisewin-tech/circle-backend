@@ -96,6 +96,14 @@ public class AdminController  extends BaseCotroller {
             super.safeJsonPrint(response , result);
             return ;
         }
+
+        // 判断用户名是否注册过
+        int name = adminService.selectCountByName(param.getName());
+        if(name > 0 ){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "手机号码已注册")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
         AdminBO admin = new AdminBO();
         admin.setPassword(MD5Util.digest(param.getPassword()));
         admin.setName(param.getName());

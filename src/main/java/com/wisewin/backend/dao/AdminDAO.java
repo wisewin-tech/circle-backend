@@ -12,6 +12,7 @@ public interface AdminDAO {
      */
     AdminBO queryAdminInfoByMobile(String mobile);
 
+
     /**
      * 注册管理员信息
      * @param admin
@@ -25,6 +26,13 @@ public interface AdminDAO {
      * @return
      */
     int selectCountByMobile(String mobile);
+
+    /**
+     * 查找用户手机号是否注册过
+     * @param name
+     * @return
+     */
+    int selectCountByName(String name);
 
     /**
      * 添加角色信息
