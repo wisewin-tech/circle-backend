@@ -1,6 +1,7 @@
 package com.wisewin.backend.web.controller;
 
 
+import com.wisewin.backend.entity.dto.MenuDTO;
 import com.wisewin.backend.entity.param.*;
 import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.bo.common.constants.SysConstants;
@@ -162,7 +163,7 @@ public class AdminController  extends BaseCotroller {
             roleBO.setUpdateTime(new Date());
             // 添加角色
             adminService.addRole(roleBO);
-            String[] ids = menuIds.split(".");
+            String[] ids = menuIds.split(",");
             for (String id:
                     ids) {
                 RoleMenuBO roleMenuBO = new RoleMenuBO();
@@ -172,13 +173,34 @@ public class AdminController  extends BaseCotroller {
                 roleMenuBO.setUpdateTime(new Date());
                 adminService.addRoleMenu(roleMenuBO);
             }
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
+
+            // 查询角色所拥有的权限
+            List<MenuDTO> menuList = adminService.selectRoleToMenu(roleName);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
             super.safeJsonPrint(response, result);
         }catch (Exception e){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加角色给角色赋予权限异常")) ;
             super.safeJsonPrint(response, result);
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 查询角色对应的权限
+     * @param request
+     * @param response
+     * @param roleName
+     */
+    public void getRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName){
+        if(StringUtils.isEmpty(roleName)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        // 查询角色所拥有的权限
+        List<MenuDTO> menuList = adminService.selectRoleToMenu(roleName);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
+        super.safeJsonPrint(response, result);
     }
 
     /**

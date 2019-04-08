@@ -1,6 +1,7 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.*;
+import com.wisewin.backend.entity.dto.MenuDTO;
 
 import java.util.List;
 
@@ -73,4 +74,11 @@ public interface AdminDAO {
      * @return 受影响的行数
      */
     int addMenuByPid(MenuBO menuBO);
+
+    /**
+     * 根据角色名称查找对应的权限
+     * @param roleName 角色名称
+     * @return 返回对应的权限
+     */
+    List<MenuDTO> selectRoleToMenu(String roleName);
 }

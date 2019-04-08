@@ -3,6 +3,7 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.AdminDAO;
 import com.wisewin.backend.entity.bo.*;
+import com.wisewin.backend.entity.dto.MenuDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,5 +121,14 @@ public class AdminService {
      * @param id  权限id
      * @return 菜单信息
      */
+
+    /**
+     * 根据角色名查询拥有的权限
+     * @param roleName  角色名
+     * @return 返回对应的权限
+     */
+    public List<MenuDTO> selectRoleToMenu(String roleName){
+        return adminDAO.selectRoleToMenu(roleName);
+    }
 
 }

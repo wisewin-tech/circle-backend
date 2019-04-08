@@ -5,35 +5,28 @@
 <!-- 【管理员】 -->
 <mapper namespace="com.wisewin.backend.dao.AdminDAO">
 
-    <!--<resultMap type="com.wisewin.backend.entity.bo.MenuBO" id="menuResult">
+    <resultMap type="com.wisewin.backend.entity.bo.MenuBO" id="menuResult">
         <id column="id" property="id"/>
-        <result column="name" property="name"/>
+        <result column="menu_name" property="menuName"/>
         <result column="pid" property="pid"/>
-        <result column="mark" property="mark"/>
-        <result column="img" property="img"/>
-        <result column="insertTime" property="insertTime"/>
-        <result column="intro" property="intro"/>
-        <result column="sortNum" property="sortNum"/>
         <result column="status" property="status"/>
-        &lt;!&ndash; 一对一关系  &ndash;&gt;
-        &lt;!&ndash; property: 指的是属性的值, javaType：指的是属性的类型&ndash;&gt;
-        &lt;!&ndash;<association property="parentCate" javaType="com.cxgt.mvc.gede.pojo.Cate" column="pid" select="get">
-        </association>&ndash;&gt;
-        &lt;!&ndash; 多对一的关系 &ndash;&gt;
-        <collection property="ch" ofType="com.cxgt.mvc.gede.pojo.Cate" column="id" select="getCh">
+        <result column="url" property="url"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <!-- 多对一的关系 -->
+        <!-- property: 指的是属性的值, javaType：指的是属性的类型-->
+        <!--<association property="menuBO" javaType="com.wisewin.backend.entity.bo.MenuBO" column="pid" select="get">
+        </association>-->
+        <collection property="ch" ofType="com.wisewin.backend.entity.bo.MenuBO" column="id" select="getCh">
         </collection>
     </resultMap>
-    <select id="get" resultMap="cateResult">
+
+    <!--<select id="get" resultMap="cateResult">
         select * from cate where id=#{id}
-    </select>
-
-    <select id="getCh" parameterType="java.lang.Long" resultMap="cateResult">&lt;!&ndash; resultType="com.cxgt.mvc.gede.pojo.Cate" &ndash;&gt;
-        select * from cate where pid=#{pid};
-    </select>
-
-    <select id="getCh" parameterType="java.lang.Long" resultMap="cateResult">&lt;!&ndash; resultType="com.cxgt.mvc.gede.pojo.Cate" &ndash;&gt;
-        select * from cate where pid=#{pid};
     </select>-->
+    <select id="getCh" parameterType="java.lang.Long" resultMap="menuResult">
+        select * from ce_menu where pid=#{pid};
+    </select>
 
 
     <!--根据手机号查找管理员信息-->
@@ -115,4 +108,13 @@
         create_time=#{createTime},
         update_time=#{updateTime}
     </insert>
+
+    <!--  查询某角色所对用的权限  -->
+    <select id="selectRoleToMenu" parameterType="String" resultType="com.wisewin.backend.entity.dto.MenuDTO">
+        SELECT r.`role_name`,p.`menu_name`
+        FROM
+          ce_menu p,ce_role_menu rp,ce_role r
+        WHERE
+          r.`role_name`=#{roleName} AND r.id=rp.role_id AND rp.menu_id=p.id;
+    </select>
 </mapper>
