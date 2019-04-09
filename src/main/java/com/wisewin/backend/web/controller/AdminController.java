@@ -1,6 +1,7 @@
 package com.wisewin.backend.web.controller;
 
 
+import com.wisewin.backend.common.constants.CircleConstants;
 import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
 import com.wisewin.backend.entity.param.*;
@@ -111,7 +112,7 @@ public class AdminController  extends BaseCotroller {
         admin.setName(param.getName());
         admin.setGender(param.getGender()); //
         admin.setPhoneNumber(param.getMobile());
-        admin.setStatus(param.getStatus());// 状态 normal:正常  logout：注销
+        admin.setStatus(CircleConstants.NORMAL);// 状态 normal:正常  logout：注销
         admin.setCreateTime(new Date());
         admin.setRoleId(param.getRoleId());
         adminService.adminRegister(admin);
@@ -434,6 +435,69 @@ public class AdminController  extends BaseCotroller {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改有误")) ;
             super.safeJsonPrint(response , result);
         }
+    }
+
+    /**
+     * 修改admin用戶信息
+     * @param request
+     * @param response
+     * @param param
+     * @param id
+     */
+    @RequestMapping("updateAdminUser")
+    public void updateAdminUser(HttpServletRequest request,HttpServletResponse response,RegisterParam param,Integer id){
+        if(param == null || StringUtils.isEmpty(String.valueOf(id))){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        AdminBO adminBO = new AdminBO();
+        adminBO.setId(id);
+        List<AdminBO> adminBOS = adminService.getAdmin(adminBO);
+        for (AdminBO admin:adminBOS
+             ) {
+            admin.setGender(param.getGender());
+            admin.setPassword(param.getPassword());
+            admin.setPhoneNumber(param.getMobile());
+            admin.setName(param.getName());
+            admin.setUpdateTime(new Date());
+            boolean flag = adminService.updateAdminUser(admin);
+            if(flag){
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
+                super.safeJsonPrint(response , result);
+                return ;
+            }else{
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+                super.safeJsonPrint(response , result);
+                return ;
+            }
+        }
+    }
+
+    /**
+     * 查询用户信息
+     * @param request
+     * @param response
+     * @param adminParam
+     */
+    @RequestMapping("getAdmin")
+    public void getAdmin(HttpServletRequest request,HttpServletResponse response,GetAdminParam adminParam){
+        AdminBO adminBO = new AdminBO();
+        /*if(!StringUtils.isEmpty(String.valueOf(adminParam.getRoleId()))){
+            adminBO.setRoleId(adminParam.getRoleId());
+        }*/
+        if(!StringUtils.isEmpty(adminParam.getMobile())){
+            adminBO.setPhoneNumber(adminParam.getMobile());
+        }
+        if(!StringUtils.isEmpty(adminParam.getName())){
+            adminBO.setName(adminParam.getName());
+        }
+        if(!StringUtils.isEmpty(String.valueOf(adminParam.getId()))){
+            adminBO.setId(adminParam.getId());
+        }
+        List<AdminBO> adminBOS = adminService.getAdmin(adminBO);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(adminBOS)) ;
+        super.safeJsonPrint(response, result);
     }
 
     /**

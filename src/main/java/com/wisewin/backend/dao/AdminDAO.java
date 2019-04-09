@@ -144,6 +144,22 @@ public interface AdminDAO {
      */
     boolean delAdminById(Integer id);
 
+    /**
+     * 修改admin用户信息
+     * @param adminBO 修改信息
+     * @return 是否修改成功
+     */
+     boolean updateAdminUser(AdminBO adminBO);
+
+    /**
+     * 查询用户信息
+     * @param adminBO
+     * @return
+     */
+     List<AdminBO> getAdmin(AdminBO adminBO);
+
 
     List<RoleBO> getRole();
+
+
 }

@@ -203,6 +203,24 @@ public class AdminService {
         return adminDAO.delAdminById(id);
     }
 
+    /**
+     * 修改admin用户信息
+     * @param adminBO 用户信息
+     * @return 是否修改成功
+     */
+    public boolean updateAdminUser(AdminBO adminBO){
+        return adminDAO.updateAdminUser(adminBO);
+    }
+
+    /**
+     * 查询admin用户信息
+     * @param adminBO
+     * @return
+     */
+    public List<AdminBO> getAdmin(AdminBO adminBO){
+        return adminDAO.getAdmin(adminBO);
+    }
+
     public List<RoleBO> getRole(){
         return adminDAO.getRole();
     }
