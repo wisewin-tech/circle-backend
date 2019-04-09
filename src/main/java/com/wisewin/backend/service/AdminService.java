@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service("adminService")
 @Transactional
@@ -124,11 +125,20 @@ public class AdminService {
 
     /**
      * 根据角色名查询拥有的权限
-     * @param roleName  角色名
+     * @param map
      * @return 返回对应的权限
      */
-    public List<MenuDTO> selectRoleToMenu(String roleName){
-        return adminDAO.selectRoleToMenu(roleName);
+    public List<MenuDTO> selectRoleToMenu(Map<String,Object> map){
+        return adminDAO.selectRoleToMenu(map);
+    }
+
+    /**
+     * 根据角色名称查找对应的权限总数
+     * @param map
+     * @return
+     */
+    public Integer getCountRoleToMenu(Map<String,Object> map){
+        return adminDAO.getCountRoleToMenu(map);
     }
 
     /**
@@ -161,8 +171,8 @@ public class AdminService {
      * 查询所有角色的权限
      * @return
      */
-    public List<MenuDTO> getRoleMenu(){
-        return adminDAO.getRoleMenu();
+    public List<MenuDTO> getRoleMenu(String roleName){
+        return adminDAO.getRoleMenu(roleName);
     }
 
     /**

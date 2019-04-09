@@ -6,6 +6,7 @@ import com.wisewin.backend.entity.dto.MenuDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdminDAO {
     /**
@@ -79,10 +80,17 @@ public interface AdminDAO {
 
     /**
      * 根据角色名称查找对应的权限
-     * @param roleName 角色名称
+     * @param map 角色名称
      * @return 返回对应的权限
      */
-    List<MenuDTO> selectRoleToMenu(String roleName);
+    List<MenuDTO> selectRoleToMenu(Map<String,Object> map);
+
+    /**
+     * 根据角色名称查找对应的权限总数
+     * @param map
+     * @return
+     */
+    Integer getCountRoleToMenu(Map<String,Object> map);
 
     /**
      * 根据角色名称查找对应的权限(模糊查询)
@@ -108,7 +116,7 @@ public interface AdminDAO {
      * 查询所有角色对应的权限
      * @return
      */
-    List<MenuDTO> getRoleMenu();
+    List<MenuDTO> getRoleMenu(String roleName);
 
     /**
      * 根据用户名查询对应的角色

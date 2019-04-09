@@ -20,6 +20,10 @@
         <collection property="ch" ofType="com.wisewin.backend.entity.bo.MenuBO" column="id" select="getCh">
         </collection>
     </resultMap>
+    <!--查询备用金-->
+    <sql id="limit">
+        limit #{pageOffset},#{pageSize}
+    </sql>
 
     <!--<select id="get" resultMap="cateResult">
         select * from cate where id=#{id}
@@ -110,12 +114,20 @@
     </insert>
 
     <!--  查询某角色所对应的权限  -->
-    <select id="selectRoleToMenu" parameterType="String" resultType="com.wisewin.backend.entity.dto.MenuDTO">
+    <select id="selectRoleToMenu" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.dto.MenuDTO">
         SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
         FROM
           ce_menu p,ce_role_menu rp,ce_role r
         WHERE
-          r.`role_name`=#{roleName} AND r.id=rp.role_id AND rp.menu_id=p.id;
+          r.`role_name`=#{roleName} AND r.id=rp.role_id AND rp.menu_id=p.id <include refid="limit" />
+    </select>
+    <!--  查询某角色锁对应的权限的总数  -->
+    <select id="getCountRoleToMenu" parameterType="java.util.Map" resultType="Integer">
+        SELECT count(*)
+        FROM
+        ce_menu p,ce_role_menu rp,ce_role r
+        WHERE
+        r.`role_name`=#{roleName} AND r.id=rp.role_id AND rp.menu_id=p.id;
     </select>
 
     <!--  根据角色id查询所对应的权限  -->
@@ -127,14 +139,7 @@
         r.`role_id`=#{roleId} AND r.id=rp.role_id AND rp.menu_id=p.id;
     </select>
 
-    <!--  模糊查询角色信息  -->
-    <select parameterType="String" resultType="com.wisewin.backend.entity.dto.MenuDTO" id="getDimRoleMenu">
-        SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
-        FROM
-          ce_menu p,ce_role_menu rp,ce_role r
-        WHERE
-          r.`role_name` LIKE concat(concat('%',#{dimName}),'%') AND r.id=rp.role_id AND rp.menu_id=p.id;
-    </select>
+
 
     <!--  根据角色id删除角色信息  -->
     <delete id="delRoleById" parameterType="Integer">
@@ -142,11 +147,26 @@
     </delete>
 
     <!--  查询所有角色所对应的权限  -->
-    <select id="getRoleMenu" parameterType="com.wisewin.backend.entity.dto.MenuDTO">
+    <select id="getRoleMenu" resultType="com.wisewin.backend.entity.dto.MenuDTO" parameterType="String">
         SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
         FROM
           ce_menu p,ce_role_menu rp,ce_role r
-        WHERE r.id=rp.role_id AND rp.menu_id=p.id;
+        WHERE 1=1
+        <if test="_parameter != null">
+            AND r.`role_name`=#{roleName} AND r.id=rp.role_id AND rp.menu_id=p.id;
+        </if>
+        <if test="_parameter == null">
+           AND r.id=rp.role_id AND rp.menu_id=p.id;
+        </if>
+    </select>
+
+    <!--  模糊查询角色信息  -->
+    <select parameterType="String" resultType="com.wisewin.backend.entity.dto.MenuDTO" id="getDimRoleMenu">
+        SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
+        FROM
+          ce_menu p,ce_role_menu rp,ce_role r
+        WHERE
+          r.`role_name` LIKE concat(concat('%',#{dimName}),'%') AND r.id=rp.role_id AND rp.menu_id=p.id;
     </select>
 
     <!--  获取用户对应的角色  -->

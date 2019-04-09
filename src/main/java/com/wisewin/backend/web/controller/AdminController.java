@@ -7,11 +7,13 @@ import com.wisewin.backend.entity.param.*;
 import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.bo.common.constants.SysConstants;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
+import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.AdminService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.MD5Util;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,9 +23,7 @@ import javax.management.relation.Role;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 用戶信息控制类
@@ -186,8 +186,10 @@ public class AdminController  extends BaseCotroller {
                 // 添加权限
                 adminService.addRoleMenu(roleMenuBO);
             }
+            Map<String,Object> map = new HashMap<String, Object>();
+            map.put("roleName",roleName);
             // 查询角色所拥有的权限
-            List<MenuDTO> menuList = adminService.selectRoleToMenu(roleName);
+            List<MenuDTO> menuList = adminService.selectRoleToMenu(map);
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
             super.safeJsonPrint(response, result);
         }catch (Exception e){
@@ -204,15 +206,29 @@ public class AdminController  extends BaseCotroller {
      * @param roleName
      */
     @RequestMapping("getRoleMenu")
-    public void getRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName){
+    public void getRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName, Integer pageNo, Integer pageSize){
         if(StringUtils.isEmpty(roleName)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
             return ;
         }
+        QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (queryInfo != null) {
+            map.put("pageOffset", queryInfo.getPageOffset());
+            map.put("pageSize", queryInfo.getPageSize());
+
+        }
+        map.put("roleName", roleName);
+        // 查询总记录数
+        Integer count = adminService.getCountRoleToMenu(map);
         // 查询角色所拥有的权限
-        List<MenuDTO> menuList = adminService.selectRoleToMenu(roleName);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
+        List<MenuDTO> menuList = adminService.selectRoleToMenu(map);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("count", count);
+        jsonObject.put("data", menuList);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(jsonObject));
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(json)) ;
         super.safeJsonPrint(response, result);
     }
 
@@ -358,14 +374,15 @@ public class AdminController  extends BaseCotroller {
         super.safeJsonPrint(response, result);
     }
 
-    /**
+    /** success
      * 查询所有角色所对应的权限
      * @param request
      * @param response
      */
     @RequestMapping("getAllRoleMenu")
-    public void getAllRoleMenu(HttpServletRequest request,HttpServletResponse response){
-        List<MenuDTO> menuDTOS =  adminService.getRoleMenu();
+    public void getAllRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName){
+        // 非空判断
+        List<MenuDTO> menuDTOS =  adminService.getRoleMenu(roleName);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuDTOS)) ;
         super.safeJsonPrint(response, result);
     }
@@ -439,6 +456,8 @@ public class AdminController  extends BaseCotroller {
             adminService.delAdminById(Integer.parseInt(ids));
         }
     }
+
+
 
 
 
