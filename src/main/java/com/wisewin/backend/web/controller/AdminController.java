@@ -451,6 +451,21 @@ public class AdminController  extends BaseCotroller {
             super.safeJsonPrint(response , result);
             return ;
         }
+        // 判断手机号是否注册过
+        int count = adminService.selectCountByMobile(MD5Util.digest(param.getPassword()));
+        if(count > 0 ){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "手机号码已注册")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+
+        // 判断用户名是否注册过
+        int name = adminService.selectCountByName(param.getName());
+        if(name > 0 ){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "用户名已存在")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
         AdminBO adminBO = new AdminBO();
         adminBO.setId(id);
         List<AdminBO> adminBOS = adminService.getAdmin(adminBO);
