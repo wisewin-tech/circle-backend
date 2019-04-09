@@ -3,6 +3,7 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.AdminDAO;
 import com.wisewin.backend.entity.bo.*;
+import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,6 @@ public class AdminService {
         }
         AdminBO adminBO = adminDAO.queryAdminInfoByMobile(mobile);
         // 查询用户所对应的权限
-
         if(adminBO != null){
             List<MenuBO> menuBOS = adminDAO.getAdminToMenu(adminBO.getId());
             adminBO.setMenuBO(menuBOS);
@@ -132,12 +132,65 @@ public class AdminService {
     }
 
     /**
+     * 根据角色id查询拥有的权限
+     * @param roleId  角色名
+     * @return 返回对应的权限
+     */
+    public List<MenuDTO> selectRoleMenuById(Integer roleId){
+        return adminDAO.selectRoleMenuById(roleId);
+    }
+
+    /**
      * 根据角色名称查询对应的权限(模糊查询)
      * @param dimName 模糊查询的名字
      * @return 查询的权限信息
      */
     public List<MenuDTO> getDimRoleMenu(String dimName){
         return adminDAO.getDimRoleMenu(dimName);
+    }
+
+    /**
+     * 根据角色id删除角色
+     * @param roleId 角色id
+     */
+    public void delRoleById(Integer roleId){
+        adminDAO.delRoleById(roleId);
+    }
+
+    /**
+     * 查询所有角色的权限
+     * @return
+     */
+    public List<MenuDTO> getRoleMenu(){
+        return adminDAO.getRoleMenu();
+    }
+
+    /**
+     * 根据用户名查询对应的角色
+     * @param userName
+     * @return
+     */
+    public List<AdminRoleDTO> getAdminRoleByName(String userName){
+        return adminDAO.getAdminRoleByName(userName);
+    }
+
+    /**
+     * 根据用户id修改角色id
+     * @param roleId 角色id
+     * @param id  用户id
+     * @return
+     */
+    public boolean editUserRole(Integer roleId,Integer id){
+        return adminDAO.editUserRole(roleId, id);
+    }
+
+    /**
+     * 根据用户id删除用户信息
+     * @param id
+     * @return
+     */
+    public boolean delAdminById(Integer id){
+        return adminDAO.delAdminById(id);
     }
 
 

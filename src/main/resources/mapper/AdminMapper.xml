@@ -109,13 +109,22 @@
         update_time=#{updateTime}
     </insert>
 
-    <!--  查询某角色所对用的权限  -->
+    <!--  查询某角色所对应的权限  -->
     <select id="selectRoleToMenu" parameterType="String" resultType="com.wisewin.backend.entity.dto.MenuDTO">
         SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
         FROM
           ce_menu p,ce_role_menu rp,ce_role r
         WHERE
           r.`role_name`=#{roleName} AND r.id=rp.role_id AND rp.menu_id=p.id;
+    </select>
+
+    <!--  根据角色id查询所对应的权限  -->
+    <select id="selectRoleMenuById" parameterType="String" resultType="com.wisewin.backend.entity.dto.MenuDTO">
+        SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
+        FROM
+        ce_menu p,ce_role_menu rp,ce_role r
+        WHERE
+        r.`role_id`=#{roleId} AND r.id=rp.role_id AND rp.menu_id=p.id;
     </select>
 
     <!--  模糊查询角色信息  -->
@@ -126,4 +135,43 @@
         WHERE
           r.`role_name` LIKE concat(concat('%',#{dimName}),'%') AND r.id=rp.role_id AND rp.menu_id=p.id;
     </select>
+
+    <!--  根据角色id删除角色信息  -->
+    <delete id="delRoleById" parameterType="Integer">
+      DELETE  FROM  ce_role WHERE id=#{roleId}
+    </delete>
+
+    <!--  查询所有角色所对应的权限  -->
+    <select id="getRoleMenu" parameterType="com.wisewin.backend.entity.dto.MenuDTO">
+        SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
+        FROM
+          ce_menu p,ce_role_menu rp,ce_role r
+        WHERE r.id=rp.role_id AND rp.menu_id=p.id;
+    </select>
+
+    <!--  获取用户对应的角色  -->
+    <select id="getAdminRoleByName" parameterType="java.lang.String" resultType="com.wisewin.backend.entity.dto.AdminRoleDTO">
+        SELECT
+        u.id,r.id,u.name,r.`role_name` ,u.phone_number,u.gender
+        FROM
+        ce_admin u,ce_role r
+        WHERE 1=1
+        <if test="_parameter != null">
+            AND u.name LIKE concat(concat('%',#{userName}),'%') AND u.role_id=r.id;
+        </if>
+        <if test="_parameter == null">
+            and u.role_id=r.id;
+        </if>
+    </select>
+
+    <!--  编辑用户所对应的角色  -->
+    <update id="editUserRole">
+      UPDATE ce_admin SET role_id=#{roleId} WHERE id=#{id}
+    </update>
+
+    <!--  根据用户id删除信息  -->
+    <delete id="delAdminById" parameterType="Integer">
+        DELETE  FROM  ce_admin WHERE id=#{id}
+    </delete>
+
 </mapper>

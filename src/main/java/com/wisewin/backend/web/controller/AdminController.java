@@ -1,6 +1,7 @@
 package com.wisewin.backend.web.controller;
 
 
+import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
 import com.wisewin.backend.entity.param.*;
 import com.wisewin.backend.entity.bo.*;
@@ -173,6 +174,7 @@ public class AdminController  extends BaseCotroller {
                     roleMenuBO.setMenuId(Integer.parseInt(id));
                     roleMenuBO.setCreateTime(new Date());
                     roleMenuBO.setUpdateTime(new Date());
+                    // 添加权限
                     adminService.addRoleMenu(roleMenuBO);
                 }
             }else{
@@ -181,10 +183,9 @@ public class AdminController  extends BaseCotroller {
                 roleMenuBO.setMenuId(Integer.parseInt(menuIds));
                 roleMenuBO.setCreateTime(new Date());
                 roleMenuBO.setUpdateTime(new Date());
+                // 添加权限
                 adminService.addRoleMenu(roleMenuBO);
             }
-
-
             // 查询角色所拥有的权限
             List<MenuDTO> menuList = adminService.selectRoleToMenu(roleName);
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
@@ -216,28 +217,46 @@ public class AdminController  extends BaseCotroller {
     }
 
     /**
-     * 给角色赋予权限
+     * 编辑对应角色的权限
      * 首先获取到给哪个角色赋予权限(获取到角色的id),准备赋予哪个权限(获取到权限id),然后将信息保存到角色权限表
      * @param request
      * @param response
      * @param roleId  角色id
-     * @param menuId  权限id
+     * @param menuIds  权限id
      */
     @RequestMapping("grantAuthority")
-    public void grantAuthority(HttpServletRequest request,HttpServletResponse response,int roleId,int menuId){
+    public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds){
         // 非空判断
-        if(StringUtils.isEmpty(String.valueOf(roleId)) || StringUtils.isEmpty(String.valueOf(menuId))){
+        if(StringUtils.isEmpty(String.valueOf(roleId)) || StringUtils.isEmpty(String.valueOf(menuIds))){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
             return ;
         }
-        RoleMenuBO roleMenuBO = new RoleMenuBO();
-        roleMenuBO.setRoleId(roleId);
-        roleMenuBO.setMenuId(menuId);
-        roleMenuBO.setCreateTime(new Date());
-        roleMenuBO.setUpdateTime(new Date());
-        adminService.addRoleMenu(roleMenuBO);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
+        boolean status = menuIds.contains(",");
+        if(status){
+            String[] ids = menuIds.split(",");
+            for (String id:
+                    ids) {
+                RoleMenuBO roleMenuBO = new RoleMenuBO();
+                roleMenuBO.setRoleId(roleId);
+                roleMenuBO.setMenuId(Integer.parseInt(id));
+                roleMenuBO.setCreateTime(new Date());
+                roleMenuBO.setUpdateTime(new Date());
+                // 添加权限
+                adminService.addRoleMenu(roleMenuBO);
+            }
+        }else{
+            RoleMenuBO roleMenuBO = new RoleMenuBO();
+            roleMenuBO.setRoleId(roleId);
+            roleMenuBO.setMenuId(Integer.parseInt(menuIds));
+            roleMenuBO.setCreateTime(new Date());
+            roleMenuBO.setUpdateTime(new Date());
+            // 添加权限
+            adminService.addRoleMenu(roleMenuBO);
+        }
+        // 查询角色所拥有的权限
+        List<MenuDTO> menuList = adminService.selectRoleMenuById(roleId);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
         super.safeJsonPrint(response, result);
     }
 
@@ -312,33 +331,115 @@ public class AdminController  extends BaseCotroller {
         super.safeJsonPrint(response, result);
     }
 
+
     /**
-     * 编辑角色的权限
+     * 删除角色信息 根据角色id
+     * @param request
+     * @param roleIds
      */
-    public void editRoleMenu(){
-
+    @RequestMapping("delRoleByIds")
+    public void delRoleByIds(HttpServletRequest request,HttpServletResponse response,String roleIds){
+        // 非空判断
+        if(StringUtils.isEmpty(String.valueOf(roleIds))){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        boolean status = roleIds.contains(",");
+        if(status){
+            String [] ids = roleIds.split(",");
+            for (String id:ids ) {
+                adminService.delRoleById(Integer.parseInt(id));
+            }
+        }else{
+            adminService.delRoleById(Integer.parseInt(roleIds));
+        }
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功")) ;
+        super.safeJsonPrint(response, result);
     }
 
-    public void delRoleMenu(HttpServletRequest request){
-
+    /**
+     * 查询所有角色所对应的权限
+     * @param request
+     * @param response
+     */
+    @RequestMapping("getAllRoleMenu")
+    public void getAllRoleMenu(HttpServletRequest request,HttpServletResponse response){
+        List<MenuDTO> menuDTOS =  adminService.getRoleMenu();
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuDTOS)) ;
+        super.safeJsonPrint(response, result);
     }
 
-
-
-
-
-    // 根据id查询菜单信息
-    public void selectMenuById(HttpServletRequest request,HttpServletResponse response,Integer id){
-
+    /**
+     * 查询用户所对应的角色
+     * @param request
+     * @param response
+     * @param userName 用戶名
+     */
+    @RequestMapping("getAdminRoleByName")
+    public void getAdminRoleByName(HttpServletRequest request,HttpServletResponse response,String userName){
+        // 非空判断
+        /*if(StringUtils.isEmpty(userName)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }*/
+        List<AdminRoleDTO> adminRoleDTOS = adminService.getAdminRoleByName(userName);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(adminRoleDTOS)) ;
+        super.safeJsonPrint(response, result);
     }
 
-    // 根据id查询角色信息
+    /**
+     * 编辑用户所对应的角色
+     * @param request
+     * @param response
+     * @param id 用戶id
+     * @param roleId 角色id
+     */
+    @RequestMapping("editUserRole")
+    public void editUserRole(HttpServletRequest request,HttpServletResponse response,Integer id,Integer roleId){
+        // 非空判断
+        if(StringUtils.isEmpty(String.valueOf(id))|| StringUtils.isEmpty(String.valueOf(roleId))){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        boolean boo = adminService.editUserRole(roleId, id);
+        if(boo){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改成功")) ;
+            super.safeJsonPrint(response , result);
+        }else{
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改有误")) ;
+            super.safeJsonPrint(response , result);
+        }
+    }
 
-    // 删除用户
+    /**
+     * 删除用户
+     * @param request
+     * @param response
+     * @param ids 需要刪除的用戶的id
+     */
+    @RequestMapping("delAdmin")
+    public void delAdmin(HttpServletRequest request,HttpServletResponse response,String ids){
+        // 非空判断
+        if(StringUtils.isEmpty(ids)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        boolean status = ids.contains(",");
+        if(status){
+            String [] id = ids.split(",");
+            for (String idd:
+                 id) {
+                adminService.delAdminById(Integer.parseInt(idd));
+            }
+        }else{
+            adminService.delAdminById(Integer.parseInt(ids));
+        }
+    }
 
-    // 删除菜单信息
-
-    // 删除角色信息
 
 
 

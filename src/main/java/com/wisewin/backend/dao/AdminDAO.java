@@ -1,7 +1,9 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.*;
+import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -88,4 +90,45 @@ public interface AdminDAO {
      * @return 返回对应的权限
      */
     List<MenuDTO> getDimRoleMenu(String dimName);
+
+    /**
+     * 根据角色名称查找对应的权限(模糊查询)
+     * @param roleId 角色名称
+     * @return 返回对应的权限
+     */
+    List<MenuDTO> selectRoleMenuById(Integer roleId);
+
+    /**
+     * 根据角色id删除角色信息
+     * @param roleId 角色id
+     */
+    void delRoleById(Integer roleId);
+
+    /**
+     * 查询所有角色对应的权限
+     * @return
+     */
+    List<MenuDTO> getRoleMenu();
+
+    /**
+     * 根据用户名查询对应的角色
+     * @param userName
+     * @return
+     */
+    List<AdminRoleDTO> getAdminRoleByName(String userName);
+
+    /**
+     * 根据用户id修改角色id
+     * @param roleId 角色id
+     * @param id  用户id
+     * @return
+     */
+    boolean editUserRole(@Param("roleId")Integer roleId,@Param("id")Integer id );
+
+    /**
+     * 根据用户id删除用户信息
+     * @param id 用户id
+     * @return
+     */
+    boolean delAdminById(Integer id);
 }
