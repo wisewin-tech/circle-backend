@@ -5,6 +5,28 @@
 <!-- 【管理员】 -->
 <mapper namespace="com.wisewin.backend.dao.AdminDAO">
 
+    <!--  查询出所有角色对应的权限  -->
+    <!-- /////////////////////////////////一对多的第一种写法//////////////////////// -->
+    <resultMap type="com.wisewin.backend.entity.bo.RoleBO" id="roleMap">
+        <id column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+        <collection property="menuBOS" ofType="com.wisewin.backend.entity.bo.MenuBO" column="id">
+            <id column="mid" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
+            <result column="menu_name" property="menuName"/><!-- property对应JavaBean中的属性名 -->
+            <result column="url" property="url"/>
+            <result column="pid" property="pid"/>
+        </collection>
+    </resultMap>
+
+
+    <!-- 查询所有的老师级各自的所有学生 -->
+    <select id="getRole" parameterType="com.wisewin.backend.entity.bo.RoleBO" resultMap="roleMap">
+         SELECT  rm.role_id,rm.menu_id as mid,re.role_name,mu.menu_name,mu.url,mu.pid  FROM
+           ce_role_menu  rm  INNER JOIN   ce_role  re    ON  re.id=rm.role_id  INNER JOIN  ce_menu  mu  ON
+           mu.id=rm.menu_id
+    </select>
+
+
     <resultMap type="com.wisewin.backend.entity.bo.MenuBO" id="menuResult">
         <id column="id" property="id"/>
         <result column="menu_name" property="menuName"/>
@@ -20,7 +42,6 @@
         <collection property="ch" ofType="com.wisewin.backend.entity.bo.MenuBO" column="id" select="getCh">
         </collection>
     </resultMap>
-    <!--查询备用金-->
     <sql id="limit">
         limit #{pageOffset},#{pageSize}
     </sql>
@@ -28,8 +49,9 @@
     <!--<select id="get" resultMap="cateResult">
         select * from cate where id=#{id}
     </select>-->
-    <select id="getCh" parameterType="java.lang.Long" resultMap="menuResult">
-        select * from ce_menu where pid=#{pid};
+    <!--  根据pid获取子菜单  -->
+    <select id="getCh" parameterType="java.lang.Integer" resultMap="menuResult">
+        select * from ce_menu where pid=#{id};
     </select>
 
 
@@ -86,12 +108,12 @@
     </insert>
 
     <!--  根据用户id查询所对应的权限  -->
-    <select id="getAdminToMenu" resultType="com.wisewin.backend.entity.bo.MenuBO" parameterType="java.lang.Integer">
-        SELECT p.`id`,p.`menu_name`,p.`url`,p.`status`
+    <select id="getAdminToMenu" resultMap="menuResult" parameterType="java.lang.Integer">
+        SELECT p.`id`,p.`menu_name`,p.`url`,p.`status`,p.pid
         FROM
           ce_menu p,ce_role_menu rp,ce_role r
         WHERE
-          r.id=rp.role_id AND rp.menu_id=p.id AND  r.id
+          r.id=rp.role_id AND rp.menu_id=p.id and p.pid='0' AND  r.id
         IN
             (SELECT r.id
             FROM

@@ -5,6 +5,7 @@ import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -118,6 +119,9 @@ public interface AdminDAO {
      */
     List<MenuDTO> getRoleMenu(String roleName);
 
+    // 根据pid查询子菜单
+    List<MenuBO> getCh(Integer pid);
+
     /**
      * 根据用户名查询对应的角色
      * @param userName
@@ -139,4 +143,7 @@ public interface AdminDAO {
      * @return
      */
     boolean delAdminById(Integer id);
+
+
+    List<RoleBO> getRole();
 }

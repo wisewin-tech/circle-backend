@@ -203,5 +203,9 @@ public class AdminService {
         return adminDAO.delAdminById(id);
     }
 
+    public List<RoleBO> getRole(){
+        return adminDAO.getRole();
+    }
+
 
 }

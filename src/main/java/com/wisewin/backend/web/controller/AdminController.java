@@ -381,9 +381,14 @@ public class AdminController  extends BaseCotroller {
      */
     @RequestMapping("getAllRoleMenu")
     public void getAllRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName){
-        // 非空判断
         List<MenuDTO> menuDTOS =  adminService.getRoleMenu(roleName);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuDTOS)) ;
+        super.safeJsonPrint(response, result);
+    }
+    @RequestMapping("getRoleTest")
+    public void Test(HttpServletRequest request,HttpServletResponse response){
+        List<RoleBO> list = adminService.getRole();
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list)) ;
         super.safeJsonPrint(response, result);
     }
 

@@ -1,6 +1,8 @@
 package com.wisewin.backend.entity.bo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MenuBO {
     private Integer id; // 菜单
@@ -20,6 +22,26 @@ public class MenuBO {
     private String icon;
 
     private String index;
+
+    private List<MenuBO> ch = new ArrayList<MenuBO>();
+
+    private MenuBO menuBO;
+
+    public List<MenuBO> getCh() {
+        return ch;
+    }
+
+    public void setCh(List<MenuBO> ch) {
+        this.ch = ch;
+    }
+
+    public MenuBO getMenuBO() {
+        return menuBO;
+    }
+
+    public void setMenuBO(MenuBO menuBO) {
+        this.menuBO = menuBO;
+    }
 
     public String getIcon() {
         return icon;

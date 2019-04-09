@@ -1,6 +1,7 @@
 package com.wisewin.backend.entity.bo;
 
 import java.util.Date;
+import java.util.List;
 
 public class RoleBO {
     private Integer id; // 角色
@@ -10,6 +11,16 @@ public class RoleBO {
     private Date createTime; //创建时间按
 
     private Date updateTime; // 修改时间
+
+    private List<MenuBO> menuBOS;
+
+    public List<MenuBO> getMenuBOS() {
+        return menuBOS;
+    }
+
+    public void setMenuBOS(List<MenuBO> menuBOS) {
+        this.menuBOS = menuBOS;
+    }
 
     public Integer getId() {
         return id;
