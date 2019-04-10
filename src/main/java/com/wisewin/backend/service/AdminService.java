@@ -31,8 +31,9 @@ public class AdminService {
         AdminBO adminBO = adminDAO.queryAdminInfoByMobile(mobile);
         // 查询用户所对应的权限
         if(adminBO != null){
-            List<MenuBO> menuBOS = adminDAO.getAdminToMenu(adminBO.getId());
-            adminBO.setMenuBO(menuBOS);
+            // List<MenuBO> menuBOS = adminDAO.getAdminToMenu(adminBO.getId());
+            List<RoleBO> roleBOS = adminDAO.getRoleMenuSuccess(adminBO.getRoleId());
+            adminBO.setRoleBO(roleBOS);
             return adminBO;
         }
         return null;
@@ -47,6 +48,15 @@ public class AdminService {
         return adminDAO.adminRegister(admin);
     }
 
+
+    /**
+     * 判断角色名称是否注册过
+     * @param roleName
+     * @return
+     */
+    public Integer selectCountByRoleName(String roleName){
+        return adminDAO.selectCountByRoleName(roleName);
+    }
     /**
      * 查找用户名是否注册过
      * @param name
@@ -221,8 +231,26 @@ public class AdminService {
         return adminDAO.getAdmin(adminBO);
     }
 
-    public List<RoleBO> getRole(){
-        return adminDAO.getRole();
+    /**
+     * 根据角色名称查找对应的角色id
+     * @param roleName
+     * @return
+     */
+    public Integer getRoleIdByRoleName(String roleName){
+        return adminDAO.getRoleIdByRoleName(roleName);
+    }
+
+    // =======================测试
+    public List<RoleBO> getRole(String roleName){
+        return adminDAO.getRole(roleName);
+    }
+
+    public RoleBO test(){
+        return adminDAO.test();
+    }
+
+    public List<RoleBO> getRoleMenuSuccess(Integer roleId){
+        return adminDAO.getRoleMenuSuccess(roleId);
     }
 
 

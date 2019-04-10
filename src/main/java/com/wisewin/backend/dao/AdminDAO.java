@@ -26,6 +26,12 @@ public interface AdminDAO {
     int adminRegister(AdminBO admin);
 
     /**
+     * 判断角色名是否注册过
+     * @param roleName 角色名称
+     * @return
+     */
+    Integer selectCountByRoleName(String roleName);
+    /**
      * 查找用户手机号是否注册过
      * @param mobile
      * @return
@@ -158,8 +164,26 @@ public interface AdminDAO {
      */
      List<AdminBO> getAdmin(AdminBO adminBO);
 
+    /**
+     * 根据角色名称查找对应的角色id
+     * @param roleName 角色名称
+     * @return
+     */
+     Integer getRoleIdByRoleName(String roleName);
 
-    List<RoleBO> getRole();
+    /**
+     * 根据角色名称查找对应的菜单
+     * @param roleName 角色名称
+     * @return  角色对应菜单的集合
+     */
+    List<RoleBO> getRole(String roleName);
+
+
+    //  ================================测试
+
+    RoleBO test();
+
+    List<RoleBO> getRoleMenuSuccess(Integer roleId);
 
 
 }

@@ -134,6 +134,13 @@ public class AdminController  extends BaseCotroller {
             super.safeJsonPrint(response , result);
             return ;
         }
+        // 判断角色名称是否存在
+        Integer count = adminService.selectCountByRoleName(roleName);
+        if(count>0){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "该角色已存在")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
         RoleBO roleBO = new RoleBO();
         roleBO.setRoleName(roleName);
         roleBO.setCreateTime(new Date());
@@ -376,19 +383,25 @@ public class AdminController  extends BaseCotroller {
     }
 
     /** success
-     * 查询所有角色所对应的权限
+     * 根据角色名称查询角色对应的权限(如果传的角色名是空，则查询所有角色对应的权限)
      * @param request
      * @param response
      */
     @RequestMapping("getAllRoleMenu")
     public void getAllRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName){
-        List<MenuDTO> menuDTOS =  adminService.getRoleMenu(roleName);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuDTOS)) ;
+        List<RoleBO> ro = adminService.getRole(roleName);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(ro)) ;
         super.safeJsonPrint(response, result);
     }
+
     @RequestMapping("getRoleTest")
-    public void Test(HttpServletRequest request,HttpServletResponse response){
-        List<RoleBO> list = adminService.getRole();
+    public void Test(HttpServletRequest request,HttpServletResponse response,String roleName){
+        if(StringUtils.isEmpty(roleName)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        List<RoleBO> list = adminService.getRole(roleName);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list)) ;
         super.safeJsonPrint(response, result);
     }
@@ -542,17 +555,16 @@ public class AdminController  extends BaseCotroller {
     }
 
 
-
-
-
-
-
+    /**
+     * 根据角色id查询对应的权限
+     * @param request
+     * @param response
+     */
     @RequestMapping("test")
-    public void getPublicSession(HttpServletRequest request, HttpServletResponse response,String key){
-        System.out.println(super.getLoginUser(request));
-        AdminBO result = (AdminBO) super.getLoginUser(request);
-        String re = JsonUtils.getJsonString4JavaPOJO(result);
-        super.safeJsonPrint(response, re);
+    public void getPublicSession(HttpServletRequest request, HttpServletResponse response){
+        List<RoleBO> ro = adminService.getRoleMenuSuccess(0);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(ro)) ;
+        super.safeJsonPrint(response, result);
     }
 
 

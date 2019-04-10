@@ -8,23 +8,20 @@
     <!--  查询出所有角色对应的权限  -->
     <!-- /////////////////////////////////一对多的第一种写法//////////////////////// -->
     <resultMap type="com.wisewin.backend.entity.bo.RoleBO" id="roleMap">
-        <id column="id" property="id"/>
+        <id column="role_id" property="id"/>
         <result column="role_name" property="roleName"/>
-        <collection property="menuBOS" ofType="com.wisewin.backend.entity.bo.MenuBO" column="id">
-            <id column="mid" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
+
+        <collection property="menuBOS" ofType="com.wisewin.backend.entity.bo.MenuBO">
+            <id column="menu_id" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
             <result column="menu_name" property="menuName"/><!-- property对应JavaBean中的属性名 -->
             <result column="url" property="url"/>
+            <result column="index" property="index"/>
             <result column="pid" property="pid"/>
+            <collection property="ch"   column="menu_id" select="getCh"  />
         </collection>
+
+
     </resultMap>
-
-
-    <!-- 查询所有的老师级各自的所有学生 -->
-    <select id="getRole" parameterType="com.wisewin.backend.entity.bo.RoleBO" resultMap="roleMap">
-         SELECT  rm.role_id,rm.menu_id as mid,re.role_name,mu.menu_name,mu.url,mu.pid  FROM
-           ce_role_menu  rm  INNER JOIN   ce_role  re    ON  re.id=rm.role_id  INNER JOIN  ce_menu  mu  ON
-           mu.id=rm.menu_id
-    </select>
 
 
     <resultMap type="com.wisewin.backend.entity.bo.MenuBO" id="menuResult">
@@ -54,6 +51,66 @@
         select * from ce_menu where pid=#{id};
     </select>
 
+    <!--  根据角色名称查找对应的角色id  -->
+    <select id="getRoleIdByRoleName" resultType="Integer" parameterType="String">
+        select id from ce_role where role_name=#{roleName}
+    </select>
+
+    <!-- 查询对应的角色对应的权限  -->
+    <select id="getRole" parameterType="com.wisewin.backend.entity.bo.RoleBO" resultMap="roleMap">
+        SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
+        FROM
+           ce_role_menu  rm
+         INNER JOIN   ce_role  re
+         ON  re.id=rm.role_id
+         INNER JOIN  ce_menu  mu
+         ON mu.id=rm.menu_id
+         WHERE 1=1
+          <if test="_parameter!=null and _parameter!=''">
+             and re.role_name like concat(concat('%',#{roleName}),'%')
+          </if>
+    </select>
+    <!--  根据角色id查询对应的角色对应的权限  -->
+    <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMap">
+        SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
+        FROM
+        ce_role_menu  rm
+        INNER JOIN   ce_role  re
+        ON  re.id=rm.role_id
+        INNER JOIN  ce_menu  mu
+        ON mu.id=rm.menu_id
+        where 1=1
+        <if test="_parameter!=null and _parameter!=''">
+            and re.id=#{roleId}
+        </if>
+    </select>
+
+    <select id="getRoleMenuTest">
+         SELECT  *  FROM
+           ce_role_menu  rm
+         INNER JOIN   ce_role  re
+         ON  re.id=rm.role_id
+         INNER JOIN  ce_menu  mu
+         ON mu.id=rm.menu_id
+         WHERE   re.id=2
+    </select>
+
+    <!--  根据用户id查询所对应的权限  -->
+    <select id="getAdminToMenu" resultMap="menuResult" parameterType="java.lang.Integer">
+        SELECT p.`id`,p.`menu_name`,p.`url`,p.`status`,p.pid,p.index
+        FROM
+        ce_menu p,ce_role_menu rp,ce_role r
+        WHERE
+        r.id=rp.role_id AND rp.menu_id=p.id and p.pid='0' AND  r.id
+        IN
+        (SELECT r.id
+        FROM
+        ce_admin u,ce_role r
+        WHERE
+        u.`id` =#{userId} AND u.`role_id`=r.`id`);
+    </select>
+
+
 
     <!--根据手机号查找管理员信息-->
     <select id="queryAdminInfoByMobile" parameterType="String" resultType="com.wisewin.backend.entity.bo.AdminBO">
@@ -72,6 +129,10 @@
         role_id=#{roleId},
         update_time=#{updateTime}
     </insert>
+    <!-- 查找手机号是否注册过  -->
+    <select id="selectCountByRoleName" parameterType="String" resultType="Integer">
+        SELECT count(role_name) FROM ce_role WHERE role_name = #{roleName}
+    </select>
     <!-- 查找手机号是否注册过  -->
     <select id="selectCountByMobile" parameterType="String" resultType="int">
         SELECT count(id) FROM ce_admin WHERE phone_number = #{mobile}
@@ -107,20 +168,6 @@
         update_time=#{updateTime}
     </insert>
 
-    <!--  根据用户id查询所对应的权限  -->
-    <select id="getAdminToMenu" resultMap="menuResult" parameterType="java.lang.Integer">
-        SELECT p.`id`,p.`menu_name`,p.`url`,p.`status`,p.pid
-        FROM
-          ce_menu p,ce_role_menu rp,ce_role r
-        WHERE
-          r.id=rp.role_id AND rp.menu_id=p.id and p.pid='0' AND  r.id
-        IN
-            (SELECT r.id
-            FROM
-               ce_admin u,ce_role r
-            WHERE
-              u.`id` =#{userId} AND u.`role_id`=r.`id`);
-    </select>
 
 
     <!--  添加权限信息  -->

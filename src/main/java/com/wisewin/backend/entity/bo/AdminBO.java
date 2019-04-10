@@ -25,14 +25,14 @@ public class AdminBO {
 
     private Date updateTime; // 修改时间
 
-    private List<MenuBO> menuBO;
+    private List<RoleBO> roleBO;
 
-    public List<MenuBO> getMenuBO() {
-        return menuBO;
+    public List<RoleBO> getRoleBO() {
+        return roleBO;
     }
 
-    public void setMenuBO(List<MenuBO> menuBO) {
-        this.menuBO = menuBO;
+    public void setRoleBO(List<RoleBO> roleBO) {
+        this.roleBO = roleBO;
     }
 
     public Integer getId() {
