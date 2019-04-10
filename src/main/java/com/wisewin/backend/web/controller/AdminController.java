@@ -44,7 +44,7 @@ public class AdminController  extends BaseCotroller {
      * @param mobile 手机号
      * @param password 密码
      */
-    @RequestMapping("adminLogin")
+    @RequestMapping("/adminLogin")
     public void Login(HttpServletRequest request, HttpServletResponse response,String mobile,String password){
         /* 1. 验证参数是否完整 */
         if(StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)){
@@ -82,7 +82,7 @@ public class AdminController  extends BaseCotroller {
      * @param response
      * @param param
      */
-    @RequestMapping("adminRegister")
+    @RequestMapping("/adminRegister")
     public void register(HttpServletRequest request,HttpServletResponse response,RegisterParam param){
         // 判断是否为空
         if(param == null || StringUtils.isEmpty(param.getPassword()) || StringUtils.isEmpty(param.getGender())
@@ -126,7 +126,7 @@ public class AdminController  extends BaseCotroller {
      * @param response
      * @param roleName  角色名称
      */
-    @RequestMapping("addRole")
+    @RequestMapping("/addRole")
     public void addRole(HttpServletRequest request,HttpServletResponse response,String roleName){
         // 非空判断
         if(StringUtils.isEmpty(roleName)){
@@ -157,7 +157,7 @@ public class AdminController  extends BaseCotroller {
      * @param roleName  角色名称
      * @param menuIds  权限ids
      */
-    @RequestMapping("addRoleGrantAuthority")
+    @RequestMapping("/addRoleGrantAuthority")
     public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds){
         // 非空判断
         if(StringUtils.isEmpty(roleName) || StringUtils.isEmpty(menuIds)){

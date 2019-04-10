@@ -70,8 +70,18 @@
              and re.role_name like concat(concat('%',#{roleName}),'%')
           </if>
     </select>
+
+    <resultMap id="roleMenuMap" type="com.wisewin.backend.entity.bo.MenuBO" >
+            <id column="menu_id" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
+            <result column="menu_name" property="menuName"/><!-- property对应JavaBean中的属性名 -->
+            <result column="url" property="url"/>
+            <result column="index" property="index"/>
+            <result column="pid" property="pid"/>
+            <collection property="ch"   column="menu_id" select="getCh"  />
+    </resultMap>
+
     <!--  根据角色id查询对应的角色对应的权限  -->
-    <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMap">
+    <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMenuMap">
         SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
         FROM
         ce_role_menu  rm
@@ -79,10 +89,11 @@
         ON  re.id=rm.role_id
         INNER JOIN  ce_menu  mu
         ON mu.id=rm.menu_id
-        where 1=1
-        <if test="_parameter!=null and _parameter!=''">
-            and re.id=#{roleId}
-        </if>
+        <where>
+            <if test="_parameter!=null and _parameter!=''">
+                and re.id=#{roleId}
+            </if>
+        </where>
     </select>
 
     <select id="getRoleMenuTest">
