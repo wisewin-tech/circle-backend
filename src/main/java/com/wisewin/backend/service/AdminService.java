@@ -3,6 +3,7 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.AdminDAO;
 import com.wisewin.backend.entity.bo.*;
+import com.wisewin.backend.entity.dto.AdminDTO;
 import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
 import org.springframework.stereotype.Service;
@@ -227,7 +228,7 @@ public class AdminService {
      * @param adminBO
      * @return
      */
-    public List<AdminBO> getAdmin(AdminBO adminBO){
+    public List<AdminDTO> getAdmin(AdminBO adminBO){
         return adminDAO.getAdmin(adminBO);
     }
 

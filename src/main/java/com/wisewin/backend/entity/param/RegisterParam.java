@@ -4,12 +4,30 @@ package com.wisewin.backend.entity.param;
 import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 public class RegisterParam extends BaseModel {
+    private Integer id;
     private String name ;
     private String password;
     private String mobile;
     private String gender;
     private Integer roleId;
     private String status;
+    private String email;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getStatus() {
         return status;

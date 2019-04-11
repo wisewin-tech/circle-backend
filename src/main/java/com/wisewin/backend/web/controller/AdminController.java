@@ -2,13 +2,10 @@ package com.wisewin.backend.web.controller;
 
 
 import com.wisewin.backend.common.constants.CircleConstants;
-import com.wisewin.backend.entity.dto.AdminRoleDTO;
-import com.wisewin.backend.entity.dto.MenuDTO;
-import com.wisewin.backend.entity.dto.RoleDTO;
+import com.wisewin.backend.entity.dto.*;
 import com.wisewin.backend.entity.param.*;
 import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.bo.common.constants.SysConstants;
-import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.AdminService;
 import com.wisewin.backend.util.JsonUtils;
@@ -94,7 +91,7 @@ public class AdminController  extends BaseCotroller {
         }
 
         // 判断手机号是否注册过
-        int count = adminService.selectCountByMobile(MD5Util.digest(param.getPassword()));
+        int count = adminService.selectCountByMobile(param.getMobile());
         if(count > 0 ){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "手机号码已注册")) ;
             super.safeJsonPrint(response , result);
@@ -116,6 +113,7 @@ public class AdminController  extends BaseCotroller {
         admin.setStatus(CircleConstants.NORMAL);// 状态 normal:正常  logout：注销
         admin.setCreateTime(new Date());
         admin.setRoleId(param.getRoleId());
+        admin.setEmail(param.getEmail());
         adminService.adminRegister(admin);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
         super.safeJsonPrint(response, result);
@@ -477,39 +475,54 @@ public class AdminController  extends BaseCotroller {
      * @param request
      * @param response
      * @param param
-     * @param id
+     * @param
      */
     @RequestMapping("updateAdminUser")
-    public void updateAdminUser(HttpServletRequest request,HttpServletResponse response,RegisterParam param,Integer id){
-        if(param == null || StringUtils.isEmpty(String.valueOf(id))){
+    public void updateAdminUser(HttpServletRequest request,HttpServletResponse response,RegisterParam param){
+        if(param == null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
             return ;
         }
         // 判断手机号是否注册过
-        int count = adminService.selectCountByMobile(MD5Util.digest(param.getPassword()));
-        if(count > 0 ){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "手机号码已注册")) ;
-            super.safeJsonPrint(response , result);
-            return ;
+        if(!StringUtils.isEmpty(param.getMobile())){
+            int count = adminService.selectCountByMobile(param.getMobile());
+            if(count > 0 ){
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "手机号码已注册")) ;
+                super.safeJsonPrint(response , result);
+                return ;
+            }
         }
 
+
         // 判断用户名是否注册过
-        int name = adminService.selectCountByName(param.getName());
-        if(name > 0 ){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "用户名已存在")) ;
-            super.safeJsonPrint(response , result);
-            return ;
+        if(!StringUtils.isEmpty(param.getName())){
+            int name = adminService.selectCountByName(param.getName());
+            if(name > 0 ){
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "用户名已存在")) ;
+                super.safeJsonPrint(response , result);
+                return ;
+            }
         }
         AdminBO adminBO = new AdminBO();
-        adminBO.setId(id);
-        List<AdminBO> adminBOS = adminService.getAdmin(adminBO);
-        for (AdminBO admin:adminBOS
+        adminBO.setId(param.getId());
+        List<AdminDTO> adminBOS = adminService.getAdmin(adminBO);
+        for (AdminDTO adminDTO:adminBOS
              ) {
-            admin.setGender(param.getGender());
-            admin.setPassword(param.getPassword());
-            admin.setPhoneNumber(param.getMobile());
-            admin.setName(param.getName());
+            adminDTO.setId(param.getId());
+            adminDTO.setGender(param.getGender());
+            adminDTO.setPassword(param.getPassword());
+            adminDTO.setPhoneNumber(param.getMobile());
+            adminDTO.setName(param.getName());
+            adminDTO.setEmail(param.getEmail());
+            adminDTO.setUpdateTime(new Date());
+            AdminBO admin = new AdminBO();
+            admin.setId(adminDTO.getId());
+            admin.setGender(adminDTO.getGender());
+            admin.setPassword(adminDTO.getPassword());
+            admin.setPhoneNumber(adminDTO.getPhoneNumber());
+            admin.setName(adminDTO.getName());
+            admin.setEmail(adminDTO.getEmail());
             admin.setUpdateTime(new Date());
             boolean flag = adminService.updateAdminUser(admin);
             if(flag){
@@ -545,7 +558,11 @@ public class AdminController  extends BaseCotroller {
         if(!StringUtils.isEmpty(String.valueOf(adminParam.getId()))){
             adminBO.setId(adminParam.getId());
         }
-        List<AdminBO> adminBOS = adminService.getAdmin(adminBO);
+        List<AdminDTO> adminBOS = adminService.getAdmin(adminBO);
+        for (int i=0;i<adminBOS.size();i++
+             ) {
+            adminBOS.get(i).setPassword("");
+        }
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(adminBOS)) ;
         super.safeJsonPrint(response, result);
     }

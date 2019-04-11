@@ -81,7 +81,7 @@
     </resultMap>
 
     <!--  根据角色id查询对应的角色对应的权限  -->
-    <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMenuMap">
+    <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMap">
         SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
         FROM
         ce_role_menu  rm
@@ -89,11 +89,10 @@
         ON  re.id=rm.role_id
         INNER JOIN  ce_menu  mu
         ON mu.id=rm.menu_id
-        <where>
+        where  pid=0
             <if test="_parameter!=null and _parameter!=''">
                 and re.id=#{roleId}
             </if>
-        </where>
     </select>
 
     <select id="getRoleMenuTest">
@@ -138,7 +137,8 @@
         create_time=#{createTime},
         STATUS=#{status},
         role_id=#{roleId},
-        update_time=#{updateTime}
+        update_time=#{updateTime},
+        email=#{email}
     </insert>
     <!-- 查找手机号是否注册过  -->
     <select id="selectCountByRoleName" parameterType="String" resultType="Integer">
@@ -223,7 +223,7 @@
 
     <!--  根据角色id删除角色信息  -->
     <delete id="delRoleById" parameterType="Integer">
-      DELETE  FROM  ce_role WHERE id=#{roleId}
+        DELETE  FROM  ce_role WHERE id=#{roleId}
     </delete>
 
     <!--  查询所有角色所对应的权限  -->
@@ -283,26 +283,27 @@
             <if test="status!=null and status!=''" > `status`=#{status},</if>
             <if test="updateTime!=null and updateTime!=''" > `update_time`=#{updateTime},</if>
             <if test="gender!=null and gender!=''" > `gender`=#{gender},</if>
-            <if test="roleId!=null and roleId!=''" > `role_id`=#{roleId}</if>
+            <if test="roleId!=null and roleId!=''" > `role_id`=#{roleId},</if>
+            <if test="email!=null and email!=''" > `email`=#{email}</if>
         </set>
         WHERE   id=#{id}
     </update>
 
     <!--  查询admin用户信息  -->
-    <select id="getAdmin" parameterType="com.wisewin.backend.entity.bo.AdminBO" resultType="com.wisewin.backend.entity.bo.AdminBO">
-        select * from ce_admin
+    <select id="getAdmin" parameterType="com.wisewin.backend.entity.bo.AdminBO" resultType="com.wisewin.backend.entity.dto.AdminDTO">
+        SELECT ca.*,cr.id,cr.role_name FROM ce_admin ca INNER JOIN ce_role cr ON ca.role_id=cr.id
         where 1=1
         <if test="id!=null and id!=''">
-            and id=#{id}
+            and ca.id=#{id}
         </if>
         <if test="roleId!=null and roleId!=''">
-          and  role_id=#{roleId}
+          and  ca.role_id=#{roleId}
         </if>
         <if test="name!=null and name!=''">
-           AND name LIKE concat(concat('%',#{name}),'%')
+           AND ca.name LIKE concat(concat('%',#{name}),'%')
         </if>
         <if test="phoneNumber!=null and phoneNumber!=''">
-           AND phone_number=#{phoneNumber}
+           AND ca.phone_number=#{phoneNumber}
         </if>
     </select>
 

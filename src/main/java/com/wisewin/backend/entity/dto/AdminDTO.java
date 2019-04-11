@@ -1,12 +1,8 @@
-package com.wisewin.backend.entity.bo;
+package com.wisewin.backend.entity.dto;
 
 import java.util.Date;
-import java.util.List;
 
-/**
- * Created by yxw on 2018/11/5.
- */
-public class AdminBO {
+public class AdminDTO {
     private Integer id;// 管理员用户
 
     private String phoneNumber; // 手机号
@@ -25,25 +21,9 @@ public class AdminBO {
 
     private Date updateTime; // 修改时间
 
-    private String email;
+    private String email; // 邮箱
 
-    private List<RoleBO> roleBO;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<RoleBO> getRoleBO() {
-        return roleBO;
-    }
-
-    public void setRoleBO(List<RoleBO> roleBO) {
-        this.roleBO = roleBO;
-    }
+    private String roleName; // 角色名称
 
     public Integer getId() {
         return id;
@@ -58,7 +38,7 @@ public class AdminBO {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber == null ? null : phoneNumber.trim();
+        this.phoneNumber = phoneNumber;
     }
 
     public String getName() {
@@ -66,7 +46,7 @@ public class AdminBO {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getPassword() {
@@ -74,7 +54,7 @@ public class AdminBO {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public String getStatus() {
@@ -82,7 +62,7 @@ public class AdminBO {
     }
 
     public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+        this.status = status;
     }
 
     public String getGender() {
@@ -90,7 +70,7 @@ public class AdminBO {
     }
 
     public void setGender(String gender) {
-        this.gender = gender == null ? null : gender.trim();
+        this.gender = gender;
     }
 
     public int getRoleId() {
@@ -115,5 +95,21 @@ public class AdminBO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

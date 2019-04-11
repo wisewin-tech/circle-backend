@@ -1,6 +1,7 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.*;
+import com.wisewin.backend.entity.dto.AdminDTO;
 import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
 import org.apache.ibatis.annotations.Param;
@@ -162,7 +163,7 @@ public interface AdminDAO {
      * @param adminBO
      * @return
      */
-     List<AdminBO> getAdmin(AdminBO adminBO);
+     List<AdminDTO> getAdmin(AdminBO adminBO);
 
     /**
      * 根据角色名称查找对应的角色id
