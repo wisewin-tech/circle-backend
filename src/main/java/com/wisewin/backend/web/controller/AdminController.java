@@ -4,6 +4,7 @@ package com.wisewin.backend.web.controller;
 import com.wisewin.backend.common.constants.CircleConstants;
 import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
+import com.wisewin.backend.entity.dto.RoleDTO;
 import com.wisewin.backend.entity.param.*;
 import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.bo.common.constants.SysConstants;
@@ -389,8 +390,29 @@ public class AdminController  extends BaseCotroller {
      */
     @RequestMapping("getAllRoleMenu")
     public void getAllRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName){
-        List<RoleBO> ro = adminService.getRole(roleName);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(ro)) ;
+        List<RoleBO> ros = adminService.getRole(roleName);
+        List<RoleDTO> roleDTOs = new ArrayList<RoleDTO>();
+        if(ros == null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "没有查到相关记录")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        for (RoleBO ro:ros) {
+            RoleDTO roleDTO = new RoleDTO();
+            List<Integer> menuIds = new ArrayList<Integer>();// 存放权限id
+            List<String> menuName = new ArrayList<String>(); // 存放权限name
+            roleDTO.setId(ro.getId());// 角色id
+            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
+            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
+            for (int i=0;i<menus.size();i++ ) {
+                menuIds.add(menus.get(i).getId());
+                menuName.add(menus.get(i).getMenuName());
+            }
+            roleDTO.setMenuIds(menuIds);
+            roleDTO.setMenuNames(menuName);
+            roleDTOs.add(roleDTO);
+        }
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOs)) ;
         super.safeJsonPrint(response, result);
     }
 
