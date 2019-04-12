@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -264,8 +265,8 @@ public class AdminService {
      * @param roleId 角色id
      * @param roleName 角色名称
      */
-    public void updateRoleNameByRoleId(Integer roleId,String roleName){
-        adminDAO.updateRoleNameByRoleId(roleId,roleName);
+    public void updateRoleNameByRoleId(Integer roleId, String roleName, Date updateTime){
+        adminDAO.updateRoleNameByRoleId(roleId,roleName,updateTime);
     }
 
     // =======================测试

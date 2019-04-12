@@ -10,6 +10,8 @@
     <resultMap type="com.wisewin.backend.entity.bo.RoleBO" id="roleMap">
         <id column="role_id" property="id"/>
         <result column="role_name" property="roleName"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
 
         <collection property="menuBOS" ofType="com.wisewin.backend.entity.bo.MenuBO">
             <id column="menu_id" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
@@ -58,7 +60,7 @@
 
     <!-- 查询对应的角色对应的权限  -->
     <select id="getRole" parameterType="com.wisewin.backend.entity.bo.RoleBO" resultMap="roleMap">
-        SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
+        SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`,re.create_time createTime,re.update_time updateTime
         FROM
            ce_role_menu  rm
          INNER JOIN   ce_role  re
@@ -195,12 +197,12 @@
 
     <!--  根据角色id修改角色名称  -->
     <select id="updateRoleNameByRoleId">
-        UPDATE ce_role SET role_name=#{roleName} WHERE id=#{roleId}
+        UPDATE ce_role SET role_name=#{roleName}，update_time=#{updateTime} WHERE id=#{roleId}
     </select>
 
     <!--  查询某角色所对应的权限 resultType="com.wisewin.backend.entity.dto.MenuDTO"  -->
     <select id="selectRoleToMenu" parameterType="java.util.Map" resultMap="roleMap">
-        SELECT r.`role_name`,p.`menu_name`,r.`id` roleId,p.`id` menuId
+        SELECT r.`role_name`,p.`menu_name`,r.`id` roleId,p.`id` menuId,r.create_time createTime,r.update_time updateTime
         FROM
           ce_menu p,ce_role_menu rp,ce_role r
         WHERE
@@ -217,7 +219,7 @@
 
     <!--  根据角色id查询所对应的权限  -->
     <select id="selectRoleMenuById" parameterType="Integer" resultMap="roleMap">
-        SELECT r.`role_name`,p.`menu_name`,r.`id` roleId,p.`id` menuId
+        SELECT r.`role_name`,p.`menu_name`,r.`id` roleId,p.`id` menuId,r.create_time createTime,r.update_time updateTime
         FROM
         ce_menu p,ce_role_menu rp,ce_role r
         WHERE
@@ -319,6 +321,9 @@
         </if>
         <if test="phoneNumber!=null and phoneNumber!=''">
            AND ca.phone_number=#{phoneNumber}
+        </if>
+        <if test="email!=null and email!=''">
+            AND ca.email=#{email}
         </if>
     </select>
 

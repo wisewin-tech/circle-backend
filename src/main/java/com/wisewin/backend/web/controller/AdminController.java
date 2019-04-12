@@ -101,7 +101,7 @@ public class AdminController  extends BaseCotroller {
         // 判断用户名是否注册过
         int name = adminService.selectCountByName(param.getName());
         if(name > 0 ){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "手机号码已注册")) ;
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "用户名已存在")) ;
             super.safeJsonPrint(response , result);
             return ;
         }
@@ -219,6 +219,8 @@ public class AdminController  extends BaseCotroller {
                 List<String> menuName = new ArrayList<String>(); // 存放权限name
                 roleDTO.setId(ro.getId());// 角色id
                 roleDTO.setRoleName(ro.getRoleName()); // 角色名称
+                roleDTO.setCreateTime(ro.getCreateTime());
+                roleDTO.setUpdateTime(ro.getUpdateTime());
                 List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
                 for (int i=0;i<menus.size();i++ ) {
                     menuId.add(menus.get(i).getId());
@@ -306,7 +308,7 @@ public class AdminController  extends BaseCotroller {
                 super.safeJsonPrint(response , result);
                 return ;
             }
-            adminService.updateRoleNameByRoleId(roleId,roleName);
+            adminService.updateRoleNameByRoleId(roleId,roleName,new Date());
         }
         // 根据角色id删除对应的权限
         adminService.delRoleMenuByRoleId(roleId);
@@ -318,7 +320,7 @@ public class AdminController  extends BaseCotroller {
                 RoleMenuBO roleMenuBO = new RoleMenuBO();
                 roleMenuBO.setRoleId(roleId);
                 roleMenuBO.setMenuId(Integer.parseInt(id));
-                roleMenuBO.setCreateTime(new Date());
+                // roleMenuBO.setCreateTime(new Date());
                 roleMenuBO.setUpdateTime(new Date());
                 // 添加权限
                 adminService.addRoleMenu(roleMenuBO);
@@ -327,7 +329,7 @@ public class AdminController  extends BaseCotroller {
             RoleMenuBO roleMenuBO = new RoleMenuBO();
             roleMenuBO.setRoleId(roleId);
             roleMenuBO.setMenuId(Integer.parseInt(menuIds));
-            roleMenuBO.setCreateTime(new Date());
+            // roleMenuBO.setCreateTime(new Date());
             roleMenuBO.setUpdateTime(new Date());
             // 添加权限
             adminService.addRoleMenu(roleMenuBO);
@@ -341,6 +343,8 @@ public class AdminController  extends BaseCotroller {
             List<String> menuName = new ArrayList<String>(); // 存放权限name
             roleDTO.setId(ro.getId());// 角色id
             roleDTO.setRoleName(ro.getRoleName()); // 角色名称
+            roleDTO.setCreateTime(ro.getCreateTime());
+            roleDTO.setUpdateTime(ro.getUpdateTime());
             List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
             for (int i=0;i<menus.size();i++ ) {
                 menuName.add(menus.get(i).getMenuName());
@@ -479,6 +483,8 @@ public class AdminController  extends BaseCotroller {
             List<String> menuName = new ArrayList<String>(); // 存放权限name
             roleDTO.setId(ro.getId());// 角色id
             roleDTO.setRoleName(ro.getRoleName()); // 角色名称
+            roleDTO.setCreateTime(ro.getCreateTime());
+            roleDTO.setUpdateTime(ro.getUpdateTime());
             List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
             for (int i=0;i<menus.size();i++ ) {
                 menuIds.add(menus.get(i).getId());
@@ -636,6 +642,12 @@ public class AdminController  extends BaseCotroller {
         }
         if(!StringUtils.isEmpty(String.valueOf(adminParam.getId()))){
             adminBO.setId(adminParam.getId());
+        }
+        if(!StringUtils.isEmpty(String.valueOf(adminParam.getRoleId()))){
+            adminBO.setRoleId(adminParam.getRoleId());
+        }
+        if(!StringUtils.isEmpty(adminParam.getEmail())){
+            adminBO.setEmail(adminParam.getEmail());
         }
         List<AdminDTO> adminBOS = adminService.getAdmin(adminBO);
         for (int i=0;i<adminBOS.size();i++

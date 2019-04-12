@@ -6,6 +6,7 @@ import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -199,7 +200,7 @@ public interface AdminDAO {
      * @param roleId
      * @param roleName
      */
-    void updateRoleNameByRoleId(@Param("roleId") Integer roleId,@Param("roleName") String roleName);
+    void updateRoleNameByRoleId(@Param("roleId") Integer roleId, @Param("roleName") String roleName, @Param("updateTime")Date updateTime);
 
 
     //  ================================测试
