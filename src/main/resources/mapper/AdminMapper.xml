@@ -176,8 +176,8 @@
         SELECT id,role_name FROM ce_role
     </select>
     <!--  查询所有权限  -->
-    <select id="getMenuList" resultType="com.wisewin.backend.entity.bo.MenuBO">
-        SELECT * FROM ce_menu
+    <select id="getMenuList" resultMap="menuResult">
+        SELECT * FROM ce_menu where pid=0
     </select>
     <!--  给角色赋予权限  -->
     <insert id="addRoleMenu" parameterType="com.wisewin.backend.entity.bo.RoleMenuBO" useGeneratedKeys="true"
@@ -315,7 +315,7 @@
     </update>
 
     <!--  查询admin用户信息  -->
-    <select id="getAdmin" parameterType="com.wisewin.backend.entity.bo.AdminBO" resultType="com.wisewin.backend.entity.dto.AdminDTO">
+    <select id="getAdmin" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.dto.AdminDTO">
         SELECT ca.*,cr.id,cr.role_name FROM ce_admin ca INNER JOIN ce_role cr ON ca.role_id=cr.id
         where 1=1
         <if test="id!=null and id!=''">
@@ -327,11 +327,39 @@
         <if test="name!=null and name!=''">
            AND ca.name LIKE concat(concat('%',#{name}),'%')
         </if>
-        <if test="phoneNumber!=null and phoneNumber!=''">
-           AND ca.phone_number=#{phoneNumber}
+        <if test="mobile!=null and mobile!=''">
+           AND ca.phone_number=#{mobile}
         </if>
         <if test="email!=null and email!=''">
             AND ca.email=#{email}
+        </if>
+        <if test="roleName!=null and roleName!=''">
+            AND cr.role_name=#{roleName}
+        </if>
+        <include refid="limit" />
+    </select>
+
+    <!--  查询admin用户信息总数  -->
+    <select id="getAdminCountByMap" parameterType="java.util.Map" resultType="Integer">
+        SELECT count(*) FROM ce_admin ca INNER JOIN ce_role cr ON ca.role_id=cr.id
+        where 1=1
+        <if test="id!=null and id!=''">
+            and ca.id=#{id}
+        </if>
+        <if test="roleId!=null and roleId!=''">
+            and  ca.role_id=#{roleId}
+        </if>
+        <if test="name!=null and name!=''">
+            AND ca.name LIKE concat(concat('%',#{name}),'%')
+        </if>
+        <if test="phoneNumber!=null and phoneNumber!=''">
+            AND ca.phone_number=#{phoneNumber}
+        </if>
+        <if test="email!=null and email!=''">
+            AND ca.email=#{email}
+        </if>
+        <if test="roleName!=null and roleName!=''">
+            AND cr.role_name=#{roleName}
         </if>
     </select>
 

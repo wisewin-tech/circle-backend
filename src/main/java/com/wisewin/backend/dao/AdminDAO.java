@@ -164,7 +164,14 @@ public interface AdminDAO {
      * @param adminBO
      * @return
      */
-     List<AdminDTO> getAdmin(AdminBO adminBO);
+     List<AdminDTO> getAdmin(Map map);
+
+    /**
+     * 根据用户信息查询用户(封装到map中)
+     * @param map
+     * @return 用户总数
+     */
+     Integer getAdminCountByMap(Map map);
 
     /**
      * 根据角色名称查找对应的角色id
@@ -179,6 +186,13 @@ public interface AdminDAO {
      * @return  角色对应菜单的集合
      */
     List<RoleBO> getRole(String roleName);
+
+    /**
+     * 根据角色名称查询对应的菜单的总数
+     * @param roleName
+     * @return
+     */
+    Integer getCountRole(Map map);
 
     /**
      * 删除某个角色对应的id

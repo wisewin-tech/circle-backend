@@ -13,6 +13,7 @@ import com.wisewin.backend.util.MD5Util;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import net.sf.json.JSONObject;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -468,8 +469,22 @@ public class AdminController  extends BaseCotroller {
      * @param request
      * @param response
      */
-    @RequestMapping("getAllRoleMenu")
-    public void getAllRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName){
+    @RequestMapping("/getAllRoleMenu")
+    public void getAllRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName,Integer pageNo, Integer pageSize){
+        QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
+        Map<String, Object> map = new HashMap<String, Object>();
+        if  (queryInfo != null) {
+            map.put("pageOffset", queryInfo.getPageOffset());
+            map.put("pageSize", queryInfo.getPageSize());
+
+        }
+        map.put("roleName", roleName);
+        // 查询总记录数
+        //Integer count = adminService.getCountRoleToMenu(map);
+        // Integer count = adminService.getCountRole(map);
+        // 查询角色所拥有的权限
+        // List<RoleBO> menuList = adminService.selectRoleToMenu(map);
+
         List<RoleBO> ros = adminService.getRole(roleName);
         List<RoleDTO> roleDTOs = new ArrayList<RoleDTO>();
         if(ros == null){
@@ -494,7 +509,11 @@ public class AdminController  extends BaseCotroller {
             roleDTO.setMenuNames(menuName);
             roleDTOs.add(roleDTO);
         }
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOs)) ;
+        /*JSONObject jsonObject = new JSONObject();
+        jsonObject.put("count", count);
+        jsonObject.put("data", roleDTOs);*/
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOs));
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(json)) ;
         super.safeJsonPrint(response, result);
     }
 
@@ -505,25 +524,21 @@ public class AdminController  extends BaseCotroller {
             super.safeJsonPrint(response , result);
             return ;
         }
-        List<RoleBO> list = adminService.getRole(roleName);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list)) ;
-        super.safeJsonPrint(response, result);
+//        List<RoleBO> list = adminService.getRole(new Map<>);
+//        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list)) ;
+//        super.safeJsonPrint(response, result);
     }
 
-    /**
+    /** faild
      * 查询用户所对应的角色
      * @param request
      * @param response
      * @param userName 用戶名
      */
     @RequestMapping("getAdminRoleByName")
-    public void getAdminRoleByName(HttpServletRequest request,HttpServletResponse response,String userName){
-        // 非空判断
-        /*if(StringUtils.isEmpty(userName)){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
-            super.safeJsonPrint(response , result);
-            return ;
-        }*/
+    public void getAdminRoleByName(HttpServletRequest request,HttpServletResponse response,String userName,Integer pageNo, Integer pageSize){
+
+        // 查询用户和对应的角色
         List<AdminRoleDTO> adminRoleDTOS = adminService.getAdminRoleByName(userName);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(adminRoleDTOS)) ;
         super.safeJsonPrint(response, result);
@@ -588,9 +603,11 @@ public class AdminController  extends BaseCotroller {
                 return ;
             }
         }
-        AdminBO adminBO = new AdminBO();
-        adminBO.setId(param.getId());
-        List<AdminDTO> adminBOS = adminService.getAdmin(adminBO);
+//        AdminBO adminBO = new AdminBO();
+//        adminBO.setId(param.getId());
+        Map map = new HashMap();
+        map.put("id",param.getId());
+        List<AdminDTO> adminBOS = adminService.getAdmin(map);
         for (AdminDTO adminDTO:adminBOS
              ) {
             adminDTO.setId(param.getId());
@@ -629,32 +646,46 @@ public class AdminController  extends BaseCotroller {
      * @param adminParam
      */
     @RequestMapping("getAdmin")
-    public void getAdmin(HttpServletRequest request,HttpServletResponse response,GetAdminParam adminParam){
-        AdminBO adminBO = new AdminBO();
-        /*if(!StringUtils.isEmpty(String.valueOf(adminParam.getRoleId()))){
-            adminBO.setRoleId(adminParam.getRoleId());
-        }*/
+    public void getAdmin(HttpServletRequest request,HttpServletResponse response,GetAdminParam adminParam,Integer pageNo,Integer pageSize){
+        QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
+        Map<String, Object> map = new HashMap<String, Object>();
+        if  (queryInfo != null) {
+            map.put("pageOffset", queryInfo.getPageOffset());
+            map.put("pageSize", queryInfo.getPageSize());
+
+        }
+
         if(!StringUtils.isEmpty(adminParam.getMobile())){
-            adminBO.setPhoneNumber(adminParam.getMobile());
+            map.put("mobile",adminParam.getMobile());
         }
         if(!StringUtils.isEmpty(adminParam.getName())){
-            adminBO.setName(adminParam.getName());
+            map.put("name", adminParam.getName());
         }
         if(!StringUtils.isEmpty(String.valueOf(adminParam.getId()))){
-            adminBO.setId(adminParam.getId());
+            map.put("id", adminParam.getId());
         }
         if(!StringUtils.isEmpty(String.valueOf(adminParam.getRoleId()))){
-            adminBO.setRoleId(adminParam.getRoleId());
+            map.put("roleId", adminParam.getRoleId());
         }
         if(!StringUtils.isEmpty(adminParam.getEmail())){
-            adminBO.setEmail(adminParam.getEmail());
+            map.put("email", adminParam.getEmail());
         }
-        List<AdminDTO> adminBOS = adminService.getAdmin(adminBO);
+        if(!StringUtils.isEmpty(adminParam.getRoleName())){
+            map.put("roleName", adminParam.getRoleName());
+        }
+        // 查询总记录数
+        Integer count = adminService.getAdminCountByMap(map);
+        // 根据map中的数据查询用户信息
+        List<AdminDTO> adminBOS = adminService.getAdmin(map);
         for (int i=0;i<adminBOS.size();i++
              ) {
             adminBOS.get(i).setPassword("");
         }
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(adminBOS)) ;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("count", count);
+        jsonObject.put("data", adminBOS);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(jsonObject));
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(json)) ;
         super.safeJsonPrint(response, result);
     }
 
@@ -721,6 +752,7 @@ public class AdminController  extends BaseCotroller {
     @RequestMapping("test")
     public void getPublicSession(HttpServletRequest request, HttpServletResponse response){
         List<RoleBO> ro = adminService.getRoleMenuSuccess(0);
+        // sqlSession.selectList("findAll",null,new RowBounds(0,2));
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(ro)) ;
         super.safeJsonPrint(response, result);
     }

@@ -6,6 +6,15 @@ public class GetAdminParam {
     private String name;
     private String mobile;
     private String email;
+    private String roleName;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
     public String getEmail() {
         return email;

@@ -196,6 +196,7 @@ public class AdminService {
         return adminDAO.getAdminRoleByName(userName);
     }
 
+
     /**
      * 根据用户id修改角色id
      * @param roleId 角色id
@@ -226,11 +227,20 @@ public class AdminService {
 
     /**
      * 查询admin用户信息
-     * @param adminBO
+     * @param map
      * @return
      */
-    public List<AdminDTO> getAdmin(AdminBO adminBO){
-        return adminDAO.getAdmin(adminBO);
+    public List<AdminDTO> getAdmin(Map map){
+        return adminDAO.getAdmin(map);
+    }
+
+    /**
+     * 根据用户信息查询用户信息(封装到map中)
+     * @param map
+     * @return
+     */
+    public Integer getAdminCountByMap(Map map){
+        return adminDAO.getAdminCountByMap(map);
     }
 
     /**
@@ -269,10 +279,25 @@ public class AdminService {
         adminDAO.updateRoleNameByRoleId(roleId,roleName,updateTime);
     }
 
-    // =======================测试
+    /**
+     * 查询角色对应的菜单
+     * @param map 角色名
+     * @return
+     */
     public List<RoleBO> getRole(String roleName){
         return adminDAO.getRole(roleName);
     }
+
+    /**
+     * 查询角色对应的菜单的总数
+     * @param roleName 角色名
+     * @return
+     */
+    public Integer getCountRole(Map map){
+        return adminDAO.getCountRole(map);
+    }
+
+    // =======================测试
 
     public RoleBO test(){
         return adminDAO.test();
