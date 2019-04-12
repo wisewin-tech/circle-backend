@@ -238,6 +238,17 @@ public class AdminController  extends BaseCotroller {
         // 更新角色名
         if(!StringUtils.isEmpty(roleName)){
             // 查询角色传的和数据库查的是否一样，一样设置未空
+            RoleBO roleBO = adminService.getRoleById(roleId);
+            if(roleBO.getRoleName().equals(roleName)){
+                roleName="";
+            }else{
+                Integer nameCount = adminService.selectCountByRoleName(roleName);
+                if(nameCount>0){
+                    String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "该角色已存在")) ;
+                    super.safeJsonPrint(response , result);
+                    return ;
+                }
+            }
             // 不一致查询是否重复
             adminService.updateRoleNameByRoleId(roleId,roleName,new Date());
         }
