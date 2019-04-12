@@ -59,7 +59,7 @@
     </select>
 
     <!-- 查询对应的角色对应的权限  -->
-    <select id="getRole" parameterType="com.wisewin.backend.entity.bo.RoleBO" resultMap="roleMap">
+    <select id="getRole" parameterType="String" resultMap="roleMap">
         SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`,re.create_time createTime,re.update_time updateTime
         FROM
            ce_role_menu  rm
@@ -71,6 +71,14 @@
           <if test="_parameter!=null and _parameter!=''">
              and re.role_name like concat(concat('%',#{roleName}),'%')
           </if>
+        <!--<include refid="limit" />-->
+    </select>
+    <!-- 查询对应的角色对应的权限  -->
+    <select id="getCountRole" parameterType="java.util.Map" resultType="Integer">
+        SELECT COUNT(*) FROM ce_role re where 1=1
+        <if test="roleName!=null and roleName!=''">
+            and re.role_name like concat(concat('%',#{roleName}),'%')
+        </if>
     </select>
 
     <resultMap id="roleMenuMap" type="com.wisewin.backend.entity.bo.MenuBO" >
@@ -264,7 +272,7 @@
     <!--  获取用户对应的角色  -->
     <select id="getAdminRoleByName" parameterType="java.lang.String" resultType="com.wisewin.backend.entity.dto.AdminRoleDTO">
         SELECT
-        u.id,r.id,u.name,r.`role_name` ,u.phone_number,u.gender
+        u.id uid,r.id rid,u.name,r.`role_name` ,u.phone_number,u.gender
         FROM
         ce_admin u,ce_role r
         WHERE 1=1
