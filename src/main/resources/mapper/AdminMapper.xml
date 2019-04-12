@@ -205,7 +205,7 @@
 
     <!--  根据角色id修改角色名称  -->
     <select id="updateRoleNameByRoleId">
-        UPDATE ce_role SET role_name=#{roleName}，update_time=#{updateTime} WHERE id=#{roleId}
+        UPDATE ce_role SET role_name=#{roleName},update_time=#{updateTime} WHERE id=#{roleId}
     </select>
 
     <!--  查询某角色所对应的权限 resultType="com.wisewin.backend.entity.dto.MenuDTO"  -->
