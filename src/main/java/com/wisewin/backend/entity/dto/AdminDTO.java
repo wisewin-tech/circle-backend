@@ -5,7 +5,7 @@ import java.util.Date;
 public class AdminDTO {
     private Integer id;// 管理员用户
 
-    private String phoneNumber; // 手机号
+    private String mobile; // 手机号
 
     private String name; // 名称
 
@@ -25,20 +25,20 @@ public class AdminDTO {
 
     private String roleName; // 角色名称
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getName() {

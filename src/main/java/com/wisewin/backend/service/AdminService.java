@@ -3,18 +3,15 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.AdminDAO;
 import com.wisewin.backend.entity.bo.*;
-import com.wisewin.backend.entity.dto.AdminDTO;
-import com.wisewin.backend.entity.dto.AdminRoleDTO;
-import com.wisewin.backend.entity.dto.MenuDTO;
-import com.wisewin.backend.entity.dto.RoleDTO;
+import com.wisewin.backend.entity.dto.*;
+import com.wisewin.backend.entity.param.RegisterParam;
+import com.wisewin.backend.query.QueryInfo;
+import com.wisewin.backend.util.JsonUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("adminService")
 @Transactional
@@ -183,7 +180,6 @@ public class AdminService {
             roleDTO.setUpdateTime(ro.getUpdateTime());
             List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
             for (int i=0;i<menus.size();i++ ) {
-                menuId.add(menus.get(i).getId());
                 menuName.add(menus.get(i).getMenuName());
             }
             boolean flag = menuIds.contains(",");
@@ -197,9 +193,8 @@ public class AdminService {
             roleDTO.setMenuIds(menuId);
             roleDTO.setMenuNames(menuName);
             roleDTOS.add(roleDTO);
-            return roleDTOS;
         }
-        return null;
+        return roleDTOS;
 
     }
 
@@ -217,8 +212,59 @@ public class AdminService {
      * @param roleId  角色名
      * @return 返回对应的权限
      */
-    public List<RoleBO> selectRoleMenuById(Integer roleId){
-        return adminDAO.selectRoleMenuById(roleId);
+    public List<RoleDTO> selectRoleMenuById(Integer roleId,String menuIds){
+        // 根据角色id删除对应的权限
+        adminDAO.delRoleMenuByRoleId(roleId);
+        boolean status = menuIds.contains(",");
+        if(status){
+            String[] ids = menuIds.split(",");
+            for (String id:
+                    ids) {
+                RoleMenuBO roleMenuBO = new RoleMenuBO();
+                roleMenuBO.setRoleId(roleId);
+                roleMenuBO.setMenuId(Integer.parseInt(id));
+                // roleMenuBO.setCreateTime(new Date());
+                roleMenuBO.setUpdateTime(new Date());
+                // 添加权限
+                adminDAO.addRoleMenu(roleMenuBO);
+            }
+        }else{
+            RoleMenuBO roleMenuBO = new RoleMenuBO();
+            roleMenuBO.setRoleId(roleId);
+            roleMenuBO.setMenuId(Integer.parseInt(menuIds));
+            // roleMenuBO.setCreateTime(new Date());
+            roleMenuBO.setUpdateTime(new Date());
+            // 添加权限
+            adminDAO.addRoleMenu(roleMenuBO);
+        }
+        // 查询角色所拥有的权限
+        List<RoleDTO> roleDTOS = new ArrayList<RoleDTO>();
+        List<RoleBO> menuList = adminDAO.selectRoleMenuById(roleId);
+        for (RoleBO ro:menuList) {
+            RoleDTO roleDTO = new RoleDTO();
+            List<Integer> menuId = new ArrayList<Integer>();// 存放权限id
+            List<String> menuName = new ArrayList<String>(); // 存放权限name
+            roleDTO.setId(ro.getId());// 角色id
+            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
+            roleDTO.setCreateTime(ro.getCreateTime());
+            roleDTO.setUpdateTime(ro.getUpdateTime());
+            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
+            for (int i=0;i<menus.size();i++ ) {
+                menuName.add(menus.get(i).getMenuName());
+            }
+            boolean flag = menuIds.contains(",");
+            if(flag) {
+                String[] ids = menuIds.split(",");
+                for (String id :
+                        ids) {
+                    menuId.add(Integer.parseInt(id));
+                }
+            }
+            roleDTO.setMenuIds(menuId);
+            roleDTO.setMenuNames(menuName);
+            roleDTOS.add(roleDTO);
+        }
+        return roleDTOS;
     }
 
     /**
@@ -232,10 +278,19 @@ public class AdminService {
 
     /**
      * 根据角色id删除角色
-     * @param roleId 角色id
+     * @param roleIds 角色id
      */
-    public void delRoleById(Integer roleId){
-        adminDAO.delRoleById(roleId);
+    public boolean delRoleById(String roleIds){
+        boolean status = roleIds.contains(",");
+        if(status){
+            String [] ids = roleIds.split(",");
+            for (String id:ids ) {
+                return adminDAO.delRoleById(Integer.parseInt(id));
+            }
+        }else{
+            return adminDAO.delRoleById(Integer.parseInt(roleIds));
+        }
+        return false;
     }
 
     /**
@@ -277,11 +332,33 @@ public class AdminService {
 
     /**
      * 修改admin用户信息
-     * @param adminBO 用户信息
+     * @param param 用户信息
      * @return 是否修改成功
      */
-    public boolean updateAdminUser(AdminBO adminBO){
-        return adminDAO.updateAdminUser(adminBO);
+    public boolean updateAdminUser(RegisterParam param){
+        AdminBO adminBO = new AdminBO();
+        adminBO.setId(param.getId());
+        List<AdminDTO> adminBOS = adminDAO.getAdminNoFenYe(adminBO);
+        for (AdminDTO adminDTO:adminBOS) {
+            adminDTO.setId(param.getId());
+            adminDTO.setGender(param.getGender());
+            adminDTO.setPassword(param.getPassword());
+            adminDTO.setMobile(param.getMobile());
+            adminDTO.setName(param.getName());
+            adminDTO.setEmail(param.getEmail());
+            adminDTO.setUpdateTime(new Date());
+            AdminBO admin = new AdminBO();
+            admin.setId(adminDTO.getId());
+            admin.setGender(adminDTO.getGender());
+            admin.setPassword(adminDTO.getPassword());
+            admin.setPhoneNumber(adminDTO.getMobile());
+            admin.setName(adminDTO.getName());
+            admin.setEmail(adminDTO.getEmail());
+            admin.setRoleId(adminDTO.getRoleId());
+            admin.setUpdateTime(new Date());
+            return adminDAO.updateAdminUser(admin);
+        }
+        return false;
     }
 
     /**

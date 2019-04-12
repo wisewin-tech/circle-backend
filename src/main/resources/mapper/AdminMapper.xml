@@ -316,7 +316,7 @@
 
     <!--  查询admin用户信息  -->
     <select id="getAdmin" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.dto.AdminDTO">
-        SELECT ca.*,cr.id,cr.role_name FROM ce_admin ca INNER JOIN ce_role cr ON ca.role_id=cr.id
+        SELECT ca.*,ca.phone_number mobile,cr.id,cr.role_name FROM ce_admin ca INNER JOIN ce_role cr ON ca.role_id=cr.id
         where 1=1
         <if test="id!=null and id!=''">
             and ca.id=#{id}
@@ -337,6 +337,26 @@
             AND cr.role_name=#{roleName}
         </if>
         <include refid="limit" />
+    </select>
+    <!--  查找用户信息不使用分业  -->
+    <select id="getAdminNoFenYe" parameterType="com.wisewin.backend.entity.bo.AdminBO" resultType="com.wisewin.backend.entity.dto.AdminDTO">
+        SELECT ca.*,ca.phone_number mobile,cr.id,cr.role_name FROM ce_admin ca INNER JOIN ce_role cr ON ca.role_id=cr.id
+        where 1=1
+        <if test="id!=null and id!=''">
+            and ca.id=#{id}
+        </if>
+        <if test="roleId!=null and roleId!=''">
+            and  ca.role_id=#{roleId}
+        </if>
+        <if test="name!=null and name!=''">
+            AND ca.name LIKE concat(concat('%',#{name}),'%')
+        </if>
+        <if test="phoneNumber!=null and phoneNumber!=''">
+            AND ca.phone_number=#{mobile}
+        </if>
+        <if test="email!=null and email!=''">
+            AND ca.email=#{email}
+        </if>
     </select>
 
     <!--  查询admin用户信息总数  -->

@@ -119,7 +119,7 @@ public interface AdminDAO {
      * 根据角色id删除角色信息
      * @param roleId 角色id
      */
-    void delRoleById(Integer roleId);
+    boolean delRoleById(Integer roleId);
 
     /**
      * 查询所有角色对应的权限
@@ -165,6 +165,13 @@ public interface AdminDAO {
      * @return
      */
      List<AdminDTO> getAdmin(Map map);
+
+    /**
+     * 查询用户信息不使用分页
+     * @param adminBO
+     * @return
+     */
+    List<AdminDTO> getAdminNoFenYe(AdminBO adminBO);
 
     /**
      * 根据用户信息查询用户(封装到map中)
