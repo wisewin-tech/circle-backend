@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2018/3/14.
  */
-public class PageObject<E> extends BaseModel {
+public class
+PageObject<E> extends BaseModel {
 
     private List<E> datas;
     private int pageSize;
