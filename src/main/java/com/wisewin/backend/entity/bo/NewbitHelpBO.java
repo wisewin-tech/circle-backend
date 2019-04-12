@@ -1,6 +1,7 @@
 package com.wisewin.backend.entity.bo;
 
 import java.util.Date;
+import java.util.List;
 
 public class NewbitHelpBO {
     private Integer id; //新手帮助
@@ -11,6 +12,7 @@ public class NewbitHelpBO {
     private Date updateTime; //修改时间
     private Integer operatorUserId; //修改人id
     private String operatorUserName; //修改人姓名
+    private List<NewbitHelpBO>  list;//新手帮助内容
 
     public Integer getId() {
         return id;
@@ -74,5 +76,13 @@ public class NewbitHelpBO {
 
     public void setOperatorUserName(String operatorUserName) {
         this.operatorUserName = operatorUserName;
+    }
+
+    public List<NewbitHelpBO> getList() {
+        return list;
+    }
+
+    public void setList(List<NewbitHelpBO> list) {
+        this.list = list;
     }
 }
