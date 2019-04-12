@@ -358,6 +358,7 @@ public class AdminService {
             }
             adminDTO.setEmail(param.getEmail());
             adminDTO.setUpdateTime(new Date());
+            adminDTO.setRoleId(param.getRoleId());
             AdminBO admin = new AdminBO();
             admin.setId(adminDTO.getId());
             admin.setGender(adminDTO.getGender());
@@ -370,6 +371,15 @@ public class AdminService {
             return adminDAO.updateAdminUser(admin);
         }
         return false;
+    }
+
+    /**
+     * 根据角色id查询角色信息
+     * @param roleId
+     * @return
+     */
+    public RoleBO getRoleById(Integer roleId){
+        return adminDAO.getRoleById(roleId);
     }
 
     /**

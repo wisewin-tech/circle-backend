@@ -237,6 +237,8 @@ public class AdminController  extends BaseCotroller {
         }
         // 更新角色名
         if(!StringUtils.isEmpty(roleName)){
+            // 查询角色传的和数据库查的是否一样，一样设置未空
+            // 不一致查询是否重复
             adminService.updateRoleNameByRoleId(roleId,roleName,new Date());
         }
         List<RoleDTO> roleDTOS = adminService.selectRoleMenuById(roleId,menuIds);

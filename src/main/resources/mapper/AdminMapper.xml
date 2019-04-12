@@ -299,6 +299,11 @@
         DELETE FROM ce_role_menu WHERE role_id=#{roleId}
     </delete>
 
+    <!--  根据角色id查询角色信息  -->
+    <select id="getRoleById" resultType="com.wisewin.backend.entity.bo.RoleBO" parameterType="Integer">
+        select * from ce_role where id = #{roleId}
+    </select>
+
     <!--  修改admin用户信息  -->
     <update id="updateAdminUser"  parameterType="com.wisewin.backend.entity.bo.AdminBO" >
         UPDATE `ce_admin`

@@ -6,6 +6,7 @@ import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
 import org.apache.ibatis.annotations.Param;
 
+import javax.management.relation.Role;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,6 +47,13 @@ public interface AdminDAO {
      * @return
      */
     int selectCountByName(String name);
+
+    /**
+     * 根据角色id查询角色信息
+     * @param roleId
+     * @return
+     */
+    RoleBO getRoleById(Integer roleId);
 
     /**
      * 添加角色信息
