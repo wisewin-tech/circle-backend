@@ -158,7 +158,7 @@ public class AdminController  extends BaseCotroller {
      * @param menuIds  权限ids
      */
     @RequestMapping("/addRoleGrantAuthority")
-    public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds,Integer pageNo, Integer pageSize){
+    public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds){
         // 非空判断
         if(StringUtils.isEmpty(roleName) || StringUtils.isEmpty(menuIds)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
@@ -173,77 +173,18 @@ public class AdminController  extends BaseCotroller {
             return ;
         }
         try {
-            RoleBO roleBO = new RoleBO();
-            roleBO.setRoleName(roleName);
-            roleBO.setCreateTime(new Date());
-            roleBO.setUpdateTime(new Date());
-            // 添加角色
-            adminService.addRole(roleBO);
-            boolean status = menuIds.contains(",");
-            if(status){
-                String[] ids = menuIds.split(",");
-                for (String id:
-                        ids) {
-                    RoleMenuBO roleMenuBO = new RoleMenuBO();
-                    roleMenuBO.setRoleId(roleBO.getId());
-                    roleMenuBO.setMenuId(Integer.parseInt(id));
-                    roleMenuBO.setCreateTime(new Date());
-                    roleMenuBO.setUpdateTime(new Date());
-                    // 添加权限
-                    adminService.addRoleMenu(roleMenuBO);
-                }
-            }else{
-                RoleMenuBO roleMenuBO = new RoleMenuBO();
-                roleMenuBO.setRoleId(roleBO.getId());
-                roleMenuBO.setMenuId(Integer.parseInt(menuIds));
-                roleMenuBO.setCreateTime(new Date());
-                roleMenuBO.setUpdateTime(new Date());
-                // 添加权限
-                adminService.addRoleMenu(roleMenuBO);
-            }
-            QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
-            Map<String, Object> map = new HashMap<String, Object>();
-            if  (queryInfo != null) {
-                map.put("pageOffset", queryInfo.getPageOffset());
-                map.put("pageSize", queryInfo.getPageSize());
-
-            }
+            Map<String,Object> map = new HashMap<String, Object>();
             map.put("roleName", roleName);
             // 查询总记录数
             Integer count = adminService.getCountRoleToMenu(map);
             // 查询角色所拥有的权限
-            List<RoleBO> menuList = adminService.selectRoleToMenu(map);
-            List<RoleDTO> roleDTOS = new ArrayList<RoleDTO>();
-            for (RoleBO ro:menuList) {
-                RoleDTO roleDTO = new RoleDTO();
-                List<Integer> menuId = new ArrayList<Integer>();// 存放权限id
-                List<String> menuName = new ArrayList<String>(); // 存放权限name
-                roleDTO.setId(ro.getId());// 角色id
-                roleDTO.setRoleName(ro.getRoleName()); // 角色名称
-                roleDTO.setCreateTime(ro.getCreateTime());
-                roleDTO.setUpdateTime(ro.getUpdateTime());
-                List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
-                for (int i=0;i<menus.size();i++ ) {
-                    menuId.add(menus.get(i).getId());
-                    menuName.add(menus.get(i).getMenuName());
-                }
-                boolean flag = menuIds.contains(",");
-                if(flag) {
-                    String[] ids = menuIds.split(",");
-                    for (String id :
-                            ids) {
-                        menuId.add(Integer.parseInt(id));
-                    }
-                }
-                roleDTO.setMenuIds(menuId);
-                roleDTO.setMenuNames(menuName);
-                roleDTOS.add(roleDTO);
-            }
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("count", count);
-            jsonObject.put("data", roleDTOS);
-            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(jsonObject));
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(json)) ;
+            List<RoleDTO> roleDTOS = adminService.selectRoleToMenu(map,roleName,menuIds);
+
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("count", count);
+//            jsonObject.put("data", roleDTOS);
+//            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(jsonObject));
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOS)) ;
             super.safeJsonPrint(response, result);
         }catch (Exception e){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加角色给角色赋予权限异常")) ;
@@ -252,14 +193,14 @@ public class AdminController  extends BaseCotroller {
         }
     }
 
-    /**
+    /** faild
      * 查询角色对应的权限
      * @param request
      * @param response
      * @param roleName
      */
     @RequestMapping("getRoleMenu")
-    public void getRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName, Integer pageNo, Integer pageSize){
+    public void getRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds, Integer pageNo, Integer pageSize){
         if(StringUtils.isEmpty(roleName)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
@@ -275,8 +216,9 @@ public class AdminController  extends BaseCotroller {
         map.put("roleName", roleName);
         // 查询总记录数
         Integer count = adminService.getCountRoleToMenu(map);
+
         // 查询角色所拥有的权限
-        List<RoleBO> menuList = adminService.selectRoleToMenu(map);
+        List<RoleDTO> menuList = adminService.selectRoleToMenu(map,roleName,menuIds);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("count", count);
         jsonObject.put("data", menuList);

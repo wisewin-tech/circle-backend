@@ -6,10 +6,12 @@ import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.dto.AdminDTO;
 import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
+import com.wisewin.backend.entity.dto.RoleDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -140,8 +142,65 @@ public class AdminService {
      * @param map
      * @return 返回对应的权限
      */
-    public List<RoleBO> selectRoleToMenu(Map<String,Object> map){
-        return adminDAO.selectRoleToMenu(map);
+    public List<RoleDTO> selectRoleToMenu(Map<String,Object> map,String roleName,String menuIds){
+        RoleBO roleBO = new RoleBO();
+        roleBO.setRoleName(roleName);
+        roleBO.setCreateTime(new Date());
+        roleBO.setUpdateTime(new Date());
+        // 添加角色
+        adminDAO.addRole(roleBO);
+        boolean status = menuIds.contains(",");
+        if(status){
+            String[] ids = menuIds.split(",");
+            for (String id:
+                    ids) {
+                RoleMenuBO roleMenuBO = new RoleMenuBO();
+                roleMenuBO.setRoleId(roleBO.getId());
+                roleMenuBO.setMenuId(Integer.parseInt(id));
+                roleMenuBO.setCreateTime(new Date());
+                roleMenuBO.setUpdateTime(new Date());
+                // 添加权限
+                adminDAO.addRoleMenu(roleMenuBO);
+            }
+        }else{
+            RoleMenuBO roleMenuBO = new RoleMenuBO();
+            roleMenuBO.setRoleId(roleBO.getId());
+            roleMenuBO.setMenuId(Integer.parseInt(menuIds));
+            roleMenuBO.setCreateTime(new Date());
+            roleMenuBO.setUpdateTime(new Date());
+            // 添加权限
+            adminDAO.addRoleMenu(roleMenuBO);
+        }
+        List<RoleBO> roleBOS = adminDAO.selectRoleToMenu(map);
+        List<RoleDTO> roleDTOS = new ArrayList<RoleDTO>();
+        for (RoleBO ro:roleBOS) {
+            RoleDTO roleDTO = new RoleDTO();
+            List<Integer> menuId = new ArrayList<Integer>();// 存放权限id
+            List<String> menuName = new ArrayList<String>(); // 存放权限name
+            roleDTO.setId(ro.getId());// 角色id
+            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
+            roleDTO.setCreateTime(ro.getCreateTime());
+            roleDTO.setUpdateTime(ro.getUpdateTime());
+            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
+            for (int i=0;i<menus.size();i++ ) {
+                menuId.add(menus.get(i).getId());
+                menuName.add(menus.get(i).getMenuName());
+            }
+            boolean flag = menuIds.contains(",");
+            if(flag) {
+                String[] ids = menuIds.split(",");
+                for (String id :
+                        ids) {
+                    menuId.add(Integer.parseInt(id));
+                }
+            }
+            roleDTO.setMenuIds(menuId);
+            roleDTO.setMenuNames(menuName);
+            roleDTOS.add(roleDTO);
+            return roleDTOS;
+        }
+        return null;
+
     }
 
     /**
