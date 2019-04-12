@@ -160,8 +160,8 @@
     </select>
 
     <!-- 查找用户名是否注册过  -->
-    <select id="selectCountByname" parameterType="String" resultType="int">
-        SELECT count(name) FROM ce_admin WHERE phone_number = #{mobile}
+    <select id="selectCountByName" parameterType="String" resultType="int">
+        SELECT count(name) FROM ce_admin WHERE name = #{name}
     </select>
 
     <!-- 添加角色信息  -->

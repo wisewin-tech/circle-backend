@@ -344,7 +344,18 @@ public class AdminService {
             adminDTO.setGender(param.getGender());
             adminDTO.setPassword(param.getPassword());
             adminDTO.setMobile(param.getMobile());
-            adminDTO.setName(param.getName());
+            // 判断前端传的名称是否相同
+            if(adminDTO.getName().equals(param.getName())){
+                adminDTO.setName("");
+            }else{
+                // 判断用户名是否存在
+                String name1= param.getName();
+                int name = adminDAO.selectCountByName(name1);
+                if(name > 0 ){
+                    return false;
+                }
+                adminDTO.setName(param.getName());
+            }
             adminDTO.setEmail(param.getEmail());
             adminDTO.setUpdateTime(new Date());
             AdminBO admin = new AdminBO();

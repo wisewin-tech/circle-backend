@@ -41,7 +41,7 @@ public interface AdminDAO {
     int selectCountByMobile(String mobile);
 
     /**
-     * 查找用户手机号是否注册过
+     * 查找用户名是否注册过
      * @param name
      * @return
      */

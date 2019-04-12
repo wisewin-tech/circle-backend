@@ -465,7 +465,7 @@ public class AdminController  extends BaseCotroller {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success( "修改成功")) ;
             super.safeJsonPrint(response , result);
         }else{
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改成功")) ;
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "用户名以存在")) ;
             super.safeJsonPrint(response , result);
         }
 
