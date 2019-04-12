@@ -91,7 +91,7 @@ public interface AdminDAO {
      * @param map 角色名称
      * @return 返回对应的权限
      */
-    List<MenuDTO> selectRoleToMenu(Map<String,Object> map);
+    List<RoleBO> selectRoleToMenu(Map<String,Object> map);
 
     /**
      * 根据角色名称查找对应的权限总数
@@ -112,7 +112,7 @@ public interface AdminDAO {
      * @param roleId 角色名称
      * @return 返回对应的权限
      */
-    List<MenuDTO> selectRoleMenuById(Integer roleId);
+    List<RoleBO> selectRoleMenuById(Integer roleId);
 
     /**
      * 根据角色id删除角色信息
@@ -178,6 +178,28 @@ public interface AdminDAO {
      * @return  角色对应菜单的集合
      */
     List<RoleBO> getRole(String roleName);
+
+    /**
+     * 删除某个角色对应的id
+     * @param roleId 角色id
+     * @param menuId 权限id
+     * @return 是否删除成功
+     */
+    boolean delRoleMenu(@Param("roleId")Integer roleId,@Param("menuId")Integer menuId);
+
+
+    /**
+     * 根据角色id删除对应的权限
+     * @param roleId
+     */
+    void delRoleMenuByRoleId(Integer roleId);
+
+    /**
+     * 根据角色id修改角色名称
+     * @param roleId
+     * @param roleName
+     */
+    void updateRoleNameByRoleId(@Param("roleId") Integer roleId,@Param("roleName") String roleName);
 
 
     //  ================================测试

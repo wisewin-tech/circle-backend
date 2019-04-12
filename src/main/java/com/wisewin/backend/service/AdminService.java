@@ -139,7 +139,7 @@ public class AdminService {
      * @param map
      * @return 返回对应的权限
      */
-    public List<MenuDTO> selectRoleToMenu(Map<String,Object> map){
+    public List<RoleBO> selectRoleToMenu(Map<String,Object> map){
         return adminDAO.selectRoleToMenu(map);
     }
 
@@ -157,7 +157,7 @@ public class AdminService {
      * @param roleId  角色名
      * @return 返回对应的权限
      */
-    public List<MenuDTO> selectRoleMenuById(Integer roleId){
+    public List<RoleBO> selectRoleMenuById(Integer roleId){
         return adminDAO.selectRoleMenuById(roleId);
     }
 
@@ -239,6 +239,33 @@ public class AdminService {
      */
     public Integer getRoleIdByRoleName(String roleName){
         return adminDAO.getRoleIdByRoleName(roleName);
+    }
+
+    /**
+     * 删除某个角色对应的id
+     * @param roleId 角色id
+     * @param menuId 权限id
+     * @return 是否删除成功
+     */
+    public boolean delRoleMenu(Integer roleId,Integer menuId){
+        return adminDAO.delRoleMenu(roleId,menuId);
+    }
+
+    /**
+     * 根据角色id删除对应的权限
+     * @param roleId
+     */
+    public void delRoleMenuByRoleId(Integer roleId){
+        adminDAO.delRoleMenuByRoleId(roleId);
+    }
+
+    /**
+     * 根据角色id修改角色名称
+     * @param roleId 角色id
+     * @param roleName 角色名称
+     */
+    public void updateRoleNameByRoleId(Integer roleId,String roleName){
+        adminDAO.updateRoleNameByRoleId(roleId,roleName);
     }
 
     // =======================测试

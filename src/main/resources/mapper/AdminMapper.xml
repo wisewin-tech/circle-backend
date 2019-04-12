@@ -140,7 +140,7 @@
         update_time=#{updateTime},
         email=#{email}
     </insert>
-    <!-- 查找手机号是否注册过  -->
+    <!-- 查找角色名是否注册过  -->
     <select id="selectCountByRoleName" parameterType="String" resultType="Integer">
         SELECT count(role_name) FROM ce_role WHERE role_name = #{roleName}
     </select>
@@ -193,9 +193,14 @@
         update_time=#{updateTime}
     </insert>
 
-    <!--  查询某角色所对应的权限  -->
-    <select id="selectRoleToMenu" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.dto.MenuDTO">
-        SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
+    <!--  根据角色id修改角色名称  -->
+    <select id="updateRoleNameByRoleId">
+        UPDATE ce_role SET role_name=#{roleName} WHERE id=#{roleId}
+    </select>
+
+    <!--  查询某角色所对应的权限 resultType="com.wisewin.backend.entity.dto.MenuDTO"  -->
+    <select id="selectRoleToMenu" parameterType="java.util.Map" resultMap="roleMap">
+        SELECT r.`role_name`,p.`menu_name`,r.`id` roleId,p.`id` menuId
         FROM
           ce_menu p,ce_role_menu rp,ce_role r
         WHERE
@@ -211,12 +216,12 @@
     </select>
 
     <!--  根据角色id查询所对应的权限  -->
-    <select id="selectRoleMenuById" parameterType="String" resultType="com.wisewin.backend.entity.dto.MenuDTO">
-        SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
+    <select id="selectRoleMenuById" parameterType="Integer" resultMap="roleMap">
+        SELECT r.`role_name`,p.`menu_name`,r.`id` roleId,p.`id` menuId
         FROM
         ce_menu p,ce_role_menu rp,ce_role r
         WHERE
-        r.`role_id`=#{roleId} AND r.id=rp.role_id AND rp.menu_id=p.id;
+        rp.`role_id`=#{roleId} AND r.id=rp.role_id AND rp.menu_id=p.id;
     </select>
 
 
@@ -239,6 +244,11 @@
            AND r.id=rp.role_id AND rp.menu_id=p.id;
         </if>
     </select>
+
+    <!-- 删除某个角色对应的权限 -->
+    <delete id="delRoleMenu" parameterType="Integer">
+      DELETE FROM ce_role_menu WHERE role_id=#{roleId} AND menu_id=#{menuId}
+    </delete>
 
     <!--  模糊查询角色信息  -->
     <select parameterType="String" resultType="com.wisewin.backend.entity.dto.MenuDTO" id="getDimRoleMenu">
@@ -272,6 +282,11 @@
     <!--  根据用户id删除信息  -->
     <delete id="delAdminById" parameterType="Integer">
         DELETE  FROM  ce_admin WHERE id=#{id}
+    </delete>
+
+    <!--  根据角色id删除对应的权限  -->
+    <delete id="delRoleMenuByRoleId" parameterType="Integer">
+        DELETE FROM ce_role_menu WHERE role_id=#{roleId}
     </delete>
 
     <!--  修改admin用户信息  -->

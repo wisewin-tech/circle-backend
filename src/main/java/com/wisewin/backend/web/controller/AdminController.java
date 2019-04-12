@@ -157,10 +157,17 @@ public class AdminController  extends BaseCotroller {
      * @param menuIds  权限ids
      */
     @RequestMapping("/addRoleGrantAuthority")
-    public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds){
+    public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds,Integer pageNo, Integer pageSize){
         // 非空判断
         if(StringUtils.isEmpty(roleName) || StringUtils.isEmpty(menuIds)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        // 判断角色名称是否存在
+        Integer nameCount = adminService.selectCountByRoleName(roleName);
+        if(nameCount>0){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "该角色已存在")) ;
             super.safeJsonPrint(response , result);
             return ;
         }
@@ -193,11 +200,47 @@ public class AdminController  extends BaseCotroller {
                 // 添加权限
                 adminService.addRoleMenu(roleMenuBO);
             }
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put("roleName",roleName);
+            QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
+            Map<String, Object> map = new HashMap<String, Object>();
+            if  (queryInfo != null) {
+                map.put("pageOffset", queryInfo.getPageOffset());
+                map.put("pageSize", queryInfo.getPageSize());
+
+            }
+            map.put("roleName", roleName);
+            // 查询总记录数
+            Integer count = adminService.getCountRoleToMenu(map);
             // 查询角色所拥有的权限
-            List<MenuDTO> menuList = adminService.selectRoleToMenu(map);
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
+            List<RoleBO> menuList = adminService.selectRoleToMenu(map);
+            List<RoleDTO> roleDTOS = new ArrayList<RoleDTO>();
+            for (RoleBO ro:menuList) {
+                RoleDTO roleDTO = new RoleDTO();
+                List<Integer> menuId = new ArrayList<Integer>();// 存放权限id
+                List<String> menuName = new ArrayList<String>(); // 存放权限name
+                roleDTO.setId(ro.getId());// 角色id
+                roleDTO.setRoleName(ro.getRoleName()); // 角色名称
+                List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
+                for (int i=0;i<menus.size();i++ ) {
+                    menuId.add(menus.get(i).getId());
+                    menuName.add(menus.get(i).getMenuName());
+                }
+                boolean flag = menuIds.contains(",");
+                if(flag) {
+                    String[] ids = menuIds.split(",");
+                    for (String id :
+                            ids) {
+                        menuId.add(Integer.parseInt(id));
+                    }
+                }
+                roleDTO.setMenuIds(menuId);
+                roleDTO.setMenuNames(menuName);
+                roleDTOS.add(roleDTO);
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("count", count);
+            jsonObject.put("data", roleDTOS);
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(jsonObject));
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(json)) ;
             super.safeJsonPrint(response, result);
         }catch (Exception e){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加角色给角色赋予权限异常")) ;
@@ -221,7 +264,7 @@ public class AdminController  extends BaseCotroller {
         }
         QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
         Map<String, Object> map = new HashMap<String, Object>();
-        if (queryInfo != null) {
+        if  (queryInfo != null) {
             map.put("pageOffset", queryInfo.getPageOffset());
             map.put("pageSize", queryInfo.getPageSize());
 
@@ -230,7 +273,7 @@ public class AdminController  extends BaseCotroller {
         // 查询总记录数
         Integer count = adminService.getCountRoleToMenu(map);
         // 查询角色所拥有的权限
-        List<MenuDTO> menuList = adminService.selectRoleToMenu(map);
+        List<RoleBO> menuList = adminService.selectRoleToMenu(map);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("count", count);
         jsonObject.put("data", menuList);
@@ -248,13 +291,25 @@ public class AdminController  extends BaseCotroller {
      * @param menuIds  权限id
      */
     @RequestMapping("grantAuthority")
-    public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds){
+    public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds,String roleName){
         // 非空判断
         if(StringUtils.isEmpty(String.valueOf(roleId)) || StringUtils.isEmpty(String.valueOf(menuIds))){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
             return ;
         }
+        if(!StringUtils.isEmpty(roleName)){
+            // 判断角色名称是否存在
+            Integer nameCount = adminService.selectCountByRoleName(roleName);
+            if(nameCount>0){
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "该角色已存在")) ;
+                super.safeJsonPrint(response , result);
+                return ;
+            }
+            adminService.updateRoleNameByRoleId(roleId,roleName);
+        }
+        // 根据角色id删除对应的权限
+        adminService.delRoleMenuByRoleId(roleId);
         boolean status = menuIds.contains(",");
         if(status){
             String[] ids = menuIds.split(",");
@@ -278,8 +333,31 @@ public class AdminController  extends BaseCotroller {
             adminService.addRoleMenu(roleMenuBO);
         }
         // 查询角色所拥有的权限
-        List<MenuDTO> menuList = adminService.selectRoleMenuById(roleId);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
+        List<RoleDTO> roleDTOS = new ArrayList<RoleDTO>();
+        List<RoleBO> menuList = adminService.selectRoleMenuById(roleId);
+        for (RoleBO ro:menuList) {
+            RoleDTO roleDTO = new RoleDTO();
+            List<Integer> menuId = new ArrayList<Integer>();// 存放权限id
+            List<String> menuName = new ArrayList<String>(); // 存放权限name
+            roleDTO.setId(ro.getId());// 角色id
+            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
+            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
+            for (int i=0;i<menus.size();i++ ) {
+                menuName.add(menus.get(i).getMenuName());
+            }
+            boolean flag = menuIds.contains(",");
+            if(flag) {
+                String[] ids = menuIds.split(",");
+                for (String id :
+                        ids) {
+                    menuId.add(Integer.parseInt(id));
+                }
+            }
+            roleDTO.setMenuIds(menuId);
+            roleDTO.setMenuNames(menuName);
+            roleDTOS.add(roleDTO);
+        }
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOS)) ;
         super.safeJsonPrint(response, result);
     }
 
@@ -523,6 +601,7 @@ public class AdminController  extends BaseCotroller {
             admin.setPhoneNumber(adminDTO.getPhoneNumber());
             admin.setName(adminDTO.getName());
             admin.setEmail(adminDTO.getEmail());
+            admin.setRoleId(param.getRoleId());
             admin.setUpdateTime(new Date());
             boolean flag = adminService.updateAdminUser(admin);
             if(flag){
@@ -564,6 +643,34 @@ public class AdminController  extends BaseCotroller {
             adminBOS.get(i).setPassword("");
         }
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(adminBOS)) ;
+        super.safeJsonPrint(response, result);
+    }
+
+    /**
+     * 删除某个角色对应的权限
+     * @param roleId 角色id
+     * @param menuIds 权限id
+     * @return 是否删除成功
+     */
+    @RequestMapping("delRoleMenu")
+    public void delRoleMenu(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds){
+        if(roleId==null || StringUtils.isEmpty(menuIds)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        boolean flag = menuIds.contains(",");
+        if(flag){
+            String [] ids = menuIds.split(",");
+            for (String id:ids ) {
+                adminService.delRoleMenu(roleId,Integer.parseInt(id));
+            }
+        }else{
+            adminService.delRoleMenu(roleId,Integer.parseInt(menuIds));
+        }
+        // 查询角色所拥有的权限
+        List<RoleBO> menuList = adminService.selectRoleMenuById(roleId);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
         super.safeJsonPrint(response, result);
     }
 
