@@ -191,7 +191,7 @@ public class AdminController  extends BaseCotroller {
      * @param response
      * @param roleName
      */
-    @RequestMapping("getRoleMenu")
+    @RequestMapping("/getRoleMenu")
     public void getRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds, Integer pageNo, Integer pageSize){
         if(StringUtils.isEmpty(roleName)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
@@ -227,7 +227,7 @@ public class AdminController  extends BaseCotroller {
      * @param roleId  角色id
      * @param menuIds  权限id
      */
-    @RequestMapping("grantAuthority")
+    @RequestMapping("/grantAuthority")
     public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds,String roleName){
         // 非空判断
         if(StringUtils.isEmpty(String.valueOf(roleId)) || StringUtils.isEmpty(String.valueOf(menuIds))|| StringUtils.isEmpty(roleName)){
@@ -242,6 +242,7 @@ public class AdminController  extends BaseCotroller {
             if(roleBO.getRoleName().equals(roleName)){
                 roleName="";
             }else{
+                // 不一致查询是否重复
                 Integer nameCount = adminService.selectCountByRoleName(roleName);
                 if(nameCount>0){
                     String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "该角色已存在")) ;
@@ -249,7 +250,6 @@ public class AdminController  extends BaseCotroller {
                     return ;
                 }
             }
-            // 不一致查询是否重复
             adminService.updateRoleNameByRoleId(roleId,roleName,new Date());
         }
         List<RoleDTO> roleDTOS = adminService.selectRoleMenuById(roleId,menuIds);
@@ -261,7 +261,7 @@ public class AdminController  extends BaseCotroller {
      * 查询所有角色
      * @return  所有角色信息
      */
-    @RequestMapping("getRoleList")
+    @RequestMapping("/getRoleList")
     public void RoleList(HttpServletRequest request,HttpServletResponse response){
         List<RoleBO> roleList = adminService.getRoleList();
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleList)) ;
@@ -272,7 +272,7 @@ public class AdminController  extends BaseCotroller {
      * 查询所有权限(菜单)
      * @return 所有菜单
      */
-    @RequestMapping("getMenuList")
+    @RequestMapping("/getMenuList")
     public void MenuList(HttpServletRequest request,HttpServletResponse response){
         List<MenuBO> menuList = adminService.getMenuList();
         // JsonUtils.getJONSArray4JavaList(roleList);
@@ -286,7 +286,7 @@ public class AdminController  extends BaseCotroller {
      * @param response
      * @param menuParam
      */
-    @RequestMapping("addMenu")
+    @RequestMapping("/addMenu")
     public void addMenuByPid(HttpServletRequest request,HttpServletResponse response,MenuParam menuParam){
         // 判断是否为空
         if(menuParam == null || StringUtils.isEmpty(menuParam.getMenuName()) || StringUtils.isEmpty(menuParam.getUrl())
@@ -316,7 +316,7 @@ public class AdminController  extends BaseCotroller {
      * @param response
      * @param dimName 模糊的名字
      */
-    @RequestMapping("getDimRoleMenu")
+    @RequestMapping("/getDimRoleMenu")
     public void getDimRoleMenu(HttpServletRequest request,HttpServletResponse response,String dimName){
         if(StringUtils.isEmpty(dimName)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
@@ -334,7 +334,7 @@ public class AdminController  extends BaseCotroller {
      * @param request
      * @param roleIds
      */
-    @RequestMapping("delRoleByIds")
+    @RequestMapping("/delRoleByIds")
     public void delRoleByIds(HttpServletRequest request,HttpServletResponse response,String roleIds){
         // 非空判断
         if(StringUtils.isEmpty(String.valueOf(roleIds))){
@@ -406,7 +406,7 @@ public class AdminController  extends BaseCotroller {
         super.safeJsonPrint(response, result);
     }
 
-    @RequestMapping("getRoleTest")
+    @RequestMapping("/getRoleTest")
     public void Test(HttpServletRequest request,HttpServletResponse response,String roleName){
         if(StringUtils.isEmpty(roleName)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
@@ -424,7 +424,7 @@ public class AdminController  extends BaseCotroller {
      * @param response
      * @param userName 用戶名
      */
-    @RequestMapping("getAdminRoleByName")
+    @RequestMapping("/getAdminRoleByName")
     public void getAdminRoleByName(HttpServletRequest request,HttpServletResponse response,String userName,Integer pageNo, Integer pageSize){
 
         // 查询用户和对应的角色
@@ -440,7 +440,7 @@ public class AdminController  extends BaseCotroller {
      * @param id 用戶id
      * @param roleId 角色id
      */
-    @RequestMapping("editUserRole")
+    @RequestMapping("/editUserRole")
     public void editUserRole(HttpServletRequest request,HttpServletResponse response,Integer id,Integer roleId){
         // 非空判断
         if(StringUtils.isEmpty(String.valueOf(id))|| StringUtils.isEmpty(String.valueOf(roleId))){
@@ -465,7 +465,7 @@ public class AdminController  extends BaseCotroller {
      * @param param
      * @param
      */
-    @RequestMapping("updateAdminUser")
+    @RequestMapping("/updateAdminUser")
     public void updateAdminUser(HttpServletRequest request,HttpServletResponse response,RegisterParam param,Integer pageNo,Integer pageSize){
         if(param == null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
@@ -490,7 +490,7 @@ public class AdminController  extends BaseCotroller {
      * @param response
      * @param adminParam
      */
-    @RequestMapping("getAdmin")
+    @RequestMapping("/getAdmin")
     public void getAdmin(HttpServletRequest request,HttpServletResponse response,GetAdminParam adminParam,Integer pageNo,Integer pageSize){
         QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
         Map<String, Object> map = new HashMap<String, Object>();
@@ -540,7 +540,7 @@ public class AdminController  extends BaseCotroller {
      * @param menuIds 权限id
      * @return 是否删除成功
      */
-    @RequestMapping("delRoleMenu")
+    @RequestMapping("/delRoleMenu")
     public void delRoleMenu(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds){
         if(roleId==null || StringUtils.isEmpty(menuIds)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
@@ -568,7 +568,7 @@ public class AdminController  extends BaseCotroller {
      * @param response
      * @param ids 需要刪除的用戶的id
      */
-    @RequestMapping("delAdmin")
+    @RequestMapping("/delAdmin")
     public void delAdmin(HttpServletRequest request,HttpServletResponse response,String ids){
         // 非空判断
         if(StringUtils.isEmpty(ids)){
