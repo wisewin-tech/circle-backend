@@ -96,6 +96,13 @@ public interface AdminDAO {
     int addMenuByPid(MenuBO menuBO);
 
     /**
+     * 根据权限名称查询权限名称是否存在
+     * @param menuName 权限名称
+     * @return 是否存在
+     */
+    boolean selectCountMenuName(String menuName);
+
+    /**
      * 根据角色名称查找对应的权限
      * @param map 角色名称
      * @return 返回对应的权限

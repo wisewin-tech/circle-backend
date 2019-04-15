@@ -298,6 +298,12 @@ public class AdminController  extends BaseCotroller {
         if( StringUtils.isEmpty(String.valueOf(menuParam.getPid()))){
             menuParam.setPid(0);
         }
+        boolean flag = adminService.selectCountMenuName(menuParam.getMenuName());
+        if(flag){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "菜单已存在")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
         MenuBO menuBO = new MenuBO();
         menuBO.setMenuName(menuParam.getMenuName());
         menuBO.setPid(menuParam.getPid());

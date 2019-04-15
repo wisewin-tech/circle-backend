@@ -130,6 +130,15 @@ public class AdminService {
     }
 
     /**
+     * 根据权限名称查询权限是否存在
+     * @param menuName 权限名称
+     * @return
+     */
+    public boolean selectCountMenuName(String menuName){
+        return adminDAO.selectCountMenuName(menuName);
+    }
+
+    /**
      * 根据id查询权限表(菜单信息)
      * @param id  权限id
      * @return 菜单信息
