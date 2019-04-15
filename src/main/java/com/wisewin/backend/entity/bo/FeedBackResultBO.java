@@ -3,6 +3,7 @@ package com.wisewin.backend.entity.bo;
 import java.util.Date;
 
 public class FeedBackResultBO {
+    private Integer id;//意见反馈
     private String userName;//用户名
     private String adminName;//操作员名字
     private String content;//反馈内容
@@ -12,6 +13,14 @@ public class FeedBackResultBO {
     private Date createTime;//创建时间
     private Date updateTime;//修改时间
     private String status;//状态
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUserName() {
         return userName;
