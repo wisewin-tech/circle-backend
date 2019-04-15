@@ -56,6 +56,13 @@ public interface AdminDAO {
     RoleBO getRoleById(Integer roleId);
 
     /**
+     * 通过权限id查询权限信息
+     * @param menuId
+     * @return
+     */
+    MenuBO getMenuById(Integer menuId);
+
+    /**
      * 添加角色信息
      * @param roleBO
      * @return 返回受影响的条数(添加成功几条数据)
@@ -107,7 +114,7 @@ public interface AdminDAO {
      * @param menuBO
      * @return
      */
-    boolean updateMenuById(MenuBO menuBO);
+    Integer updateMenuById(MenuBO menuBO);
 
     /**
      * 根据角色名称查找对应的权限

@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 @Service("adminService")
 @Transactional
@@ -139,11 +141,11 @@ public class AdminService {
     }
 
     /**
-     * 根据权限id修改权限信息
+     * 根据菜单id修改菜单信息
      * @param menuBO
      * @return
      */
-    public boolean updateMenuById(MenuBO menuBO){
+    public Integer updateMenuById(MenuBO menuBO){
         return adminDAO.updateMenuById(menuBO);
     }
 
@@ -421,6 +423,15 @@ public class AdminService {
      */
     public RoleBO getRoleById(Integer roleId){
         return adminDAO.getRoleById(roleId);
+    }
+
+    /**
+     * 根据权限id查询权限信息
+     * @param menuId
+     * @return
+     */
+    public MenuBO getMenuById(Integer menuId){
+        return adminDAO.getMenuById(menuId);
     }
 
     /**

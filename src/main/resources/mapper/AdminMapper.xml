@@ -208,7 +208,7 @@
     </select>
 
     <!--  根据权限id修改权限信息  -->
-    <select id="updateMenuById" parameterType="com.wisewin.backend.entity.bo.MenuBO">
+    <select id="updateMenuById" parameterType="com.wisewin.backend.entity.bo.MenuBO" resultType="Integer">
         UPDATE ce_menu SET
         <if test="menuName !=null and menuName!=''">
             menu_name=#{menuName},
@@ -217,7 +217,13 @@
             url=#{url},
         </if>
         <if test="index !=null and index!=''">
-            index=#{index},
+            `index`=#{index},
+        </if>
+        <if test="pid !=null and pid!=''">
+            pid=#{pid},
+        </if>
+        <if test="status !=null and status!=''">
+            `status`=#{status},
         </if>
         update_time=#{updateTime} WHERE id=#{id}
     </select>
@@ -325,6 +331,10 @@
     <!--  根据角色id查询角色信息  -->
     <select id="getRoleById" resultType="com.wisewin.backend.entity.bo.RoleBO" parameterType="Integer">
         select * from ce_role where id = #{roleId}
+    </select>
+
+    <select id="getMenuById" resultType="com.wisewin.backend.entity.bo.MenuBO" parameterType="Integer">
+        select * from ce_menu where id = #{id}
     </select>
 
     <!--  修改admin用户信息  -->

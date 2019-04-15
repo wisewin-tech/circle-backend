@@ -11,6 +11,7 @@ import com.wisewin.backend.service.AdminService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.MD5Util;
 import com.wisewin.backend.util.StringUtils;
+import com.wisewin.backend.util.redisUtils.RedissonHandler;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import net.sf.json.JSONObject;
 import org.apache.ibatis.session.RowBounds;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.management.relation.Role;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
@@ -322,7 +324,7 @@ public class AdminController  extends BaseCotroller {
 
     }
 
-    /**
+    /**faild
      * 根据id编辑权限信息
      * @param request
      * @param response
@@ -330,25 +332,52 @@ public class AdminController  extends BaseCotroller {
      */
     @RequestMapping("/editMenu")
     public void editMenu(HttpServletRequest request,HttpServletResponse response,MenuParam menuParam){
-        if(menuParam==null){
+        if(menuParam==null || menuParam.getId()==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
             return ;
         }
         // 判断前端传的名字和后端查询的名字时候一样
-        boolean flag = adminService.selectCountMenuName(menuParam.getMenuName());
-        if(flag){
+        MenuBO menuBO = adminService.getMenuById(menuParam.getId());
+        if(menuBO.getMenuName().equals(menuParam.getMenuName())){
             // 一致设置为空
             menuParam.setMenuName("");
         }else{
             // 不一致查询时候重复
+            boolean flag = adminService.selectCountMenuName(menuParam.getMenuName());
+            if(flag){
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "菜单已存在")) ;
+                super.safeJsonPrint(response , result);
+                return ;
+            }
         }
-        MenuBO menuBO = new MenuBO();
         menuBO.setId(menuParam.getId());
-        menuBO.setUrl(menuParam.getUrl());
-        menuBO.setIndex(menuParam.getIndex());
+        if(menuParam.getMenuName()!=null){
+            menuBO.setMenuName(menuParam.getMenuName());
+        }
+        if(menuParam.getPid()!=null){
+            menuBO.setPid(menuParam.getPid());
+        }
+        if(menuParam.getStatus()!=null){
+            menuBO.setStatus(menuParam.getStatus());
+        }
+        if(menuParam.getUrl()!=null){
+            menuBO.setUrl(menuParam.getUrl());
+        }
+        if(menuParam.getIndex()!=null){
+            menuBO.setIndex(menuParam.getIndex());
+        }
         menuBO.setUpdateTime(new Date());
-        adminService.updateMenuById(menuBO);
+        Integer line = adminService.updateMenuById(menuBO);
+        if(line>0){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }else{
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改失敗")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
     }
 
     /**
@@ -663,6 +692,35 @@ public class AdminController  extends BaseCotroller {
         }else{
             adminService.delAdminById(Integer.parseInt(ids));
         }
+    }
+
+    //退出登录
+    @RequestMapping("/exitLogin")
+    public void exit(HttpServletResponse response,HttpServletRequest  request){
+        //退出登录
+        String clientLoginID = super.getClientLoginID(request);
+        if (StringUtils.isEmpty(clientLoginID)) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("00000001" , "没有获取到clientLoginID！")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        String key = super.createKey(clientLoginID, SysConstants.CURRENT_LOGIN_USER);
+        //从redis中删除用户信息
+        RedissonHandler.getInstance().delete(key);
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null || cookies.length == 0) {
+            return  ;
+        }
+        for(Cookie c :cookies ){
+            c.setMaxAge(0);
+            c.setValue(null);
+            c.setPath("/");
+            response.addCookie(c);
+        }
+
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("" )) ;
+        super.safeJsonPrint(response , result);
+        return ;
     }
 
 
