@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.NewbitHelpDAO">
+    <resultMap id="newbit" type="com.wisewin.backend.entity.bo.NewbitHelpBO"  >
+
+        <result column="master_title"  property="masterTitle"  />
+        <collection property="list"   ofType="com.wisewin.backend.entity.bo.NewbitHelpBO" >
+
+            <result column="title"  property="masterTitle"  />
+        </collection>
+    </resultMap>
+    <!-- 查询新手帮助信息 -->
+    <select id="selectNewbitHelp" resultMap="newbit" >
+       SELECT  newbit.master_title ,  `help`.master_title title FROM
+                            `ce_newbit_help`  newbit   INNER  JOIN
+                              `ce_newbit_help`  `help`    ON   newbit.id  = `help`.p_id
+       </select>
+
+    <!--新增新手帮助信息-->
+    <insert id="insertNewbitHelp" parameterType="com.wisewin.backend.entity.param.NewditHelpParam">
+      INSERT INTO ce_newbit_help
+        <set>
+        master_title = #{masterTitle},p_id = #{pid},create_time=now()
+    </set>
+    </insert>
+
+    <!--删除新手帮助信息-->
+    <delete id="deleteNewbitHelp" parameterType="Integer">
+      DELETE FROM ce_newbit_help WHERE id=#{id}
+    </delete>
+
+    <!--  编辑新手帮助信息  -->
+    <update id="editNewditHelp" parameterType="com.wisewin.backend.entity.param.NewditHelpParam">
+        UPDATE ce_newbit_help
+        <set>
+            <if test="masterTitle!=null and masterTitle!=''" >`master_title`=#{masterTitle},</if>
+            update_time = now()
+        </set>
+        WHERE   id=#{id}
+    </update>
+
+
+</mapper>
