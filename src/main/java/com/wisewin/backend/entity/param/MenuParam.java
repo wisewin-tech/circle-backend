@@ -8,6 +8,15 @@ public class MenuParam extends BaseModel {
     private String status; // 状态
     private Integer pid; // 父id
     private String url; // 路径
+    private String index;
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
 
     public String getMenuName() {
         return menuName;

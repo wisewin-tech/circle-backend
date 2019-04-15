@@ -7,6 +7,7 @@ import com.wisewin.backend.entity.dto.*;
 import com.wisewin.backend.entity.param.RegisterParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.util.JsonUtils;
+import com.wisewin.backend.util.MD5Util;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -337,40 +338,62 @@ public class AdminService {
      */
     public boolean updateAdminUser(RegisterParam param){
         AdminBO adminBO = new AdminBO();
+        AdminBO admin = new AdminBO();
         adminBO.setId(param.getId());
         List<AdminDTO> adminBOS = adminDAO.getAdminNoFenYe(adminBO);
         for (AdminDTO adminDTO:adminBOS) {
-            adminDTO.setId(param.getId());
-            adminDTO.setGender(param.getGender());
-            adminDTO.setPassword(param.getPassword());
-            adminDTO.setMobile(param.getMobile());
-            // 判断前端传的名称是否相同
-            if(adminDTO.getName().equals(param.getName())){
-                adminDTO.setName("");
-            }else{
-                // 判断用户名是否存在
-                String name1= param.getName();
-                int name = adminDAO.selectCountByName(name1);
-                if(name > 0 ){
-                    return false;
-                }
-                adminDTO.setName(param.getName());
+            if(param.getId()!=null){
+                adminDTO.setId(param.getId());
+                admin.setId(adminDTO.getId());
             }
-            adminDTO.setEmail(param.getEmail());
-            adminDTO.setUpdateTime(new Date());
-            adminDTO.setRoleId(param.getRoleId());
-            AdminBO admin = new AdminBO();
-            admin.setId(adminDTO.getId());
-            admin.setGender(adminDTO.getGender());
-            admin.setPassword(adminDTO.getPassword());
-            admin.setPhoneNumber(adminDTO.getMobile());
-            admin.setName(adminDTO.getName());
-            admin.setEmail(adminDTO.getEmail());
-            admin.setRoleId(adminDTO.getRoleId());
+            if(param.getGender()!=null){
+                adminDTO.setGender(param.getGender());
+                admin.setGender(adminDTO.getGender());
+            }
+            if(param.getPassword()!=null){
+                adminDTO.setPassword(MD5Util.digest(param.getPassword()));
+                admin.setPassword(adminDTO.getPassword());
+            }
+            if(param.getMobile()!=null){
+                adminDTO.setMobile(param.getMobile());
+                admin.setPhoneNumber(adminDTO.getMobile());
+            }
+            if(param.getName()!=null){
+                // 判断前端传的名称是否相同
+                if(adminDTO.getName().equals(param.getName())){
+                    adminDTO.setName("");
+                }else{
+                    // 判断用户名是否存在
+                    String name1= param.getName();
+                    int name = adminDAO.selectCountByName(name1);
+                    if(name > 0 ){
+                        return false;
+                    }
+                    adminDTO.setName(param.getName());
+                    admin.setName(adminDTO.getName());
+                }
+            }
+            if(param.getEmail()!=null){
+                adminDTO.setEmail(param.getEmail());
+                admin.setEmail(adminDTO.getEmail());
+            }
+            if(param.getRoleId()!=null){
+                adminDTO.setRoleId(param.getRoleId());
+                admin.setRoleId(adminDTO.getRoleId());
+            }
             admin.setUpdateTime(new Date());
             return adminDAO.updateAdminUser(admin);
         }
         return false;
+    }
+
+    /**
+     * 查询用户信息不使用分页
+     * @param adminBO
+     * @return
+     */
+    public List<AdminDTO> getAdminNoFenYe(AdminBO adminBO){
+        return adminDAO.getAdminNoFenYe(adminBO);
     }
 
     /**

@@ -196,16 +196,42 @@
             keyProperty="id">
         INSERT INTO ce_menu  SET
         menu_name=#{menuName},
-        status=#{status},
+        `status`=#{status},
         pid=#{pid},
         url=#{url},
         create_time=#{createTime},
-        update_time=#{updateTime}
+        update_time=#{updateTime},
+        `index`=#{index}
     </insert>
+
+    <!--<insert id="addMenuByPid" parameterType="com.wisewin.backend.entity.bo.MenuBO" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO ce_menu  (
+          menu_name,
+          status,
+          pid,
+          url,
+          create_time,
+          update_time,
+          index
+        ) values(
+            ${menuName},
+            ${status},
+            ${pid},
+            ${url},
+            ${createTime},
+            ${updateTime},
+            ${index}
+         )
+    </insert>-->
 
     <!--  根据角色id修改角色名称  -->
     <select id="updateRoleNameByRoleId">
-        UPDATE ce_role SET role_name=#{roleName},update_time=#{updateTime} WHERE id=#{roleId}
+        UPDATE ce_role SET
+        <if test="roleName !=null and roleName!=''">
+            role_name=#{roleName},
+        </if>
+        update_time=#{updateTime} WHERE id=#{roleId}
     </select>
 
     <!--  查询某角色所对应的权限 resultType="com.wisewin.backend.entity.dto.MenuDTO"  -->
@@ -315,6 +341,7 @@
             <if test="gender!=null and gender!=''" > `gender`=#{gender},</if>
             <if test="roleId!=null and roleId!=''" > `role_id`=#{roleId},</if>
             <if test="email!=null and email!=''" > `email`=#{email}</if>
+            <if test="password!=null and password!=''" > `password`=#{password}</if>
         </set>
         WHERE   id=#{id}
     </update>
