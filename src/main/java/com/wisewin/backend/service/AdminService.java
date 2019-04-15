@@ -139,6 +139,15 @@ public class AdminService {
     }
 
     /**
+     * 根据权限id修改权限信息
+     * @param menuBO
+     * @return
+     */
+    public boolean updateMenuById(MenuBO menuBO){
+        return adminDAO.updateMenuById(menuBO);
+    }
+
+    /**
      * 根据id查询权限表(菜单信息)
      * @param id  权限id
      * @return 菜单信息

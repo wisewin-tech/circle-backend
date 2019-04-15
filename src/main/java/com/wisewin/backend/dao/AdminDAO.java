@@ -103,6 +103,13 @@ public interface AdminDAO {
     boolean selectCountMenuName(String menuName);
 
     /**
+     * 根据权限id修改权限信息
+     * @param menuBO
+     * @return
+     */
+    boolean updateMenuById(MenuBO menuBO);
+
+    /**
      * 根据角色名称查找对应的权限
      * @param map 角色名称
      * @return 返回对应的权限

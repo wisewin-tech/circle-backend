@@ -289,8 +289,7 @@ public class AdminController  extends BaseCotroller {
     @RequestMapping("/addMenu")
     public void addMenuByPid(HttpServletRequest request,HttpServletResponse response,MenuParam menuParam){
         // 判断是否为空
-        if(menuParam == null || StringUtils.isEmpty(menuParam.getMenuName()) || StringUtils.isEmpty(menuParam.getUrl())
-                ){
+        if(menuParam == null || StringUtils.isEmpty(menuParam.getMenuName()) || StringUtils.isEmpty(menuParam.getUrl())){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
             return ;
@@ -312,9 +311,44 @@ public class AdminController  extends BaseCotroller {
         menuBO.setIndex(menuParam.getIndex());
         menuBO.setCreateTime(new Date());
         menuBO.setUpdateTime(new Date());
-        adminService.addMenuByPid(menuBO);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
-        super.safeJsonPrint(response, result);
+        int line = adminService.addMenuByPid(menuBO);
+        if(line>0){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
+            super.safeJsonPrint(response, result);
+        }else{
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("添加失败")) ;
+            super.safeJsonPrint(response, result);
+        }
+
+    }
+
+    /**
+     * 根据id编辑权限信息
+     * @param request
+     * @param response
+     * @param menuParam
+     */
+    @RequestMapping("/editMenu")
+    public void editMenu(HttpServletRequest request,HttpServletResponse response,MenuParam menuParam){
+        if(menuParam==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        // 判断前端传的名字和后端查询的名字时候一样
+        boolean flag = adminService.selectCountMenuName(menuParam.getMenuName());
+        if(flag){
+            // 一致设置为空
+            menuParam.setMenuName("");
+        }else{
+            // 不一致查询时候重复
+        }
+        MenuBO menuBO = new MenuBO();
+        menuBO.setId(menuParam.getId());
+        menuBO.setUrl(menuParam.getUrl());
+        menuBO.setIndex(menuParam.getIndex());
+        menuBO.setUpdateTime(new Date());
+        adminService.updateMenuById(menuBO);
     }
 
     /**
@@ -495,8 +529,7 @@ public class AdminController  extends BaseCotroller {
      * 修改密码
      * @param request
      * @param response
-     * @param id 用户id
-     * @param password 密码
+     * @param param
      */
     @RequestMapping("/changePassword")
     public void changePassword(HttpServletRequest request,HttpServletResponse response,RegisterParam param){

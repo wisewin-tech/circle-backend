@@ -91,7 +91,7 @@
     </resultMap>
 
     <!--  根据角色id查询对应的角色对应的权限  -->
-    <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMap">
+    <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMenuMap">
         SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
         FROM
         ce_role_menu  rm
@@ -189,8 +189,6 @@
         update_time=#{updateTime}
     </insert>
 
-
-
     <!--  添加权限信息  -->
     <insert id="addMenuByPid" parameterType="com.wisewin.backend.entity.bo.MenuBO" useGeneratedKeys="true"
             keyProperty="id">
@@ -207,6 +205,21 @@
     <!--  根据权限名称查询权限名称时候存在 -->
     <select id="selectCountMenuName" parameterType="String" resultType="Boolean">
         SELECT count(menu_name) FROM ce_menu WHERE menu_name = #{menuName}
+    </select>
+
+    <!--  根据权限id修改权限信息  -->
+    <select id="updateMenuById" parameterType="com.wisewin.backend.entity.bo.MenuBO">
+        UPDATE ce_menu SET
+        <if test="menuName !=null and menuName!=''">
+            menu_name=#{menuName},
+        </if>
+        <if test="url !=null and url!=''">
+            url=#{url},
+        </if>
+        <if test="index !=null and index!=''">
+            index=#{index},
+        </if>
+        update_time=#{updateTime} WHERE id=#{id}
     </select>
 
     <!--  根据角色id修改角色名称  -->

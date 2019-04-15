@@ -4,11 +4,20 @@ package com.wisewin.backend.entity.param;
 import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 public class MenuParam extends BaseModel {
+    private Integer id;
     private String menuName; // 菜单名称
     private String status; // 状态
     private Integer pid; // 父id
     private String url; // 路径
     private String index;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getIndex() {
         return index;
