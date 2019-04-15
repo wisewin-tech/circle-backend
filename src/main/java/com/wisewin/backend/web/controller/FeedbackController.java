@@ -53,7 +53,7 @@ public class FeedbackController extends BaseCotroller{
         List<FeedbackBO> feedbackBOList = feedbackService.selectFeedback(maps);
         Integer count = feedbackService.selectbylimitCount(maps);
         Map<String,Object>  resultMap=new HashMap<String, Object>();
-        resultMap.put("date",feedbackBOList);
+        resultMap.put("data",feedbackBOList);
         resultMap.put("count",count);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
         super.safeJsonPrint(response, result);
@@ -63,7 +63,7 @@ public class FeedbackController extends BaseCotroller{
     @RequestMapping("/updateFeedback")
     public void updateFeedback(Integer id,FeedbackParam feedbackParam,HttpServletRequest request,HttpServletResponse response){
         //参数验证
-        if (StringUtils.isEmpty(String.valueOf(id))){
+        if (StringUtils.isEmpty(String.valueOf(id))||feedbackParam==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
             super.safeJsonPrint(response, result);
             return ;
