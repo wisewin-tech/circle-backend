@@ -303,6 +303,7 @@ public class AdminController  extends BaseCotroller {
         menuBO.setPid(menuParam.getPid());
         menuBO.setStatus(menuParam.getStatus());
         menuBO.setUrl(menuParam.getUrl());
+        menuBO.setIndex(menuParam.getIndex());
         menuBO.setCreateTime(new Date());
         menuBO.setUpdateTime(new Date());
         adminService.addMenuByPid(menuBO);
@@ -479,6 +480,43 @@ public class AdminController  extends BaseCotroller {
             super.safeJsonPrint(response , result);
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "用户名以存在")) ;
+            super.safeJsonPrint(response , result);
+        }
+
+    }
+
+    /**
+     * 修改密码
+     * @param request
+     * @param response
+     * @param id 用户id
+     * @param password 密码
+     */
+    @RequestMapping("/changePassword")
+    public void changePassword(HttpServletRequest request,HttpServletResponse response,RegisterParam param){
+        // 非空判断
+        if(StringUtils.isEmpty(String.valueOf(param.getId()))|| StringUtils.isEmpty(param.getPassword())){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        AdminBO adminBO = new AdminBO();
+        adminBO.setId(param.getId());
+        List<AdminDTO> adminDTOS = adminService.getAdminNoFenYe(adminBO);
+        for (AdminDTO admin: adminDTOS ) {
+            if(admin.getPassword().equals(MD5Util.digest(param.getPassword()))){
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "新密码和旧密码不能相同")) ;
+                super.safeJsonPrint(response , result);
+                return ;
+            }
+        }
+        adminBO.setPassword(MD5Util.digest(param.getPassword()));
+        boolean flag = adminService.updateAdminUser(param);
+        if(flag){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success( "修改成功")) ;
+            super.safeJsonPrint(response , result);
+        }else{
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改失败")) ;
             super.safeJsonPrint(response , result);
         }
 
