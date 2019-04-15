@@ -73,8 +73,8 @@ public class FeedbackController extends BaseCotroller{
         List<FeedbackBO> feedbackBOList= feedbackService.getFeedback(feedbackBO);
         for (FeedbackBO feedback:feedbackBOList){
             feedback.setStatus(feedbackParam.getStatus());
-            feedback.setAdminid(feedbackParam.getAdminid());
-            feedback.setUpdatetime(new Date());
+            feedback.setAdminId(feedbackParam.getAdminid());
+            feedback.setUpdateTime(new Date());
         }
         boolean i = feedbackService.updateFeedback(feedbackParam);
         if (i) {
