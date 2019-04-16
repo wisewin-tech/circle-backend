@@ -14,16 +14,6 @@ public class RoleBO {
 
     private List<MenuBO> menuBOS;
 
-    private MenuBO menuBO;
-
-    public MenuBO getMenuBO() {
-        return menuBO;
-    }
-
-    public void setMenuBO(MenuBO menuBO) {
-        this.menuBO = menuBO;
-    }
-
     public List<MenuBO> getMenuBOS() {
         return menuBOS;
     }

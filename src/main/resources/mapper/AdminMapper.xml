@@ -83,6 +83,7 @@
 
     <resultMap id="roleMenuMap" type="com.wisewin.backend.entity.bo.MenuBO" >
             <id column="menu_id" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
+            <!--<result column="role_name" property="roleName"/>-->
             <result column="menu_name" property="menuName"/><!-- property对应JavaBean中的属性名 -->
             <result column="url" property="url"/>
             <result column="index" property="index"/>
@@ -90,9 +91,9 @@
             <collection property="ch"   column="menu_id" select="getCh"  />
     </resultMap>
 
-    <!--  根据角色id查询对应的角色对应的权限  -->
-    <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMenuMap">
-        SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
+    <!--  根据角色id查询对应的角色对应的权限  roleMenuMap-->
+    <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMap">
+        SELECT  mu.icon,rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
         FROM
         ce_role_menu  rm
         INNER JOIN   ce_role  re
@@ -252,7 +253,7 @@
 
     <!--  查询某角色所对应的权限 resultType="com.wisewin.backend.entity.dto.MenuDTO"  -->
     <select id="selectRoleToMenu" parameterType="java.util.Map" resultMap="roleMap">
-        SELECT r.`role_name`,p.`menu_name`,r.`id` roleId,p.`id` menuId,r.create_time createTime,r.update_time updateTime
+        SELECT r.`role_name`,p.`menu_name`,r.`id` roleId,p.`id` menuId,rp.icon,r.create_time createTime,r.update_time updateTime
         FROM
           ce_menu p,ce_role_menu rp,ce_role r
         WHERE
