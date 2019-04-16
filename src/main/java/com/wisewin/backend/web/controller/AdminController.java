@@ -398,7 +398,7 @@ public class AdminController  extends BaseCotroller {
         }
         menuBO.setUpdateTime(new Date());
         Integer line = adminService.updateMenuById(menuBO);
-        if(line>0){
+        if(line>0 || StringUtils.isEmpty(String.valueOf(line))){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
             super.safeJsonPrint(response , result);
             return ;
