@@ -10,6 +10,15 @@ public class MenuParam extends BaseModel {
     private Integer pid; // 父id
     private String url; // 路径
     private String index;
+    private String icon;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public Integer getId() {
         return id;

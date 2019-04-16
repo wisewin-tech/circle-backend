@@ -103,6 +103,20 @@ public interface AdminDAO {
     int addMenuByPid(MenuBO menuBO);
 
     /**
+     * 根据id查找下面有没有子菜单 如果没有则删除，如果有不能删除
+     * @param id
+     * @return
+     */
+    MenuBO getMenuByPid(Integer id);
+
+    /**
+     * 根据id删除菜单信息
+     * @param id
+     * @return
+     */
+    boolean delMenuById(Integer id);
+
+    /**
      * 根据权限名称查询权限名称是否存在
      * @param menuName 权限名称
      * @return 是否存在
@@ -190,7 +204,7 @@ public interface AdminDAO {
 
     /**
      * 查询用户信息
-     * @param adminBO
+     * @param map
      * @return
      */
      List<AdminDTO> getAdmin(Map map);
@@ -225,7 +239,7 @@ public interface AdminDAO {
 
     /**
      * 根据角色名称查询对应的菜单的总数
-     * @param roleName
+     * @param map
      * @return
      */
     Integer getCountRole(Map map);
@@ -252,12 +266,18 @@ public interface AdminDAO {
      */
     void updateRoleNameByRoleId(@Param("roleId") Integer roleId, @Param("roleName") String roleName, @Param("updateTime")Date updateTime);
 
+    /**
+     *  根据当前登陆用户的角色id查询对应的权限
+     * @param roleId 角色id
+     * @return
+     */
+    List<RoleBO> getRoleMenuSuccess(Integer roleId);
 
     //  ================================测试
 
     RoleBO test();
 
-    List<RoleBO> getRoleMenuSuccess(Integer roleId);
+
 
 
 }

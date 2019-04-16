@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * 用戶信息控制类
+ * 用戶信息控制类  add  del  edit get
  */
 @Controller
 @RequestMapping("/admin")
@@ -311,6 +311,7 @@ public class AdminController  extends BaseCotroller {
         menuBO.setStatus(menuParam.getStatus());
         menuBO.setUrl(menuParam.getUrl());
         menuBO.setIndex(menuParam.getIndex());
+        menuBO.setIcon(menuParam.getIcon());
         menuBO.setCreateTime(new Date());
         menuBO.setUpdateTime(new Date());
         int line = adminService.addMenuByPid(menuBO);
@@ -322,6 +323,31 @@ public class AdminController  extends BaseCotroller {
             super.safeJsonPrint(response, result);
         }
 
+    }
+
+    /**
+     * 删除菜单 如果有子id就提示，如果没有就删除
+     * @param request
+     * @param response
+     * @param id 删除的菜单id
+     */
+    @RequestMapping("/delMenu")
+    public void delMenu(HttpServletRequest request,HttpServletResponse response,Integer id){
+        if(StringUtils.isEmpty(String.valueOf(id))){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
+        boolean flag = adminService.delMenuById(id);
+        if(flag){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }else{
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "删除失败")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
     }
 
     /**faild
@@ -366,6 +392,9 @@ public class AdminController  extends BaseCotroller {
         }
         if(menuParam.getIndex()!=null){
             menuBO.setIndex(menuParam.getIndex());
+        }
+        if(menuParam.getIcon()!=null){
+            menuBO.setIndex(menuParam.getIcon());
         }
         menuBO.setUpdateTime(new Date());
         Integer line = adminService.updateMenuById(menuBO);
@@ -444,34 +473,16 @@ public class AdminController  extends BaseCotroller {
         // 查询角色所拥有的权限
         // List<RoleBO> menuList = adminService.selectRoleToMenu(map);
 
-        List<RoleBO> ros = adminService.getRole(roleName);
-        List<RoleDTO> roleDTOs = new ArrayList<RoleDTO>();
+        List<RoleDTO> ros = adminService.getRole(roleName);
         if(ros == null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "没有查到相关记录")) ;
             super.safeJsonPrint(response , result);
             return ;
         }
-        for (RoleBO ro:ros) {
-            RoleDTO roleDTO = new RoleDTO();
-            List<Integer> menuIds = new ArrayList<Integer>();// 存放权限id
-            List<String> menuName = new ArrayList<String>(); // 存放权限name
-            roleDTO.setId(ro.getId());// 角色id
-            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
-            roleDTO.setCreateTime(ro.getCreateTime());
-            roleDTO.setUpdateTime(ro.getUpdateTime());
-            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
-            for (int i=0;i<menus.size();i++ ) {
-                menuIds.add(menus.get(i).getId());
-                menuName.add(menus.get(i).getMenuName());
-            }
-            roleDTO.setMenuIds(menuIds);
-            roleDTO.setMenuNames(menuName);
-            roleDTOs.add(roleDTO);
-        }
         /*JSONObject jsonObject = new JSONObject();
         jsonObject.put("count", count);
         jsonObject.put("data", roleDTOs);*/
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOs));
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(ros));
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(json)) ;
         super.safeJsonPrint(response, result);
     }
