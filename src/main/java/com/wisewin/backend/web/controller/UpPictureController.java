@@ -22,6 +22,11 @@ public class UpPictureController extends BaseCotroller{
     @RequestMapping("/upImage")
     public void upImage(HttpServletRequest request, HttpServletResponse response, MultipartFile image)
             throws Exception {
+        //图片非空判断
+        if (image==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001","参数异常"));
+            super.safeJsonPrint(response,json);
+        }
         OSSClientUtil ossClientUtil=new OSSClientUtil();
         //上传
         String name=ossClientUtil.uploadImg2Oss(image);
@@ -32,6 +37,7 @@ public class UpPictureController extends BaseCotroller{
     //删除图片
     @RequestMapping("/delImage")
     public void delImage(String name,HttpServletResponse response) {
+
         if (StringUtils.isEmpty(name)){
             String json = JsonUtils.getJsonString4JavaPOJO
                     (ResultDTOBuilder.failure("0000001","参数异常"));
