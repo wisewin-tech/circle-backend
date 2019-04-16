@@ -22,6 +22,7 @@ public class UpPictureController extends BaseCotroller{
     @RequestMapping("/upImage")
     public void upImage(HttpServletRequest request, HttpServletResponse response, MultipartFile image)
             throws Exception {
+        //图片非空判断
         if (image==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001","参数异常"));
             super.safeJsonPrint(response,json);
