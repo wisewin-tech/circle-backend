@@ -10,13 +10,14 @@ public class ParamNullUtil {
         if (null == object) {
             return true;
         }
-
+            //对象属性有一个不为空或null,返回false
         try {
             for (Field f : object.getClass().getDeclaredFields()) {
                 f.setAccessible(true);
 
-//                System.out.print(f.getName() + ":");
+//                System.out.print(f.getName() + ":"+f.get(object));
 //                System.out.println(f.get(object));
+//                System.out.println("属性:"+f.get(object).toString());
 
                 if (f.get(object) != null && StringUtils.isNotBlank(f.get(object).toString())) {
                     return false;
