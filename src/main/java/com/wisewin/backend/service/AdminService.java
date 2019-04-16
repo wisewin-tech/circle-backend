@@ -132,6 +132,19 @@ public class AdminService {
     }
 
     /**
+     * 根据id查找下面有没有子菜单 如果没有则删除，如果有不能删除
+     * @param id
+     * @return 返回是否删除成功
+     */
+    public boolean delMenuById(Integer id){
+        MenuBO menuBO = adminDAO.getMenuByPid(id);
+        if(menuBO==null){
+            return adminDAO.delMenuById(id);
+        }
+        return false;
+    }
+
+    /**
      * 根据权限名称查询权限是否存在
      * @param menuName 权限名称
      * @return
@@ -490,20 +503,51 @@ public class AdminService {
 
     /**
      * 查询角色对应的菜单
-     * @param map 角色名
+     * @param roleName 角色名
      * @return
      */
-    public List<RoleBO> getRole(String roleName){
-        return adminDAO.getRole(roleName);
+    public List<RoleDTO> getRole(String roleName){
+        List<RoleBO> ros = adminDAO.getRole(roleName);
+        List<RoleDTO> roleDTOs = new ArrayList<RoleDTO>();
+
+        for (RoleBO ro:ros) {
+            RoleDTO roleDTO = new RoleDTO();
+            List<Integer> menuIds = new ArrayList<Integer>();// 存放权限id
+            List<String> menuName = new ArrayList<String>(); // 存放权限name
+            roleDTO.setId(ro.getId());// 角色id
+            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
+            roleDTO.setCreateTime(ro.getCreateTime());
+            roleDTO.setUpdateTime(ro.getUpdateTime());
+            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
+            for (int i=0;i<menus.size();i++ ) {
+                menuIds.add(menus.get(i).getId());
+                menuName.add(menus.get(i).getMenuName());
+            }
+            roleDTO.setMenuIds(menuIds);
+            roleDTO.setMenuNames(menuName);
+            roleDTOs.add(roleDTO);
+        }
+
+
+        return roleDTOs;
     }
 
     /**
      * 查询角色对应的菜单的总数
-     * @param roleName 角色名
+     * @param map 角色名
      * @return
      */
     public Integer getCountRole(Map map){
         return adminDAO.getCountRole(map);
+    }
+
+    /**
+     * 根据当前登陆用户的角色id查询对应的权限
+     * @param roleId 角色id
+     * @return 登陆用户对应的权限
+     */
+    public List<RoleBO> getRoleMenuSuccess(Integer roleId){
+        return adminDAO.getRoleMenuSuccess(roleId);
     }
 
     // =======================测试
@@ -512,9 +556,7 @@ public class AdminService {
         return adminDAO.test();
     }
 
-    public List<RoleBO> getRoleMenuSuccess(Integer roleId){
-        return adminDAO.getRoleMenuSuccess(roleId);
-    }
+
 
 
 }
