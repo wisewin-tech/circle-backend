@@ -59,7 +59,13 @@ public class FeedbackController extends BaseCotroller{
         super.safeJsonPrint(response, result);
     }
 
-
+    /**
+     * 修改意见反馈信息
+     * @param id
+     * @param feedbackParam
+     * @param request
+     * @param response
+     */
     @RequestMapping("/updateFeedback")
     public void updateFeedback(Integer id,FeedbackParam feedbackParam,HttpServletRequest request,HttpServletResponse response){
         //参数验证
@@ -73,8 +79,8 @@ public class FeedbackController extends BaseCotroller{
         List<FeedbackBO> feedbackBOList= feedbackService.getFeedback(feedbackBO);
         for (FeedbackBO feedback:feedbackBOList){
             feedback.setStatus(feedbackParam.getStatus());
-            feedback.setAdminid(feedbackParam.getAdminid());
-            feedback.setUpdatetime(new Date());
+            feedback.setAdminId(feedbackParam.getAdminid());
+            feedback.setUpdateTime(new Date());
         }
         boolean i = feedbackService.updateFeedback(feedbackParam);
         if (i) {

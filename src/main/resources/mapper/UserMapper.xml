@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.UserDAO">
+    <!--分页查询用户信息-->
+    <select id="selectAll" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.UserBO">
+      select
+      `id`,`name`,`password`,`gender`,`age`,`phone`,`email`,`stature`,`birthday`,`constellation`,
+        `birthplace`,`schooling`,`introduce`,`create_time`,`work`,`school`,`authentication_status`,`update_time`
+      FROM
+      ce_user
+        <where>
+
+            <if test="userParam.id!=null"> AND id=#{userParam.id} </if>
+            <if test="userParam.name!=null"> AND name=#{userParam.name} </if>
+            <if test="userParam.phone!=null"> AND phone=#{userParam.phone} </if>
+            <if test="userParam.gender!=null"> AND gender=#{userParam.gender} </if>
+
+        </where>
+        <include refid="limit" />
+
+    </select>
+    <sql id="limit">
+        limit #{pageOffset},#{pageSize}
+    </sql>
+
+    <!--查询所有条数-->
+    <select id="selectCount"   parameterType="java.util.Map"   resultType="java.lang.Integer">
+        SELECT  count(1)  FROM  ce_user
+        <where>
+
+            <if test="userParam.id!=null"> AND id=#{userParam.id} </if>
+            <if test="userParam.name!=null"> AND name=#{userParam.name} </if>
+            <if test="userParam.phone!=null"> AND phone=#{userParam.phone} </if>
+            <if test="userParam.gender!=null"> AND gender=#{userParam.gender} </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="updateUser" parameterType="com.wisewin.backend.entity.bo.UserBO">
+        UPDATE `ce_user`
+        <set>
+            <if test="name!=null        and name!=''" >    `name`=#{name},</if>
+            <if test="password !=null   and password!='' ">`password`=#{password},</if>
+            <if test="gender!=null      and gender!=''" >  `gender`=#{gender},</if>
+            <if test="age!=null         and age!=''" >     `age`=#{age},</if>
+            <if test="gender!=null      and gender!=''" >  `gender`=#{gender},</if>
+            <if test="phone!=null       and phone!=''" >   `phone`=#{phone}</if>
+            <if test="email!=null       and email!=''" >   `email`=#{email}</if>
+            <if test="stature!=null     and stature!=''" > `stature`=#{stature}</if>
+            update_time=now()
+        </set>
+        WHERE   id=#{id}
+    </update>
+    <!--  根据用户id删除信息  -->
+    <delete id="delUserById" parameterType="Integer">
+        DELETE  FROM  ce_user WHERE id=#{id}
+    </delete>
+
+    <select id="queryUserById" parameterType="java.lang.Integer"  resultType="com.wisewin.backend.entity.bo.UserBO" >
+        SELECT * FROM  ce_user WHERE  id=#{id}
+    </select>
+
+</mapper>

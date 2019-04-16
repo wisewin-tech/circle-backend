@@ -15,12 +15,6 @@ public interface FeedbackDAO {
      */
     List<FeedbackBO> selectFeedback(Map<String,Object> map);
 
-    /**
-     * 分页查询
-     * @param map
-     * @return
-     */
-    List<FeedbackBO> selectbylimit(Map<String,Object> map);
 
     /**
      *查询总条数

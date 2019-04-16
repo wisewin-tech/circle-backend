@@ -22,14 +22,16 @@
 
     </resultMap>-->
     <!--通过状态查询-->
-    <select id="selectFeedback" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.FeedbackBO">
-        SELECT * FROM ce_feedback
+    <select id="selectFeedback" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.FeedBackResultBO">
+        SELECT u.name 'userName',ad.name 'adminName',f.content,f.image,f.contact_way,f.contact_number,f.create_time,f.status,f.update_time,f.id
+        FROM `ce_feedback` f LEFT JOIN  `ce_admin`  ad  ON f.admin_id = ad.id
+        LEFT JOIN  `ce_user` u  ON f.user_id = u.id
         <where>
             <if test="feedbackParam.status!=null and feedbackParam.status!=''">
-                AND status = #{feedbackParam.status}
+                AND f.status = #{feedbackParam.status}
             </if>
             <if test="feedbackParam.begin!=null and feedbackParam.end!=null ">
-                AND create_time BETWEEN #{feedbackParam.begin} AND #{feedbackParam.end}
+                AND f.create_time BETWEEN #{feedbackParam.begin} AND #{feedbackParam.end}
             </if>
         </where>
         <include refid="limit" />

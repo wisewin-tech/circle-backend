@@ -1,8 +1,11 @@
-package com.wisewin.backend.entity.bo;
+package com.wisewin.backend.entity.param;
 
 import java.util.Date;
 
-public class UserBO {
+/**
+ * user对象参数类
+ */
+public class UserParam {
     private Integer id; //用户
     private String phone; //手机
     private String name; //姓名
@@ -23,35 +26,6 @@ public class UserBO {
     private String work; //工作
     private String school; //学校
     private String location; //位置
-
-    @Override
-    public String toString() {
-        return "UserBO{" +
-                "id=" + id +
-                ", phone='" + phone + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", gender=" + gender +
-                ", age=" + age +
-                ", email='" + email + '\'' +
-                ", stature=" + stature +
-                ", birthday='" + birthday + '\'' +
-                ", constellation='" + constellation + '\'' +
-                ", birthplace='" + birthplace + '\'' +
-                ", schooling='" + schooling + '\'' +
-                ", introduce='" + introduce + '\'' +
-                ", createTime=" + createTime +
-                ", authentication=" + authentication +
-                ", authenticationImg='" + authenticationImg + '\'' +
-                ", headPortrait='" + headPortrait + '\'' +
-                ", work='" + work + '\'' +
-                ", school='" + school + '\'' +
-                ", location='" + location + '\'' +
-                '}';
-    }
-
-
-
 
     public Integer getId() {
         return id;
@@ -75,6 +49,14 @@ public class UserBO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getGender() {
@@ -203,13 +185,5 @@ public class UserBO {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
