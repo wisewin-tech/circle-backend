@@ -19,6 +19,7 @@
             <result column="url" property="url"/>
             <result column="index" property="index"/>
             <result column="pid" property="pid"/>
+            <result column="icon" property="icon"/>
             <collection property="ch"   column="menu_id" select="getCh"  />
         </collection>
 
@@ -32,6 +33,7 @@
         <result column="pid" property="pid"/>
         <result column="status" property="status"/>
         <result column="url" property="url"/>
+        <result column="icon" property="icon"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <!-- 多对一的关系 -->
@@ -88,6 +90,7 @@
             <result column="url" property="url"/>
             <result column="index" property="index"/>
             <result column="pid" property="pid"/>
+            <result column="icon" property="icon"/>
             <collection property="ch"   column="menu_id" select="getCh"  />
     </resultMap>
 
