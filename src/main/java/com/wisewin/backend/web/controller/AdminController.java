@@ -394,7 +394,7 @@ public class AdminController  extends BaseCotroller {
             menuBO.setIndex(menuParam.getIndex());
         }
         if(menuParam.getIcon()!=null){
-            menuBO.setIndex(menuParam.getIcon());
+            menuBO.setIcon(menuParam.getIcon());
         }
         menuBO.setUpdateTime(new Date());
         Integer line = adminService.updateMenuById(menuBO);
