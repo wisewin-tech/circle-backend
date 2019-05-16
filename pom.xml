@@ -172,11 +172,17 @@
       <artifactId>druid</artifactId>
       <version>0.2.6</version>
     </dependency>
-    <dependency>
+   <!-- <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.22</version>
+    </dependency>-->
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>9.1-901-1.jdbc4</version>
     </dependency>
+
     <dependency>
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis-spring</artifactId>
@@ -483,9 +489,9 @@
     <profile>
       <id>test</id>
       <properties>
-        <jdbc.url.ip>wisewin-tech.com:3306/circle</jdbc.url.ip>
-        <jdbc.username>root</jdbc.username>
-        <jdbc.password>Sunshibo1</jdbc.password>
+        <jdbc.url.ip>39.96.179.85:5432/circle</jdbc.url.ip>
+        <jdbc.username>postgres</jdbc.username>
+        <jdbc.password>123456</jdbc.password>
 
         <system.cfg.imageBaeUrl>http://39.107.224.185:8080/</system.cfg.imageBaeUrl>
         <system.cfg.uploadBaseUrl>/home/zlftFiles/image</system.cfg.uploadBaseUrl>
