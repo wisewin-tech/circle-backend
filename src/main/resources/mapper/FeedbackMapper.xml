@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wisewin.backend.dao.FeedbackDAO">
+
+        <!--根据id查询-->
+        <select id="queryFeedback" parameterType="java.lang.String" resultType="com.wisewin.backend.entity.bo.FeedbackBO">
+            select * from ce_feedback where id=#{id}
+        </select>
+
+        <!--修改-->
+        <update id="updateFeedback" parameterType="com.wisewin.backend.entity.bo.FeedbackBO">
+            update ce_feedback set
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="image != null and image != ''">
+                image != #[image],
+            </if>
+            <if test="contactWay != null and contactWay != ''">
+                contact_way = #{contactWay},
+            </if>
+            <if test="contactNumber != null and contactNumber != ''">
+                contact_number =#{contactNumber},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="adminId != null and adminId != ''">
+                admin_id = #{adminId},
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                update_time = #{updateTime},
+            </if>
+            <if test="disposeResult != null and disposeResult != ''">
+                dispose_result = #{dispposeResult}
+            </if>
+            where id = #{id}
+        </update>
+
+        <insert id="insertFeedback" parameterType="com.wisewin.backend.entity.bo.FeedbackBO">
+            insert into ce_feedback(user_id,content,image,contact_way,contact_number,create_time,status,admin_id,
+            update_time,dispose_result) VALUES (#{userId},#{content},#{image},#{contactNumber},#{createTime},#{status},
+            #{adminId},#{updateTime},#{disposeResult})
+        </insert>
+</mapper>

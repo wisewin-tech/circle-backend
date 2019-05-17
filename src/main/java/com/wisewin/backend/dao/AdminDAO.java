@@ -1,5 +1,6 @@
 package com.wisewin.backend.dao;
 
+import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.TestBO;
 
 public interface AdminDAO {
@@ -23,4 +24,18 @@ public interface AdminDAO {
      * @return
      */
     int selectCountByMobile(String mobile);
+
+    /**
+     * 修改admin信息
+     * @param admin
+     * @return
+     */
+    void updateAdmin(AdminBO admin);
+
+    /**
+     * 根据id查询admin
+     * @param id
+     * @return
+     */
+    AdminDAO queryAdmin(String id);
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.AdminDAO">
+
+    <!--修改-->
+    <update id="updateAdmin" parameterType="com.wisewin.backend.entity.bo.AdminBO">
+        update ce_admin set phone_number=#{phoneNumber},`name`=#{name},password=#{password},
+        status=#{status},update_time=#{updateTime},role_id=#{roleId},email=#{email}
+    </update>
+
+    <!--根据id查询admin-->
+    <select id="queryAdmin" parameterType="java.lang.String" resultType="com.wisewin.backend.entity.bo.AdminBO">
+        select * from ce_admin where id = #{id}
+    </select>
+</mapper>
