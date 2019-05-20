@@ -6,7 +6,7 @@ import com.wisewin.backend.entity.bo.NewbitHelpContextBO;
 import java.util.List;
 
 /*
-* 新手帮助分类
+* 王洋 新手帮助分类管理
 * */
 public interface NewbitHelpContextDao {
 
@@ -30,6 +30,6 @@ public interface NewbitHelpContextDao {
     /**
      *查询
      */
-    List<NewbitHelpBO> getNewbitHelpContextBO();
+    List<NewbitHelpBO> getNewbitHelpContextBO(Integer id);
 
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.PatternDao">
+
+    <insert id="addPatternBO" parameterType="com.wisewin.backend.entity.bo.PatternBO">
+        insert into ce_pattern (`name`,explain,createTime) values (#{name},#{explain},#{createTime})
+    </insert>
+
+    <update id="updPatternBO" parameterType="com.wisewin.backend.entity.bo.PatternBO">
+        update ce_pattern
+        <set>
+            <if test="name!=null and name!=''">
+                `name`=#{name},
+            </if>
+            <if test="explain!=null and explain!=''">
+                `explain`=#{explain},
+            </if>
+            updateTime=#{updateTime}
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delPatternBO" parameterType="java.lang.Integer">
+        delete from ce_pattern where id=#{id}
+    </delete>
+
+    <select id="getPatternBO" parameterType="java.lang.Integer" resultType="com.wisewin.backend.entity.bo.PatternBO">
+        select * from ce_pattern
+        <where>
+            <if test="id!=null and id!=''">
+                id=#{id}
+            </if>
+        </where>
+    </select>
+</mapper>

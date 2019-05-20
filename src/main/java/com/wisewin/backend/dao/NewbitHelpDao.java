@@ -5,7 +5,7 @@ import com.wisewin.backend.entity.bo.NewbitHelpBO;
 import java.util.List;
 
 /**
- * 王洋
+ * 王洋 新手帮助管理
  */
 public interface NewbitHelpDao {
 
@@ -28,5 +28,5 @@ public interface NewbitHelpDao {
     /**
      *查询
      */
-    List<NewbitHelpBO> getNewbitHelp();
+    List<NewbitHelpBO> getNewbitHelp(Integer id);
 }
