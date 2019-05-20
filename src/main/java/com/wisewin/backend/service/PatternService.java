@@ -1,6 +1,6 @@
 package com.wisewin.backend.service;
 
-import com.wisewin.backend.dao.PatternDao;
+import com.wisewin.backend.dao.PatternDAO;
 import com.wisewin.backend.entity.bo.PatternBO;
 
 import javax.annotation.Resource;
@@ -12,7 +12,7 @@ import java.util.List;
 public class PatternService {
 
     @Resource
-    PatternDao patternDao;
+    PatternDAO patternDao;
 
     /**
      * 增加

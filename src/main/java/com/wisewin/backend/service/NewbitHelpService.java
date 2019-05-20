@@ -1,6 +1,6 @@
 package com.wisewin.backend.service;
 
-import com.wisewin.backend.dao.NewbitHelpDao;
+import com.wisewin.backend.dao.NewbitHelpDAO;
 import com.wisewin.backend.entity.bo.NewbitHelpBO;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class NewbitHelpService {
 
     @Resource
-    NewbitHelpDao newbitHelpDao;
+    NewbitHelpDAO newbitHelpDao;
     /**
      * 增加
      */
@@ -40,7 +40,7 @@ public class NewbitHelpService {
     /**
      *查询
      */
-    public List<NewbitHelpBO> getNewbitHelp(){
-        return newbitHelpDao.getNewbitHelp();
+    public List<NewbitHelpBO> getNewbitHelp (Integer id){
+        return newbitHelpDao.getNewbitHelp(id);
     }
 }
