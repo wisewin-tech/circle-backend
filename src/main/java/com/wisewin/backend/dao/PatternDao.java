@@ -28,5 +28,5 @@ public interface PatternDao {
     /**
      *查询
      */
-    List<PatternBO> getPatternBO();
+    List<PatternBO> getPatternBO(Integer id);
 }
