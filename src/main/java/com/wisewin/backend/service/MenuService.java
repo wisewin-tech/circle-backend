@@ -2,6 +2,8 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.MenuDAO;
 import com.wisewin.backend.entity.bo.MenuBO;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -9,6 +11,8 @@ import java.util.Date;
 /**
  * Created by 王彬 on 2019/5/16.
  */
+@Service
+@Transactional
 public class MenuService {
 
     @Resource

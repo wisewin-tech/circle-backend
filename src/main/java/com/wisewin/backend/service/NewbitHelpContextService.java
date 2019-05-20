@@ -4,6 +4,7 @@ import com.wisewin.backend.dao.NewbitHelpContextDAO;
 import com.wisewin.backend.entity.bo.NewbitHelpBO;
 import com.wisewin.backend.entity.bo.NewbitHelpContextBO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 * 新手帮助分类
 * */
 @Service
+@Transactional
 public class NewbitHelpContextService {
 
     @Resource

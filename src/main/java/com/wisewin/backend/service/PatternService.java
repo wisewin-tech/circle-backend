@@ -2,6 +2,8 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.PatternDAO;
 import com.wisewin.backend.entity.bo.PatternBO;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.List;
 /**
  * 王洋
  */
+@Service
+@Transactional
 public class PatternService {
 
     @Resource
