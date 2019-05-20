@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.NewbitHelpContextDao">
+
+    <insert id="addNewbitHelpContextBO" parameterType="com.wisewin.backend.entity.bo.NewbitHelpContextBO">
+        insert into ce_newbit_help_context (help_id,context,author) values (#{helpId},#{context},#{author})
+    </insert>
+
+    <update id="updNewbitHelpContextBO" parameterType="com.wisewin.backend.entity.bo.NewbitHelpContextBO">
+        update ce_newbit_help_context set help_id=#{helpId},context=#{context},author=#{author}
+    </update>
+
+    <delete id="delNewbitHelpContextBO">
+        delete from ce_newbit_help_context where id=#{id}
+    </delete>
+
+    <select id="getNewbitHelpContextBO" resultType="com.wisewin.backend.entity.bo.NewbitHelpContextBO">
+        select * from ce_newbit_help_context
+    </select>
+</mapper>
