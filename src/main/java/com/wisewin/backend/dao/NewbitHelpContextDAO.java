@@ -8,7 +8,7 @@ import java.util.List;
 /*
 * 王洋 新手帮助分类管理
 * */
-public interface NewbitHelpContextDao {
+public interface NewbitHelpContextDAO {
 
 
     /**

@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by 王彬 on 2019/5/16.
  */
-public class Role extends BaseModel {
+public class RoleBO extends BaseModel {
     //角色名字
     private Integer id;
     //角色名字

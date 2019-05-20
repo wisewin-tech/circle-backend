@@ -6,7 +6,7 @@
 <mapper namespace="com.wisewin.backend.dao.PatternDao">
 
     <insert id="addPatternBO" parameterType="com.wisewin.backend.entity.bo.PatternBO">
-        insert into ce_pattern (`name`,explain,createTime) values (#{name},#{explain},#{createTime})
+        insert into ce_pattern (`name`,explain,createTime) values (#{name},#{explain},now())
     </insert>
 
     <update id="updPatternBO" parameterType="com.wisewin.backend.entity.bo.PatternBO">
@@ -18,7 +18,7 @@
             <if test="explain!=null and explain!=''">
                 `explain`=#{explain},
             </if>
-            updateTime=#{updateTime}
+            updateTime=now()
         </set>
         where id=#{id}
     </update>

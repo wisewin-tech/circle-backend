@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 王洋 新手帮助管理
  */
-public interface NewbitHelpDao {
+public interface NewbitHelpDAO {
 
     /**
      * 增加

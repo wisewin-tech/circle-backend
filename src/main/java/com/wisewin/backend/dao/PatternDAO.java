@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 王洋
  */
-public interface PatternDao {
+public interface PatternDAO {
     /**
      * 增加
      */
