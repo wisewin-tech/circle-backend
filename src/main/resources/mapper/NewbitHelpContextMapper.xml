@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 新手帮助分类管理 -->
+<mapper namespace="com.wisewin.backend.dao.NewbitHelpContextDao">
+
+    <insert id="addNewbitHelpContextBO" parameterType="com.wisewin.backend.entity.bo.NewbitHelpContextBO">
+        insert into ce_newbit_help_context (help_id,context,author) values (#{helpId},#{context},#{author})
+    </insert>
+
+    <update id="updNewbitHelpContextBO" parameterType="com.wisewin.backend.entity.bo.NewbitHelpContextBO">
+        update ce_newbit_help_context
+        set ,context=#{context},author=#{author}
+        <set>
+            <if test="helpId!=null and helpId!=''">
+                help_id=#{helpId},
+            </if>
+            <if test="author!=null and author!=''">
+                author=#{author},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delNewbitHelpContextBO" parameterType="java.lang.Integer">
+        delete from ce_newbit_help_context where id=#{id}
+    </delete>
+
+    <select id="getNewbitHelpContextBO" parameterType="java.lang.Integer" resultType="com.wisewin.backend.entity.bo.NewbitHelpContextBO">
+        select * from ce_newbit_help_context
+        <where>
+            <if test="id!=null and id!=''">
+                id=#{id}
+            </if>
+        </where>
+    </select>
+</mapper>

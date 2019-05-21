@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.NewbitHelpDao">
+
+    <insert id="addNewbitHelp" parameterType="com.wisewin.backend.entity.bo.NewbitHelpBO">
+        insert into ce_newbit_help (p_id,master_title,slave_titile,create_time,admin_id) values (#{pId},#{masterTitle},#{slaveTitile},now(),#{adminId})
+    </insert>
+
+    <update id="updNewbitHelp" parameterType="com.wisewin.backend.entity.bo.NewbitHelpBO">
+        update ce_newbit_help
+        <set>
+            <if test="pId!=null and pId!=''">
+                p_id=#{pId},
+            </if>
+            <if test="masterTitle!=null and masterTitle!=''">
+                master_title=#{masterTitle},
+            </if>
+            <if test="slaveTitile!=null and slaveTitile!=''">
+                slave_titile=#{slaveTitile},
+            </if>
+            admin_id=#{adminId},update_time=now()
+        </set>
+         where id=#{id}
+    </update>
+
+    <delete id="delNewbitHelp" parameterType="java.lang.Integer">
+        delete from ce_newbit_help where id=#{id}
+    </delete>
+
+    <select id="getNewbitHelp" parameterType="java.lang.Integer" resultType="com.wisewin.backend.entity.bo.NewbitHelpBO">
+        select * from ce_newbit_help
+        <where>
+            <if test="id!=null and id!=''">
+                id=#{id}
+            </if>
+        </where>
+    </select>
+</mapper>
