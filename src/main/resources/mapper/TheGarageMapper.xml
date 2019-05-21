@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wisewin.backend.dao.TheGarageDAO">
+
+    <select id="queryTheGarageById" parameterType="java.lang.String" resultType="com.wisewin.backend.entity.bo.TheGarageBO">
+        select * from ce_the_garage where id =#{id} and status = 'yes'
+    </select>
+
+    <update id="updateTheGarage" parameterType="com.wisewin.backend.entity.bo.TheGarageBO">
+        update ce_the_garage set 
+        <if test="userId != null and userId != ''">
+            user_id = #{userId},
+        </if>
+        <if test="plateNumber != null and plateNumber != ''">
+            plate_number = #{plateNumber},
+        </if>
+        <if test="branModel != null and branModel != ''">
+          bran_model = #{branModel},
+        </if>
+        <if test="headingCode != null and headingCode != ''">
+           heading_code = #{headingCode},
+        </if>
+        <if test="certificationPictures != null and certificationPictures != ''">
+            certification_pictures = #{certificationPictures},
+        </if>
+        <if test="status != null and status != ''">
+            status = #{status},
+        </if>
+        <if test="updateTime != null and updateTime != ''">
+            update_time = #{updateTime}
+        </if>
+        where id = #{id}
+    </update>
+
+    <insert id="insertTheGarage" parameterType="com.wisewin.backend.entity.bo.TheGarageBO">
+        insert into ce_the_garage(user_id,plate_number,plate_number,bran_model,	heading_code,
+        certification_pictures,status,update_time,create_time)
+        VALUES (#{userId},#{plateNumber,#{plateNumber},#{branModel},#{headingCode},#{certificationPictures},
+        #{status},#{updateTime},#{createTime})
+    </insert>
+</mapper>

@@ -23,6 +23,6 @@ public class AdminService {
     public AdminDAO queryAdmin(String id) {
         return adminDAO.queryAdmin(id);
     }
-
+1
 
 }

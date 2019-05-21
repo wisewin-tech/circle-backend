@@ -8,6 +8,8 @@ import java.util.Date;
  * Created by 王彬 on 2019/5/16.
  */
 public class PatternBO extends BaseModel {
+
+
     //id
     private Integer id;
     //模式名称

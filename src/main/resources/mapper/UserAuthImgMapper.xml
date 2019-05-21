@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wisewin.backend.dao.UserAuthImgDAO">
+
+    <select id="queryUserAuthById" parameterType="java.lang.String" resultType="com.wisewin.backend.entity.bo.UserAuthImgBO">
+        select * from ce_user_auth_img where status = 'yes' and id = #{id}
+    </select>
+
+    <update id="updateUserAuth" parameterType="com.wisewin.backend.entity.bo.UserAuthImgBO">
+      update ce_user_auth_img set
+      <if test="userId != null and userId != ''">
+          user_id = #{userId},
+      </if>
+        <if test="authId != null and authId != ''">
+            auth_id = #{authId},
+        </if>
+        <if test="status != null and status != ''">
+            status = #{status},
+        </if>
+        <if test="imgUrl != null and imgUrl != ''">
+            img_url = #{imgUrl},
+        </if>
+        <if test="adminId != null and adminId != ''">
+            admin_id = #{adminId}
+        </if>
+        where id = #{id}
+    </update>
+
+    <insert id="insetUserAuth" parameterType="com.wisewin.backend.entity.bo.UserAuthImgBO">
+        insert into ce_user_auth_img(user_id,auth_id,status,img_url,admin_id)
+        VALUES (#{userId},#{authId},#{status},#{imgUrl},#{adminId})
+    </insert>
+</mapper>
