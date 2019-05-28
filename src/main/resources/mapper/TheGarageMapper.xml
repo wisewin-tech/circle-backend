@@ -37,7 +37,7 @@
     <insert id="insertTheGarage" parameterType="com.wisewin.backend.entity.bo.TheGarageBO">
         insert into ce_the_garage(user_id,plate_number,plate_number,bran_model,	heading_code,
         certification_pictures,status,update_time,create_time)
-        VALUES (#{userId},#{plateNumber,#{plateNumber},#{branModel},#{headingCode},#{certificationPictures},
+        VALUES (#{userId},#{plateNumber},#{branModel},#{headingCode},#{certificationPictures},
         #{status},#{updateTime},#{createTime})
     </insert>
 </mapper>
