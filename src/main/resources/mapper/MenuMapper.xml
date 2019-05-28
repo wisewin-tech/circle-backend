@@ -8,12 +8,12 @@
         select * from ce_menu where id = #{id}
     </select>
 
-    <insert id="insertMenu" parameterType="com.wisewin.backend.entity.bo.MenuB">
+    <insert id="insertMenu" parameterType="com.wisewin.backend.entity.bo.MenuBO">
         insert into ce_menu(menu_name,status,pid,create_time,update_time,url,index,icon)
         VALUES (#{menuName},#{status},#{pid},#{createTime},#{updateTime},#{url},#{index},#{icon})
     </insert>
 
-    <update id="updateMenu" parameterType="com.wisewin.backend.entity.bo.MenuB">
+    <update id="updateMenu" parameterType="com.wisewin.backend.entity.bo.MenuBO">
         update ce_menu set
         <if test="menuName != null and  menuName !=''">
             menu_name = #{menuName},
