@@ -1,30 +1,17 @@
-package com.wisewin.backend.entity.bo;
+package com.wisewin.backend.entity.dto;
 
 import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.util.Date;
-import java.util.List;
 
-
-public class NewbitHelpBO extends BaseModel {
-
-    private Integer id;//id
-    private Integer pId;//父id
-    private String masterTitle; //主标题
-    private String slaveTitle;//副标题
-    private  Integer createUserId;//创建人id
+public class AboutUsDTO extends BaseModel {
+    private Integer id;//关于我们
+    private String imageUrl;//图片路径
+    private String content;//内容
+    private Integer createUserId;//创建人
     private Date createTime;//创建时间
     private Integer updateUserId;//修改人id
     private Date updateTime;//修改时间
-    List<NewbitHelpBO> list;
-
-    public List<NewbitHelpBO> getList() {
-        return list;
-    }
-
-    public void setList(List<NewbitHelpBO> list) {
-        this.list = list;
-    }
 
     public Integer getId() {
         return id;
@@ -34,28 +21,20 @@ public class NewbitHelpBO extends BaseModel {
         this.id = id;
     }
 
-    public Integer getpId() {
-        return pId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setpId(Integer pId) {
-        this.pId = pId;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getMasterTitle() {
-        return masterTitle;
+    public String getContent() {
+        return content;
     }
 
-    public void setMasterTitle(String masterTitle) {
-        this.masterTitle = masterTitle;
-    }
-
-    public String getSlaveTitle() {
-        return slaveTitle;
-    }
-
-    public void setSlaveTitle(String slaveTitle) {
-        this.slaveTitle = slaveTitle;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Integer getCreateUserId() {

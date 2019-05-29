@@ -1,12 +1,11 @@
-package com.wisewin.backend.entity.bo;
+package com.wisewin.backend.entity.dto;
 
 import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.util.Date;
-import java.util.List;
 
 
-public class NewbitHelpBO extends BaseModel {
+public class NewbitHelpDTO extends BaseModel {
 
     private Integer id;//id
     private Integer pId;//父id
@@ -16,15 +15,6 @@ public class NewbitHelpBO extends BaseModel {
     private Date createTime;//创建时间
     private Integer updateUserId;//修改人id
     private Date updateTime;//修改时间
-    List<NewbitHelpBO> list;
-
-    public List<NewbitHelpBO> getList() {
-        return list;
-    }
-
-    public void setList(List<NewbitHelpBO> list) {
-        this.list = list;
-    }
 
     public Integer getId() {
         return id;

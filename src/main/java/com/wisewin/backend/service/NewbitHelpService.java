@@ -1,6 +1,7 @@
 package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.NewbitHelpDAO;
+import com.wisewin.backend.entity.param.NewditHelpParam;
 import com.wisewin.backend.entity.bo.NewbitHelpBO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,41 +9,50 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * 王洋
- */
+
 @Service
 @Transactional
 public class NewbitHelpService {
-
     @Resource
-    NewbitHelpDAO newbitHelpDao;
-    /**
-     * 增加
-     */
-     public Integer addNewbitHelp(NewbitHelpBO newbitHelpBO){
-         return newbitHelpDao.addNewbitHelp(newbitHelpBO);
-     }
-
+    private NewbitHelpDAO newbitHelpDAO;
 
     /**
-     *删除
+     * 查询新手帮助信息
+     *
+     * @return
      */
-    public Integer delNewbitHelp(Integer id){
-        return newbitHelpDao.delNewbitHelp(id);
+    public List<NewbitHelpBO> selectNewbitHelp() {
+        return newbitHelpDAO.selectNewbitHelp();
     }
 
     /**
-     *修改
+     * 新增新手帮助信息
+     *
+     * @return
      */
-    public Integer updNewbitHelp(NewbitHelpBO newbitHelpBO){
-        return newbitHelpDao.updNewbitHelp(newbitHelpBO);
+    public Integer insertNewbitHelp(NewditHelpParam newditHelpParam) {
+        return newbitHelpDAO.insertNewbitHelp(newditHelpParam);
     }
 
     /**
-     *查询
+     * 删除新手帮助信息
+     *
+     * @param id
+     * @return
      */
-    public List<NewbitHelpBO> getNewbitHelp (Integer id){
-        return newbitHelpDao.getNewbitHelp(id);
+    public boolean deleteNewbitHelp(Integer id) {
+
+        return newbitHelpDAO.deleteNewbitHelp(id);
+    }
+
+    /**
+     * 修改新手帮助信息
+     *
+     * @param masterTitle 标题
+     * @param id
+     * @return
+     */
+    public boolean editNewditHelp(String masterTitle, Integer id) {
+        return newbitHelpDAO.editNewditHelp(masterTitle, id);
     }
 }

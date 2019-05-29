@@ -1,32 +1,39 @@
 package com.wisewin.backend.dao;
 
+import com.wisewin.backend.entity.param.NewditHelpParam;
 import com.wisewin.backend.entity.bo.NewbitHelpBO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * 王洋 新手帮助管理
- */
+
 public interface NewbitHelpDAO {
 
     /**
-     * 增加
+     * 查询新手帮助信息
+     * @return
      */
-    Integer addNewbitHelp(NewbitHelpBO newbitHelpBO);
-
-
-    /**
-     *删除
-     */
-    Integer delNewbitHelp(Integer id);
+    List<NewbitHelpBO> selectNewbitHelp();
 
     /**
-     *修改
+     * 新增新手帮助信息
+     * @param newditHelpParam
+     * @return
      */
-    Integer updNewbitHelp(NewbitHelpBO newbitHelpBO);
+    Integer insertNewbitHelp(NewditHelpParam newditHelpParam);
 
     /**
-     *查询
+     * 删除新手帮助信息
+     * @param id
+     * @return
      */
-    List<NewbitHelpBO> getNewbitHelp(Integer id);
+    boolean deleteNewbitHelp(Integer id);
+
+    /**
+     * 修改新手帮助信息
+     * @param masterTitle
+     * @param id
+     * @return
+     */
+    boolean editNewditHelp(@Param("masterTitle")String masterTitle, @Param("id") Integer id);
 }
