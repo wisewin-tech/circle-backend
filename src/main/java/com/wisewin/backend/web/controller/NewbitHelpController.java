@@ -46,7 +46,7 @@ public class NewbitHelpController extends BaseCotroller {
     @RequestMapping("/insertNewbitHelp")
     public void insertNewbitHelp(HttpServletRequest request, HttpServletResponse response,NewditHelpParam param){
         //参数验证
-        if (param==null||param.getPid()==null|| StringUtils.isEmpty(param.getMasterTitle())){
+        if (param==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001","参数异常"));
             super.safeJsonPrint(response, result);
             return;
@@ -54,9 +54,6 @@ public class NewbitHelpController extends BaseCotroller {
         Integer i = newbitHelpService.insertNewbitHelp(param);
         if(i>0) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("新手帮助信息添加完成！"));
-            super.safeJsonPrint(response, result);
-        }else{
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000011","新手帮助信息添加完成！"));
             super.safeJsonPrint(response, result);
         }
     }
@@ -87,21 +84,23 @@ public class NewbitHelpController extends BaseCotroller {
         }
     }
     @RequestMapping("/editNewditHelp")
-    public void editNewditHelp(HttpServletRequest request,HttpServletResponse response,String masterTitle,Integer id){
+    public void editNewditHelp(HttpServletRequest request,HttpServletResponse response,NewditHelpParam param){
     //参数验证
-        if (StringUtils.isEmpty(masterTitle)|| StringUtils.isEmpty(String.valueOf(id))){
+        if (param==null||StringUtils.isEmpty(param.getMasterTitle())){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001","参数异常"));
             super.safeJsonPrint(response, result);
             return;
         }
         //执行修改
-         newbitHelpService.editNewditHelp(masterTitle,id);
-        if (newbitHelpService.editNewditHelp(masterTitle,id)){
+         newbitHelpService.editNewditHelp(param);
+        if (newbitHelpService.editNewditHelp(param)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改新手帮助信息成功！"));
             super.safeJsonPrint(response, result);
+            return;
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001","修改新手帮助信息失败！"));
             super.safeJsonPrint(response, result);
+            return;
         }
     }
 

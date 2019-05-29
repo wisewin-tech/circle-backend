@@ -7,24 +7,28 @@
     <resultMap id="newbit" type="com.wisewin.backend.entity.bo.NewbitHelpBO"  >
 
         <result column="master_title"  property="masterTitle"  />
+        <result column="mastertitleId"  property="id"  />
+        <result column="newbitpId"  property="pId"  />
         <collection property="list"   ofType="com.wisewin.backend.entity.bo.NewbitHelpBO" >
 
             <result column="title"  property="masterTitle"  />
+            <result column="titleId"  property="id"  />
+            <result column="mastertitleId"  property="pId"  />
         </collection>
     </resultMap>
     <!-- 查询新手帮助信息 -->
     <select id="selectNewbitHelp" resultMap="newbit" >
-        SELECT  newbit.master_title , help.master_title title FROM
+        SELECT  newbit.master_title , help.master_title title,
+        help."id" titleId,help.p_id mastertitleId,newbit.p_id newbitpId
+        FROM
         ce_newbit_help  newbit   INNER  JOIN
         ce_newbit_help  help    ON   newbit.id  = help.p_id
     </select>
 
     <!--新增新手帮助信息-->
     <insert id="insertNewbitHelp" parameterType="com.wisewin.backend.entity.param.NewditHelpParam">
-        INSERT INTO ce_newbit_help
-        <set>
-            master_title = #{masterTitle},p_id = #{pid},create_time=now()
-        </set>
+        INSERT INTO ce_newbit_help (master_title,p_id,create_time)
+        VALUES (#{masterTitle},#{pId},now())
     </insert>
 
     <!--删除新手帮助信息-->
@@ -34,11 +38,10 @@
 
     <!--  编辑新手帮助信息  -->
     <update id="editNewditHelp" parameterType="com.wisewin.backend.entity.param.NewditHelpParam">
-        UPDATE ce_newbit_help
-        <set>
-            <if test="masterTitle!=null and masterTitle!=''" >`master_title`=#{masterTitle},</if>
-            update_time = now()
-        </set>
+        UPDATE ce_newbit_help set
+        <if test="masterTitle!=null and masterTitle!=''" >master_title= #{masterTitle},</if>
+        <if test="pId!=null" >p_id = #{pId},</if>
+        update_time = now()
         WHERE   id=#{id}
     </update>
 </mapper>

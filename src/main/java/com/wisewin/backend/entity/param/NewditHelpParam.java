@@ -2,7 +2,7 @@ package com.wisewin.backend.entity.param;
 
 public class NewditHelpParam {
     private String masterTitle;//标题
-    private Integer pid;//父ID
+    private Integer pId;//父ID
     private Integer id;//id
 
 
@@ -14,12 +14,12 @@ public class NewditHelpParam {
         this.masterTitle = masterTitle;
     }
 
-    public Integer getPid() {
-        return pid;
+    public Integer getpId() {
+        return pId;
     }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
+    public void setpId(Integer pId) {
+        this.pId = pId;
     }
 
     public Integer getId() {
@@ -29,6 +29,4 @@ public class NewditHelpParam {
     public void setId(Integer id) {
         this.id = id;
     }
-
-
 }
