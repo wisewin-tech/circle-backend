@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 关于我们
  */
-public class AboutUsBo extends BaseModel {
+public class AboutUsBO extends BaseModel {
     private Integer id; //关于我们
     private Integer operatorId; //操作人id
     private String  operatorName; //操作人名字

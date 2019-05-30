@@ -4,7 +4,7 @@
 
 <!-- 【用户】 -->
 <mapper namespace="com.wisewin.backend.dao.AboutUsDAO">
-    <resultMap id="aboutUs" type="com.wisewin.backend.entity.bo.AboutUsBo"  >
+    <resultMap id="aboutUs" type="com.wisewin.backend.entity.bo.AboutUsBO"  >
 
         <result column="image_url"  property="imageUrl"  />
 
@@ -24,7 +24,7 @@
     </select>
 
     <!--修改-->
-    <update id="updateAboutUs" parameterType="com.wisewin.backend.entity.bo.AboutUsBo">
+    <update id="updateAboutUs" parameterType="com.wisewin.backend.entity.bo.AboutUsBO">
         UPDATE `ce_aboutus`
         <set>
             <if test="content!=null " >
@@ -35,7 +35,7 @@
 
     </update>
     <!--增加-->
-    <insert id="insertAboutUs" parameterType="com.wisewin.backend.entity.bo.AboutUsBo">
+    <insert id="insertAboutUs" parameterType="com.wisewin.backend.entity.bo.AboutUsBO">
       INSERT INTO ce_aboutus SET
       content = #{content},`create_time`=now()
 

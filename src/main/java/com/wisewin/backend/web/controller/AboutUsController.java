@@ -26,7 +26,7 @@ public class AboutUsController extends BaseCotroller {
     @RequestMapping("/select")
     public void select(HttpServletResponse response) {
         //通过查询信息,返回aboutUs对象
-        AboutUsBo aboutUs=aboutUsService.selectContent();
+        AboutUsBO aboutUs=aboutUsService.selectContent();
 
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(aboutUs));
         super.safeJsonPrint(response, json);
