@@ -3,20 +3,20 @@ package com.wisewin.backend.entity.bo;
 import java.util.Date;
 
 /**
- * 兴趣
+ * 兴趣子类
  */
-public class InterestBO {
+public class InterestSubclassBO {
 
-    private Integer id; //兴趣id
-    private Integer interesttypeId; //兴趣分类id
-    private String interestName; //兴趣名称
+    private Integer id;  //兴趣子类
+    private Integer fatherId;//父id
+    private String name; //name
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
     private Integer createUserId; //创建人
     private Integer updateUserId; //修改人
-    private String grade;//等级
 
-    public InterestBO(){}
+    public InterestSubclassBO(){}
+
     public Integer getId() {
         return id;
     }
@@ -25,20 +25,20 @@ public class InterestBO {
         this.id = id;
     }
 
-    public Integer getInteresttypeId() {
-        return interesttypeId;
+    public Integer getFatherId() {
+        return fatherId;
     }
 
-    public void setInteresttypeId(Integer interesttypeId) {
-        this.interesttypeId = interesttypeId;
+    public void setFatherId(Integer fatherId) {
+        this.fatherId = fatherId;
     }
 
-    public String getInterestName() {
-        return interestName;
+    public String getName() {
+        return name;
     }
 
-    public void setInterestName(String interestName) {
-        this.interestName = interestName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getCreateTime() {
@@ -71,13 +71,5 @@ public class InterestBO {
 
     public void setUpdateUserId(Integer updateUserId) {
         this.updateUserId = updateUserId;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
     }
 }

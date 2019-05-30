@@ -1,13 +1,25 @@
 package com.wisewin.backend.entity.bo;
 
+
 import java.util.Date;
 
+//用户模式
 public class PatternBO {
-    private Integer id; //模式表
-    private String patternName; //模式名称
-    private String patternExplain; //模式说明
-    private Date createTime; //创建时间
-    private Date updateTime; //修改时间
+
+    private Integer id;  //用户模式
+    private Integer userId; //用户id
+    private Date updateTime; //最后修改时间
+    private String describe; //描述
+    private String interest; //兴起
+    private String  type; //模式  DATE/BFF模式
+
+
+    public PatternBO(Integer userId, String type) {
+        this.userId = userId;
+        this.type = type;
+    }
+
+    public PatternBO(){}
 
     public Integer getId() {
         return id;
@@ -17,28 +29,12 @@ public class PatternBO {
         this.id = id;
     }
 
-    public String getPatternName() {
-        return patternName;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setPatternName(String patternName) {
-        this.patternName = patternName;
-    }
-
-    public String getPatternExplain() {
-        return patternExplain;
-    }
-
-    public void setPatternExplain(String patternExplain) {
-        this.patternExplain = patternExplain;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Date getUpdateTime() {
@@ -47,5 +43,29 @@ public class PatternBO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public String getInterest() {
+        return interest;
+    }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
