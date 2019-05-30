@@ -2,20 +2,14 @@ package com.wisewin.backend.entity.bo;
 
 import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
-/**
- * Created by 王彬 on 2019/5/16.
- */
-public class NewbitHelpContextBO extends BaseModel{
-    //id
-    private Integer id;
-    //新手帮助id
-    private Integer helpId;
-    //内容
-    private String context;
-    //图片路径（备用字段）
-    private String imgUrl;
-    //作者（备用字段）
-    private String author;
+
+public class NewbitHelpContentBO extends BaseModel{
+
+    private Integer id;//id
+    private Integer helpId;//新手帮助id
+    private String content;//内容
+    private String imgUrl;//图片路径（备用字段）
+    private String author;//作者（备用字段）
 
     public Integer getId() {
         return id;
@@ -33,12 +27,12 @@ public class NewbitHelpContextBO extends BaseModel{
         this.helpId = helpId;
     }
 
-    public String getContext() {
-        return context;
+    public String getContent() {
+        return content;
     }
 
-    public void setContext(String context) {
-        this.context = context;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getImgUrl() {

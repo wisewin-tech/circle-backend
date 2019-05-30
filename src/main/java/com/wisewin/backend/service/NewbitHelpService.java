@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 
-@Service
+@Service("newbitHelpService")
 @Transactional
 public class NewbitHelpService {
     @Resource

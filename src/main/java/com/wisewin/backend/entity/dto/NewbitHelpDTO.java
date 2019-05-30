@@ -10,7 +10,6 @@ public class NewbitHelpDTO extends BaseModel {
     private Integer id;//id
     private Integer pId;//父id
     private String masterTitle; //主标题
-    private String slaveTitle;//副标题
     private  Integer createUserId;//创建人id
     private Date createTime;//创建时间
     private Integer updateUserId;//修改人id
@@ -38,14 +37,6 @@ public class NewbitHelpDTO extends BaseModel {
 
     public void setMasterTitle(String masterTitle) {
         this.masterTitle = masterTitle;
-    }
-
-    public String getSlaveTitle() {
-        return slaveTitle;
-    }
-
-    public void setSlaveTitle(String slaveTitle) {
-        this.slaveTitle = slaveTitle;
     }
 
     public Integer getCreateUserId() {

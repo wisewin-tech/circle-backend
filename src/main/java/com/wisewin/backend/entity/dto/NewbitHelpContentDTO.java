@@ -3,7 +3,7 @@ package com.wisewin.backend.entity.dto;
 import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 
-public class NewbitHelpContextDTO extends BaseModel{
+public class NewbitHelpContentDTO extends BaseModel{
 
     private Integer id;//id
     private Integer helpId;//新手帮助id
