@@ -1,9 +1,7 @@
 package com.wisewin.backend.dao;
 
-/**
- * 用户
- * */
-public interface UserDao {
+import com.wisewin.backend.entity.bo.UserBO;
+import com.wisewin.backend.entity.param.UserParam;
 
 import java.util.List;
 import java.util.Map;
