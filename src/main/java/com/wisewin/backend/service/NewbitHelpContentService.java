@@ -46,12 +46,11 @@ public class NewbitHelpContentService {
     }
 
     /**
-     * 查询新手帮助内容
-     * @param id
+     * 查询新手帮助有信息
      * @return
      */
-    public NewbitHelpContentBO getNewbitHelpContentBO(Integer id){
-        return newbitHelpContentDAO.getNewbitHelpContentBO(id);
+    public List<NewbitHelpContentBO> getNewbitHelpContentBO(){
+        return newbitHelpContentDAO.getNewbitHelpContentBO();
     }
 
 }

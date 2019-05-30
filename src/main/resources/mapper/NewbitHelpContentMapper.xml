@@ -25,9 +25,16 @@
         delete from ce_newbit_help_content where id=#{id}
     </delete>
 
-    <!--查询新手帮助内容-->
-    <select id="getNewbitHelpContentBO" parameterType="java.lang.Integer" resultType="com.wisewin.backend.entity.bo.NewbitHelpContentBO">
-        select * from ce_newbit_help_content
-              WHERE  id=#{id}
+    <!--查询新手帮助有信息-->
+    <select id="getNewbitHelpContentBO" resultType="com.wisewin.backend.entity.bo.NewbitHelpContentBO">
+        SELECT
+	      cp."id",cp.p_id,cp.master_title,
+	      ct."id" contentId,ct.help_id,
+	      ct."content",ct.img_url,
+	      ct.author,cp.create_user_id,
+	      cp.create_time,cp.update_user_id,cp.update_time
+        FROM
+	      ce_newbit_help cp
+	    LEFT JOIN "ce_newbit_help_content" ct ON cp."id" = ct.help_id
     </select>
 </mapper>

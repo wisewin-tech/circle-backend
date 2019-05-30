@@ -189,20 +189,15 @@ public class NewbitHelpController extends BaseCotroller {
     }
 
     /**
-     * 查询新手帮助内容
-     * @param id
+     * 查询新手帮助有信息
      * @param request
      * @param response
      */
     @RequestMapping("getNewbitHelpContent")
-    public void getNewbitHelpContent(Integer id,HttpServletRequest request,HttpServletResponse response){
-        if (id==null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeJsonPrint(response, result);
-            return;
-        }
-        NewbitHelpContentBO newbitHelpContentBO = newbitHelpContentService.getNewbitHelpContentBO(id);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(newbitHelpContentBO));
+    public void getNewbitHelpContent(HttpServletRequest request,HttpServletResponse response){
+
+        List<NewbitHelpContentBO> newbitHelpContentBOS = newbitHelpContentService.getNewbitHelpContentBO();
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(newbitHelpContentBOS));
         super.safeJsonPrint(response, result);
 
     }

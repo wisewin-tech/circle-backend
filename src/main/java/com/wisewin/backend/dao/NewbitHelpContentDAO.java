@@ -32,10 +32,9 @@ public interface NewbitHelpContentDAO {
     boolean updNewbitHelpContentBO(NewbitHelpContentBO newbitHelpContentBO);
 
     /**
-     * 查询新手帮助内容
-     * @param id
+     * 查询新手帮助有信息
      * @return
      */
-    NewbitHelpContentBO getNewbitHelpContentBO(Integer id);
+    List<NewbitHelpContentBO> getNewbitHelpContentBO();
 
 }
