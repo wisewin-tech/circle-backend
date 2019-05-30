@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 新手帮助分类管理 -->
+<mapper namespace="com.wisewin.backend.dao.NewbitHelpContentDAO">
+    <!--添加新手帮助内容-->
+    <insert id="addNewbitHelpContent" parameterType="com.wisewin.backend.entity.bo.NewbitHelpContentBO">
+        INSERT INTO ce_newbit_help_content (help_id,content,author) VALUES (#{helpId},#{content},#{author})
+    </insert>
+
+    <!--修改帮助内容-->
+    <update id="updNewbitHelpContentBO" parameterType="com.wisewin.backend.entity.bo.NewbitHelpContentBO">
+        UPDATE ce_newbit_help_content
+        <set>
+        <if test="content!=null and content!=''">content=#{content},</if>
+        <if test="helpId!=null">help_id=#{helpId}</if>
+        </set>
+        WHERE id=#{id}
+
+    </update>
+
+    <!--删除新手帮助内容-->
+    <delete id="delNewbitHelpContentBO" parameterType="java.lang.Integer">
+        delete from ce_newbit_help_content where id=#{id}
+    </delete>
+
+    <!--查询新手帮助内容-->
+    <select id="getNewbitHelpContentBO" parameterType="java.lang.Integer" resultType="com.wisewin.backend.entity.bo.NewbitHelpContentBO">
+        select * from ce_newbit_help_content
+              WHERE  id=#{id}
+    </select>
+</mapper>
