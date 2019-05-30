@@ -1,25 +1,25 @@
 package com.wisewin.backend.entity.bo;
 
-import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.util.Date;
 
-/**
- * Created by 王彬 on 2019/5/16.
- */
-public class PatternBO extends BaseModel {
+//用户模式
+public class PatternBO {
+
+    private Integer id;  //用户模式
+    private Integer userId; //用户id
+    private Date updateTime; //最后修改时间
+    private String describe; //描述
+    private String interest; //兴起
+    private String  type; //模式  DATE/BFF模式
 
 
-    //id
-    private Integer id;
-    //模式名称
-    private String name;
-    //模式介绍
-    private String explain;
-    //创建时间
-    private Date createTime;
-    //修改时间
-    private Date updateTime;
+    public PatternBO(Integer userId, String type) {
+        this.userId = userId;
+        this.type = type;
+    }
+
+    public PatternBO(){}
 
     public Integer getId() {
         return id;
@@ -29,28 +29,12 @@ public class PatternBO extends BaseModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getExplain() {
-        return explain;
-    }
-
-    public void setExplain(String explain) {
-        this.explain = explain;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Date getUpdateTime() {
@@ -59,5 +43,29 @@ public class PatternBO extends BaseModel {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public String getInterest() {
+        return interest;
+    }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
