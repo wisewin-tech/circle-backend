@@ -1,7 +1,7 @@
 package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.AboutUsDAO;
-import com.wisewin.backend.entity.bo.AboutUsBO;
+import com.wisewin.backend.entity.bo.AboutUsBo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +14,7 @@ public class AboutUsService {
     private AboutUsDAO aboutUsDAO;
 
     //查询"关于我们"的信息
-    public AboutUsBO selectContent() {
+    public AboutUsBo selectContent() {
         return aboutUsDAO.selectAbout();
     }
 
@@ -24,15 +24,18 @@ public class AboutUsService {
     只有一条时,修改;
     大于一条时,数据异常
      */
-    public boolean updateAbouUs(AboutUsBO aboutUsBO) {
+    public boolean updateAbouUs(String content) {
         int i = aboutUsDAO.selectid();
         if (i==0){  //如果表里没有数据
-            //新增内容
-            aboutUsDAO.insertAboutUs(aboutUsBO);
+            AboutUsBo aboutUsBo=new AboutUsBo();
+                    aboutUsBo.setContent(content);
+            //添加
+            aboutUsDAO.insertAboutUs(aboutUsBo);
         }else if(i==1) {  //如果表里有且只有一条数据
-
+            AboutUsBo aboutUs=aboutUsDAO.selectAbout();
+            aboutUs.setContent(content);
             //修改内容
-            aboutUsDAO.updateAboutUs(aboutUsBO);
+            aboutUsDAO.updateAboutUs(aboutUs);
         }else{
             return false;
         }

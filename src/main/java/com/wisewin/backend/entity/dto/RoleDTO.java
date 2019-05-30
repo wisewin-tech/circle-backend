@@ -1,9 +1,11 @@
-package com.wisewin.backend.entity.bo;
+package com.wisewin.backend.entity.dto;
+
+import com.wisewin.backend.common.base.BaseModel;
 
 import java.util.Date;
 import java.util.List;
 
-public class RoleBO {
+public class RoleDTO extends BaseModel{
     private Integer id; // 角色
 
     private String roleName; //角色名称
@@ -12,15 +14,9 @@ public class RoleBO {
 
     private Date updateTime; // 修改时间
 
-    private List<MenuBO> menuBOS;
+    private List<Integer> menuIds; // 角色对应的所有权限的ids
 
-    public List<MenuBO> getMenuBOS() {
-        return menuBOS;
-    }
-
-    public void setMenuBOS(List<MenuBO> menuBOS) {
-        this.menuBOS = menuBOS;
-    }
+    private List<String> menuNames;// 角色对应的所有的权限名称
 
     public Integer getId() {
         return id;
@@ -35,7 +31,7 @@ public class RoleBO {
     }
 
     public void setRoleName(String roleName) {
-        this.roleName = roleName == null ? null : roleName.trim();
+        this.roleName = roleName;
     }
 
     public Date getCreateTime() {
@@ -52,5 +48,21 @@ public class RoleBO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<Integer> getMenuIds() {
+        return menuIds;
+    }
+
+    public void setMenuIds(List<Integer> menuIds) {
+        this.menuIds = menuIds;
+    }
+
+    public List<String> getMenuNames() {
+        return menuNames;
+    }
+
+    public void setMenuNames(List<String> menuNames) {
+        this.menuNames = menuNames;
     }
 }

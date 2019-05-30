@@ -1,31 +1,63 @@
 package com.wisewin.backend.entity.bo;
 
-import com.wisewin.backend.common.base.BaseModel;
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-/**
- * Created by 王彬 on 2019/5/16.
- */
-public class MenuBO extends BaseModel {
-    //id
-    private Integer id;
-    //菜单名字
-    private String menuName;
-    //状态
-    private String status;
-    //父id
-    private Integer pid;
-    //创建时间
-    private Date createTime;
-    //修改时间
-    private Date updateTime;
-    //url
+public class MenuBO {
+    private Integer id; // 菜单
+
+    private String menuName; // 菜单名称
+
+    private String status; // 状态(菜单/按钮)
+
+    private Integer pid; // 父id
+
+    private Date createTime; //创建时间
+
+    private Date updateTime; // 修改时间
+
     private String url;
-    //
-    private String index;
-    //
+
     private String icon;
+
+    private String index;
+
+    private List<MenuBO> ch = new ArrayList<MenuBO>();
+
+    private MenuBO menuBO;
+
+    public List<MenuBO> getCh() {
+        return ch;
+    }
+
+    public void setCh(List<MenuBO> ch) {
+        this.ch = ch;
+    }
+
+    public MenuBO getMenuBO() {
+        return menuBO;
+    }
+
+    public void setMenuBO(MenuBO menuBO) {
+        this.menuBO = menuBO;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
 
     public Integer getId() {
         return id;
@@ -40,7 +72,7 @@ public class MenuBO extends BaseModel {
     }
 
     public void setMenuName(String menuName) {
-        this.menuName = menuName;
+        this.menuName = menuName == null ? null : menuName.trim();
     }
 
     public String getStatus() {
@@ -48,7 +80,7 @@ public class MenuBO extends BaseModel {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = status == null ? null : status.trim();
     }
 
     public Integer getPid() {
@@ -80,22 +112,6 @@ public class MenuBO extends BaseModel {
     }
 
     public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getIndex() {
-        return index;
-    }
-
-    public void setIndex(String index) {
-        this.index = index;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
+        this.url = url == null ? null : url.trim();
     }
 }

@@ -1,23 +1,26 @@
 package com.wisewin.backend.entity.bo;
 
-import com.wisewin.backend.entity.bo.common.base.BaseModel;
-
 import java.util.Date;
 
-/**
- * Created by 王彬 on 2019/5/16.
- */
-public class WallBO extends BaseModel {
-    //id
-    private Integer id;
-    //用户id
-    private Integer userId;
-    //排序
-    private Float sort;
-    //创建时间
-    private Date createTime;
-    //修改时间
-    private Date updateTime;
+public class WallBO {
+
+
+    private Integer id; //背景墙
+    private Integer userId; //用户id
+    private Integer sort; //排序
+    private Date createTime; //创建时间
+    private Integer status; //0/1
+
+    @Override
+    public String toString() {
+        return "WallBO{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", sort=" + sort +
+                ", createTime=" + createTime +
+                ", status=" + status +
+                '}';
+    }
 
     public Integer getId() {
         return id;
@@ -35,11 +38,11 @@ public class WallBO extends BaseModel {
         this.userId = userId;
     }
 
-    public Float getSort() {
+    public Integer getSort() {
         return sort;
     }
 
-    public void setSort(Float sort) {
+    public void setSort(Integer sort) {
         this.sort = sort;
     }
 
@@ -51,11 +54,11 @@ public class WallBO extends BaseModel {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

@@ -1,18 +1,15 @@
 package com.wisewin.backend.entity.bo;
 
 import java.util.Date;
-import java.util.List;
 
-public class NewbitHelpBO {
-    private Integer id; //新手帮助
-    private Integer pId; //父id
-    private String masterTitle; //主标题
-    private String slaveTitle; //副标题
+public class DictionairesBO {
+    private Integer id; //字典表
+    private String key; //key
+    private String value; //value
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
-    private Integer operatorUserId; //修改人id
-    private String operatorUserName; //修改人姓名
-    private List<NewbitHelpBO>  list;//新手帮助内容
+    private Integer operatorUserId; //操作人id
+    private String operatorUserName; //操作人姓名
 
     public Integer getId() {
         return id;
@@ -22,28 +19,20 @@ public class NewbitHelpBO {
         this.id = id;
     }
 
-    public Integer getpId() {
-        return pId;
+    public String getKey() {
+        return key;
     }
 
-    public void setpId(Integer pId) {
-        this.pId = pId;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public String getMasterTitle() {
-        return masterTitle;
+    public String getValue() {
+        return value;
     }
 
-    public void setMasterTitle(String masterTitle) {
-        this.masterTitle = masterTitle;
-    }
-
-    public String getSlaveTitle() {
-        return slaveTitle;
-    }
-
-    public void setSlaveTitle(String slaveTitle) {
-        this.slaveTitle = slaveTitle;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public Date getCreateTime() {
@@ -76,13 +65,5 @@ public class NewbitHelpBO {
 
     public void setOperatorUserName(String operatorUserName) {
         this.operatorUserName = operatorUserName;
-    }
-
-    public List<NewbitHelpBO> getList() {
-        return list;
-    }
-
-    public void setList(List<NewbitHelpBO> list) {
-        this.list = list;
     }
 }

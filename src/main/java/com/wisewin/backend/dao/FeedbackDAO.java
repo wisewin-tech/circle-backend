@@ -1,28 +1,39 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.FeedbackBO;
+import com.wisewin.backend.entity.param.FeedbackParam;
 
-/**
- * Created by 王彬 on 2019/5/16.
- */
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 public interface FeedbackDAO {
-
     /**
-     * 根据id查询
-     * @param id
+     * 通过状态查询意见反馈
+     * @param map
      * @return
      */
-    FeedbackBO queryFeedback(String id);
+    List<FeedbackBO> selectFeedback(Map<String,Object> map);
+
 
     /**
-     * 修改
-     * @param feedback
+     *查询总条数
+     * @param map
+     * @return
      */
-    void updateFeedback(FeedbackBO feedback);
+    Integer selectbylimitCount(Map<String,Object> map);
 
     /**
-     * 添加
-     * @param feedback
+     * 修改意见反馈状态
+     * @param feedbackParam
+     * @return
      */
-    void insertFeedback(FeedbackBO feedback);
+    boolean updateFeedback(FeedbackParam feedbackParam);
+
+    /**
+     * 查询所有信息
+     * @param feedbackBO
+     * @return
+     */
+    List<FeedbackBO> getFeedback(FeedbackBO feedbackBO);
 }

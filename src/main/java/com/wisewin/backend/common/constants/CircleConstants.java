@@ -1,9 +1,10 @@
 package com.wisewin.backend.common.constants;
 
 public class CircleConstants {
-    /* 管理员用户信息 */
-    public static final String MAN = "man";
-    public static final String WOMEN = "women";
+    /**男*/
+    public static final String GENDER_MALE = "gender_male" ;
+    /**女*/
+    public static final String GENDER_FEMALE = "gender_female" ;
 
     /*  管理员状态 */
     public static final String NORMAL = "normal";
