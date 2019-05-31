@@ -5,7 +5,7 @@ import com.wisewin.backend.common.base.BaseModel;
 import java.util.Date;
 import java.util.List;
 
-public class RoleDTO extends BaseModel{
+public class RoleDTO extends BaseModel {
     private Integer id; // 角色
 
     private String roleName; //角色名称

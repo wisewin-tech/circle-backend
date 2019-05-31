@@ -2,10 +2,14 @@ package com.wisewin.backend.web.controller;
 
 
 import com.wisewin.backend.common.constants.CircleConstants;
-import com.wisewin.backend.entity.dto.*;
-import com.wisewin.backend.entity.param.*;
-import com.wisewin.backend.entity.bo.*;
+import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.bo.MenuBO;
+import com.wisewin.backend.entity.bo.RoleBO;
 import com.wisewin.backend.entity.bo.common.constants.SysConstants;
+import com.wisewin.backend.entity.dto.*;
+import com.wisewin.backend.entity.param.GetAdminParam;
+import com.wisewin.backend.entity.param.MenuParam;
+import com.wisewin.backend.entity.param.RegisterParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.AdminService;
 import com.wisewin.backend.util.JsonUtils;
@@ -14,17 +18,13 @@ import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.util.redisUtils.RedissonHandler;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import net.sf.json.JSONObject;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.management.relation.Role;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -32,11 +32,10 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminController  extends BaseCotroller {
+public class AdminController extends BaseCotroller {
     @Resource
     private AdminService adminService ;
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 管理员登录
@@ -54,28 +53,37 @@ public class AdminController  extends BaseCotroller {
             return ;
         }
         //手机号和密码登录
-        AdminBO userInfo = adminService.queryAdminInfoByMobile(mobile);
-        if(userInfo == null){
+        AdminBO adminBO = adminService.queryAdminInfoByMobile(mobile);
+        if(adminBO == null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004" , "用户不存在！")) ;
             super.safeJsonPrint(response, result);
             return ;
         }
+
         // 判断密码是否正确
-        if(!MD5Util.digest(password).equals(userInfo.getPassword())){
+        if(!MD5Util.digest(password).equals(adminBO.getPassword())){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "密码输入不正确！")) ;
             super.safeJsonPrint(response, result);
             return ;
         }
-        userInfo.setPassword("");
+        adminBO.setPassword("");
+        //该用户的所有菜单
+        List<RoleBO> roleMenuSuccess = adminService.getRoleMenuSuccess(adminBO.getRoleId());
         // 登陆客户信息放入Redis缓存
         String uuid = UUID.randomUUID().toString();
-        super.putLoginUser(uuid, userInfo);
-        System.out.print(createKey(uuid, SysConstants.CURRENT_LOGIN_USER));
+        super.putLoginAdmin(uuid,adminBO);
         super.setCookie(response, SysConstants.CURRENT_LOGIN_CLIENT_ID, uuid, 86400);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(userInfo)) ;
+
+        Map<String,Object>  resultMap=new HashMap<String, Object>();
+        resultMap.put("menu",roleMenuSuccess);
+        resultMap.put("admin",adminBO);
+
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap)) ;
         super.safeJsonPrint(response, result);
-        //验证码登录
+        return;
     }
+
+
 
     /**
      * 管理员注册
@@ -277,7 +285,6 @@ public class AdminController  extends BaseCotroller {
     @RequestMapping("/getMenuList")
     public void MenuList(HttpServletRequest request,HttpServletResponse response){
         List<MenuBO> menuList = adminService.getMenuList();
-        // JsonUtils.getJONSArray4JavaList(roleList);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
         super.safeJsonPrint(response, result);
     }
@@ -305,16 +312,8 @@ public class AdminController  extends BaseCotroller {
             super.safeJsonPrint(response , result);
             return ;
         }
-        MenuBO menuBO = new MenuBO();
-        menuBO.setMenuName(menuParam.getMenuName());
-        menuBO.setPid(menuParam.getPid());
-        menuBO.setStatus(menuParam.getStatus());
-        menuBO.setUrl(menuParam.getUrl());
-        menuBO.setIndex(menuParam.getIndex());
-        menuBO.setIcon(menuParam.getIcon());
-        menuBO.setCreateTime(new Date());
-        menuBO.setUpdateTime(new Date());
-        int line = adminService.addMenuByPid(menuBO);
+
+        int line = adminService.addMenuByPid(menuParam);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
             super.safeJsonPrint(response, result);
@@ -351,7 +350,7 @@ public class AdminController  extends BaseCotroller {
     }
 
     /**faild
-     * 根据id编辑权限信息
+     * 根据id 编辑权限信息
      * @param request
      * @param response
      * @param menuParam
@@ -363,42 +362,8 @@ public class AdminController  extends BaseCotroller {
             super.safeJsonPrint(response , result);
             return ;
         }
-        // 判断前端传的名字和后端查询的名字时候一样
-        MenuBO menuBO = adminService.getMenuById(menuParam.getId());
-        if(menuBO.getMenuName().equals(menuParam.getMenuName())){
-            // 一致设置为空
-            menuParam.setMenuName("");
-        }else{
-            // 不一致查询时候重复
-            boolean flag = adminService.selectCountMenuName(menuParam.getMenuName());
-            if(flag){
-                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "菜单已存在")) ;
-                super.safeJsonPrint(response , result);
-                return ;
-            }
-        }
-        menuBO.setId(menuParam.getId());
-        if(menuParam.getMenuName()!=null){
-            menuBO.setMenuName(menuParam.getMenuName());
-        }
-        if(menuParam.getPid()!=null){
-            menuBO.setPid(menuParam.getPid());
-        }
-        if(menuParam.getStatus()!=null){
-            menuBO.setStatus(menuParam.getStatus());
-        }
-        if(menuParam.getUrl()!=null){
-            menuBO.setUrl(menuParam.getUrl());
-        }
-        if(menuParam.getIndex()!=null){
-            menuBO.setIndex(menuParam.getIndex());
-        }
-        if(menuParam.getIcon()!=null){
-            menuBO.setIcon(menuParam.getIcon());
-        }
-        menuBO.setUpdateTime(new Date());
-        Integer line = adminService.updateMenuById(menuBO);
-        if(line>0 || StringUtils.isEmpty(String.valueOf(line))){
+        int line = adminService.updateMenuById(menuParam);
+        if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
             super.safeJsonPrint(response , result);
             return ;
@@ -547,7 +512,7 @@ public class AdminController  extends BaseCotroller {
      * @param
      */
     @RequestMapping("/updateAdminUser")
-    public void updateAdminUser(HttpServletRequest request,HttpServletResponse response,RegisterParam param,Integer pageNo,Integer pageSize){
+    public void updateAdminUser(HttpServletRequest request, HttpServletResponse response, RegisterParam param, Integer pageNo, Integer pageSize){
         if(param == null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
@@ -608,7 +573,7 @@ public class AdminController  extends BaseCotroller {
      * @param adminParam
      */
     @RequestMapping("/getAdmin")
-    public void getAdmin(HttpServletRequest request,HttpServletResponse response,GetAdminParam adminParam,Integer pageNo,Integer pageSize){
+    public void getAdmin(HttpServletRequest request, HttpServletResponse response, GetAdminParam adminParam, Integer pageNo, Integer pageSize){
         QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
         Map<String, Object> map = new HashMap<String, Object>();
         if  (queryInfo != null) {
@@ -646,8 +611,7 @@ public class AdminController  extends BaseCotroller {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("count", count);
         jsonObject.put("data", adminBOS);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(jsonObject));
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(json)) ;
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(jsonObject)) ;
         super.safeJsonPrint(response, result);
     }
 
@@ -693,16 +657,18 @@ public class AdminController  extends BaseCotroller {
             super.safeJsonPrint(response , result);
             return ;
         }
-        boolean status = ids.contains(",");
-        if(status){
-            String [] id = ids.split(",");
-            for (String idd:
-                 id) {
-                adminService.delAdminById(Integer.parseInt(idd));
-            }
-        }else{
-            adminService.delAdminById(Integer.parseInt(ids));
+
+                String[] id = ids.split(",");
+
+                 boolean  delAdminjoin=adminService.delAdminById(id);
+                if (delAdminjoin){
+                    String date= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
+                    super.safeJsonPrint(response,date);
+                    return;
         }
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+        super.safeJsonPrint(response , result);
+        return ;
     }
 
     //退出登录
@@ -734,42 +700,4 @@ public class AdminController  extends BaseCotroller {
         return ;
     }
 
-
-    /**
-     * 根据角色id查询对应的权限
-     * @param request
-     * @param response
-     */
-    @RequestMapping("test")
-    public void getPublicSession(HttpServletRequest request, HttpServletResponse response){
-        List<RoleBO> ro = adminService.getRoleMenuSuccess(0);
-        // sqlSession.selectList("findAll",null,new RowBounds(0,2));
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(ro)) ;
-        super.safeJsonPrint(response, result);
-    }
-
-
-    public static void main(String[] args) {
-//        System.out.println(MD5Util.digest("123456"));
-//        System.out.println(MD5Util.digest("456789"));
-//        System.out.println(MD5Util.digest("zhang"));
-//        System.out.println(MD5Util.digest("123456789"));
-
-        String str = "1,2,3,4,5,6,7,8,9,10";
-        String [] strs =  str.split(",");
-        for (String s:
-             strs) {
-            // System.out.println(s);
-        }
-        //System.out.println(strs);
-
-        try{
-            int a =  1/0;
-            System.out.println("bbb");
-            System.out.println(1+1);
-
-        }catch (Exception e){
-            System.out.println("出现异常了");
-        }
-    }
 }

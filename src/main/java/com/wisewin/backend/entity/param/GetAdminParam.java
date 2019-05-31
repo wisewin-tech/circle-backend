@@ -55,4 +55,17 @@ public class GetAdminParam {
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
+
+
+    @Override
+    public String toString() {
+        return "GetAdminParam{" +
+                "id=" + id +
+                ", roleId=" + roleId +
+                ", name='" + name + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", email='" + email + '\'' +
+                ", roleName='" + roleName + '\'' +
+                '}';
+    }
 }
