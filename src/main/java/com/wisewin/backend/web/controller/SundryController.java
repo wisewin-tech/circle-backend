@@ -1,10 +1,9 @@
 package com.wisewin.backend.web.controller;
 
 
-import com.wisewin.backend.entity.bo.AboutUsBO;
-import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.bo.SundryBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
-import com.wisewin.backend.service.AboutUsService;
+import com.wisewin.backend.service.SundryService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
@@ -19,15 +18,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping("/aboutUs")
-public class AboutUsController extends BaseCotroller {
+public class SundryController extends BaseCotroller {
     @Resource
-    private AboutUsService aboutUsService ;
+    private SundryService sundryService;
 
     //查询
     @RequestMapping("/select")
     public void select(HttpServletResponse response) {
         //通过查询信息,返回aboutUs对象
-        AboutUsBO aboutUs=aboutUsService.selectContent();
+        SundryBO aboutUs= sundryService.selectContent();
 
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(aboutUs));
         super.safeJsonPrint(response, json);
@@ -41,7 +40,7 @@ public class AboutUsController extends BaseCotroller {
      * @param aboutUsBO
      */
     @RequestMapping("/update")
-    public void update(HttpServletResponse response, HttpServletRequest request,AboutUsBO aboutUsBO) {
+    public void update(HttpServletResponse response, HttpServletRequest request,SundryBO aboutUsBO) {
         //参数非空验证
         if(aboutUsBO==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
@@ -52,7 +51,7 @@ public class AboutUsController extends BaseCotroller {
        // AdminBO adminBO = super.getLoginUser(request);
         //Integer createUserId = adminBO.getId();
             //对表里数据判断,符合条件的添加和修改,不符合返回false
-        if(aboutUsService.updateAbouUs(aboutUsBO)){
+        if(sundryService.updateAbouUs(aboutUsBO)){
 
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("信息修改成功"));
             super.safeJsonPrint(response, json);
