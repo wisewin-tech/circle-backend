@@ -4,9 +4,9 @@ import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.util.Date;
 
-public class AboutUsDTO extends BaseModel {
-    private Integer id;//关于我们
-    private String imageUrl;//图片路径
+public class SundryDTO extends BaseModel {
+    private Integer id;//杂项
+    private String name;//名称
     private String content;//内容
     private Integer createUserId;//创建人
     private Date createTime;//创建时间
@@ -21,12 +21,12 @@ public class AboutUsDTO extends BaseModel {
         this.id = id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getName() {
+        return name;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getContent() {

@@ -8,13 +8,13 @@ import java.util.Date;
 public class InterestBO {
 
     private Integer id; //兴趣id
-    private Integer interesttypeId; //兴趣分类id
+    private Integer interestTypeId; //兴趣分类id
     private String interestName; //兴趣名称
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
     private Integer createUserId; //创建人
     private Integer updateUserId; //修改人
-    private String grade;//等级
+    private String grade;//等级 parent代表有子兴趣，child代表没有子兴趣了
 
     public InterestBO(){}
     public Integer getId() {
@@ -25,12 +25,12 @@ public class InterestBO {
         this.id = id;
     }
 
-    public Integer getInteresttypeId() {
-        return interesttypeId;
+    public Integer getInterestTypeId() {
+        return interestTypeId;
     }
 
-    public void setInteresttypeId(Integer interesttypeId) {
-        this.interesttypeId = interesttypeId;
+    public void setInterestTypeId(Integer interestTypeId) {
+        this.interestTypeId = interestTypeId;
     }
 
     public String getInterestName() {

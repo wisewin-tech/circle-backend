@@ -2,6 +2,7 @@ package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.InterestBO;
 import com.wisewin.backend.entity.bo.InterestSubclassBO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,14 +20,7 @@ public interface InterestSubclassDAO {
     /**
      * 删除二级兴趣
      */
-    Integer delInterestSubclass(Integer id);
-
-    /**
-     * 修改二级兴趣
-     * 只修改name
-     * param name id adminId
-     */
-    Integer updInterestSubclass(InterestSubclassBO interestSubclassBO);
+    Integer delInterestSubclass(@Param("id") Integer id,@Param("fatherId")Integer fatherId);
 
     /**
      * 通过一级兴趣的id 查询二级兴趣

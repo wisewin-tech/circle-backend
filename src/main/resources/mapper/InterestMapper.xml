@@ -2,32 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--二级兴趣管理-->
 <mapper namespace="com.wisewin.backend.dao.InterestDAO">
 
     <!--添加兴趣-->
     <insert id="addInterest" parameterType="com.wisewin.backend.entity.bo.InterestBO">
-        insert into ce_interest (interest_type_id,interest_name,create_time,create_user_id,grade) values (#{interestTypeId},#{interestName},now(),#{createUserId},#{grade})
+        insert into
+        ce_interest
+        (interest_type_id,interest_name,grade,create_time,create_user_id,update_time,update_user_id)
+        values
+        (#{interestTypeId},#{interestName},#{grade},now(),#{createUserId},now(),#{createUserId})
     </insert>
 
-    <!--修改兴趣-->
-    <update id="updInterest" parameterType="com.wisewin.backend.entity.bo.InterestBO">
-        update ce_interest
-        set
-        interest_name=#{interestName},
-        update_time=now(),
-        update_user_id=#{updateUserId},
-        grade=#{grade}
-        where id=#{id}
-    </update>
-
-    <!--查询兴趣-->
-    <select id="getInterestsByTypeId" resultType="com.wisewin.backend.entity.bo.InterestBO"  parameterType="java.lang.Integer">
-        select * from ce_interest where interest_type_id=#{interestTypeId}
+    <!--通过兴趣分类id查询分类下的兴趣-->
+    <select id="getInterestsByTypeId" resultType="com.wisewin.backend.entity.bo.InterestBO"
+            parameterType="java.lang.Integer">
+        select * from ce_interest where interest_type_id=#{interestTypeId} order by update_time desc
     </select>
 
     <!--删除兴趣-->
     <delete id="delInterest">
-        delete from ce_interest where id=#{id}
+        delete from ce_interest
+        <where>
+            <if test="id!=null and id!=''">and id=#{id}</if>
+            <if test="typeId!=null and typeId!=''">and interest_type_id=#{typeId}</if>
+        </where>
     </delete>
 
 </mapper>

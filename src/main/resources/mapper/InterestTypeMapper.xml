@@ -6,21 +6,21 @@
 
     <!--添加兴趣分类-->
     <insert id="addInterestType" parameterType="com.wisewin.backend.entity.bo.InterestTypeBO">
-        insert into ce_interest_type (type_name,create_time,create_user_id) values (#{typeName},now(),#{createUserId})
+        insert into
+        ce_interest_type
+        (type_name,create_time,create_user_id,update_time,update_user_id)
+        values
+        (#{typeName},now(),#{createUserId},now(),#{createUserId})
     </insert>
 
-    <!--修改兴趣分类-->
-    <update id="updInterestType" parameterType="com.wisewin.backend.entity.bo.InterestTypeBO">
-        update ce_interest_type set type_name=#{typeName},update_time=now(),update_user_id=#{updateUserId}  where id=#{id}
-    </update>
-
-    <!--查询兴趣分类-->
-    <select id="getInterestTypes" resultType="com.wisewin.backend.entity.bo.InterestTypeBO">
+    <!--查询所有兴趣分类-->
+    <select id="getInterestsType" resultType="com.wisewin.backend.entity.bo.InterestTypeBO" parameterType="java.lang.Integer">
         select * from ce_interest_type
+        order by update_time desc
     </select>
 
     <!--删除兴趣分类-->
-    <delete id="delInterestType" parameterType="java.lang.Integer">
+    <delete id="delInterestType">
         delete from ce_interest_type where id=#{id}
     </delete>
 
