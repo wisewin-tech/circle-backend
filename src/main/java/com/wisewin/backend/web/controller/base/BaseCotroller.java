@@ -231,13 +231,10 @@ public class BaseCotroller {
     }
 
     /** putLoginUser*/
-    public void putLoginUser (String loginId , AdminBO loginUser) {
+    public void putLoginAdmin (String loginId , AdminBO loginUser) {
         this.putSession(createKey(loginId, SysConstants.CURRENT_LOGIN_USER), loginUser) ;
     }
-    /** putLoginUser*/
-    public void putLoginUser1 (String loginId , UserBO loginUser) {
-        this.putSession(createKey(loginId, SysConstants.CURRENT_LOGIN_USER), loginUser) ;
-    }
+
 
 //    /** 获取登录用户*/
 //    public ClientInfo getLoginClientInfo (HttpServletRequest request ) {

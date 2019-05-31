@@ -42,6 +42,11 @@ public class AdminBO extends BaseModel {
         this.url = url;
     }
 
+
+    public int getRoleId() {
+        return roleId;
+    }
+
     public Integer getId() {
         return id;
     }
