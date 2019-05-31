@@ -404,7 +404,7 @@ public class AdminService {
      * @return
      */
     public boolean editUserRole(Integer roleId, Integer id) {
-        return adminDAO.editUserRole(roleId, id);
+        return adminDAO.editUserRole(roleId, id)>0;
     }
 
     /**

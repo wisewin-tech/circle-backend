@@ -222,12 +222,12 @@ public interface AdminDAO {
      * @param id     用户id
      * @return
      */
-    boolean editUserRole(@Param("roleId") Integer roleId, @Param("id") Integer id);
+    int editUserRole(@Param("roleId") Integer roleId, @Param("id") Integer id);
 
     /**
      * 根据用户id删除用户信息
      *
-     * @param id 用户id
+     * @param Did 用户id
      * @return
      */
     boolean delAdminById(@Param("Did") String[] Did);

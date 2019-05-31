@@ -496,7 +496,7 @@ public class AdminController extends BaseCotroller {
         }
         boolean boo = adminService.editUserRole(roleId, id);
         if(boo){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改成功")) ;
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
             super.safeJsonPrint(response , result);
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改有误")) ;
@@ -658,13 +658,13 @@ public class AdminController extends BaseCotroller {
             return ;
         }
 
-                String[] id = ids.split(",");
+        String[] id = ids.split(",");
 
-                 boolean  delAdminjoin=adminService.delAdminById(id);
-                if (delAdminjoin){
-                    String date= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
-                    super.safeJsonPrint(response,date);
-                    return;
+         boolean  delAdminjoin=adminService.delAdminById(id);
+        if (delAdminjoin){
+            String date= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
+            super.safeJsonPrint(response,date);
+            return;
         }
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
         super.safeJsonPrint(response , result);
