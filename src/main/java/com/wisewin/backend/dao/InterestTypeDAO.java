@@ -1,7 +1,9 @@
 package com.wisewin.backend.dao;
 
-
+import com.wisewin.backend.entity.bo.InterestBO;
+import com.wisewin.backend.entity.bo.InterestSubclassBO;
 import com.wisewin.backend.entity.bo.InterestTypeBO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,15 +12,18 @@ import java.util.List;
  * */
 public interface InterestTypeDAO {
 
-    //增加兴趣分类
+    /**
+     * 增加兴趣分类
+     */
     Integer addInterestType(InterestTypeBO interestBO);
 
-    //删除兴趣分类
+    /**
+     * 删除兴趣
+     */
     Integer delInterestType(Integer id);
 
-    //修改兴趣分类
-    Integer updInterestType(InterestTypeBO interestBO);
-
-    //查询兴趣分类
-    List<InterestTypeBO> getInterestTypes();
+    /**
+     * 查询所有兴趣分类
+     */
+    List<InterestTypeBO> getInterestsType();
 }

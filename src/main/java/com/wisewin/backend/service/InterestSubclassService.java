@@ -30,16 +30,7 @@ public class InterestSubclassService {
      * 删除二级兴趣
      */
     public boolean delInterestSubclass(Integer id){
-        return interestSubclassDAO.delInterestSubclass(id)>0;
-    }
-
-    /**
-     * 修改二级兴趣
-     * 只修改name
-     * param name id adminId
-     */
-    public boolean updInterestSubclass(InterestSubclassBO interestSubclassBO){
-        return interestSubclassDAO.updInterestSubclass(interestSubclassBO)>0;
+        return interestSubclassDAO.delInterestSubclass(id,null)>0;
     }
 
     /**

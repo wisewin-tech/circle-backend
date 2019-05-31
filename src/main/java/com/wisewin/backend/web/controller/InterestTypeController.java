@@ -1,11 +1,12 @@
 package com.wisewin.backend.web.controller;
 
-import com.wisewin.backend.dao.InterestSubclassDAO;
-import com.wisewin.backend.dao.TestDAO;
 import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.bo.InterestBO;
 import com.wisewin.backend.entity.bo.InterestSubclassBO;
+import com.wisewin.backend.entity.bo.InterestTypeBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.service.InterestSubclassService;
+import com.wisewin.backend.service.InterestTypeService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.slf4j.Logger;
@@ -16,31 +17,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
- * 二级兴趣管理
+ * 兴趣分类管理
  */
 @Controller
-@RequestMapping("/InterestSubclass")
-public class InterestSubclassController extends BaseCotroller {
+@RequestMapping("/InterestType")
+public class InterestTypeController extends BaseCotroller {
 
-    static final Logger log = LoggerFactory.getLogger(InterestSubclassController.class);
+    static final Logger log = LoggerFactory.getLogger(InterestTypeController.class);
 
     @Resource
-    private InterestSubclassService interestSubclassService;
+    private InterestTypeService interestTypeService;
 
     /**
-     * 添加二级兴趣
+     * 添加兴趣分类
      * */
-    @RequestMapping("/addInterestSubclass")
-    public void addInterestSubclass(InterestSubclassBO interestSubclassBO, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/addInterestType")
+    public void addInterestType(InterestTypeBO interestTypeBO, HttpServletRequest request, HttpServletResponse response) {
         //参数异常
-        if(interestSubclassBO==null||interestSubclassBO.getFatherId()==null||interestSubclassBO.getName()==null){
+        if(interestTypeBO==null||interestTypeBO.getTypeName()==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
@@ -53,9 +50,9 @@ public class InterestSubclassController extends BaseCotroller {
             return;
         }
         Integer adminId = loginAdmin.getId();
-        interestSubclassBO.setCreateUserId(adminId);
+        interestTypeBO.setCreateUserId(adminId);
         //添加
-        if(interestSubclassService.addInterestSubclass(interestSubclassBO)){
+        if(interestTypeService.addInterestType(interestTypeBO)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
             super.safeJsonPrint(response, json);
         }else{
@@ -67,10 +64,10 @@ public class InterestSubclassController extends BaseCotroller {
     }
 
     /**
-     * 删除二级兴趣
+     * 删除兴趣分类
      * */
-    @RequestMapping("/delInterestSubclass")
-    public void delInterestSubclass(Integer id, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/delInterestType")
+    public void delInterestType(Integer id, HttpServletRequest request, HttpServletResponse response) {
         //参数异常
         if(id==null||id.equals("")||id==0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
@@ -78,7 +75,7 @@ public class InterestSubclassController extends BaseCotroller {
         }
 
         //删除
-        if(interestSubclassService.delInterestSubclass(id)){
+        if(interestTypeService.delInterestType(id)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
             super.safeJsonPrint(response, json);
         }else{
@@ -90,18 +87,12 @@ public class InterestSubclassController extends BaseCotroller {
 
 
     /**
-     * 查询二级兴趣
+     * 查询兴趣分类
      * */
-    @RequestMapping("/getInterestSubclass")
-    public void getInterestSubclass(Integer interestId, HttpServletRequest request, HttpServletResponse response) {
-        //参数异常
-        if(interestId==null||interestId.equals("")||interestId==0){
-            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeJsonPrint(response, json);
-        }
-
+    @RequestMapping("/getInterestType")
+    public void getInterestType(HttpServletRequest request, HttpServletResponse response) {
         //查询
-        List<InterestSubclassBO> interestSubclassBOS=interestSubclassService.getInterestsSubclassByInterestId(interestId);
+        List<InterestTypeBO> interestSubclassBOS=interestTypeService.getInterestsType();
         String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(interestSubclassBOS));
         super.safeJsonPrint(response,json);
     }
