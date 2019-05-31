@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Shibo Sun
@@ -30,9 +32,11 @@ public class TestController extends BaseCotroller {
     private TestDAO testDAO;
 
     @RequestMapping("/test")
-    public void test(HttpServletResponse response) {
-//        hostDAO.insertHost(hostDO);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(testDAO.test()));
+    public void test(HttpServletResponse response,String str1,String str2) {
+        Map<String,String>  map=new HashMap<String, String>();
+        map.put("str1",str1);
+        map.put("str2",str2);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
         super.safeJsonPrint(response, json);
 
     }

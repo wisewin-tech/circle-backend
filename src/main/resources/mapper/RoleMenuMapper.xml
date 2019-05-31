@@ -6,17 +6,17 @@
 <mapper namespace="com.wisewin.backend.dao.RoleMenuDAO">
 
     <insert id="addRoleBO" parameterType="com.wisewin.backend.entity.bo.RoleMenuBO">
-        insert into ce_role_menu (`role_id`,menu_id,create_time) values (#{roleName},#{menuId},now())
+        insert into ce_role_menu (role_id,menu_id,create_time) values (#{roleName},#{menuId},now())
     </insert>
 
     <update id="updRoleBO" parameterType="com.wisewin.backend.entity.bo.RoleMenuBO">
         update ce_role_menu
         <set>
             <if test="roleName!=null and roleName!=''">
-                `role_id`=#{roleId},
+                role_id=#{roleId},
             </if>
             <if test="roleName!=null and roleName!=''">
-                `menu_id`=#{menuId},
+                menu_id=#{menuId},
             </if>
 
             updateTime=now()

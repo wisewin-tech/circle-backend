@@ -2,6 +2,7 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.MenuDAO;
 import com.wisewin.backend.entity.bo.MenuBO;
+import com.wisewin.backend.util.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,13 +24,13 @@ public class MenuService {
     }
 
     public void insertMenu(MenuBO menu){
-        menu.setCreateTime(new Date());
-        menu.setUpdateTime(new Date());
+        menu.setCreateTime(DateUtils.now());
+        menu.setUpdateTime(DateUtils.now());
         menuDAO.insertMenu(menu);
     }
 
     public void updateMenu(MenuBO menu){
-        menu.setUpdateTime(new Date());
+        menu.setUpdateTime(DateUtils.now());
         menuDAO.updateMenu(menu);
     }
 }

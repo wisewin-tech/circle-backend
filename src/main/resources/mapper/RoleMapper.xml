@@ -6,14 +6,14 @@
 <mapper namespace="com.wisewin.backend.dao.RoleDao">
 
     <insert id="addRoleBO" parameterType="com.wisewin.backend.entity.bo.RoleBO">
-        insert into ce_role (`roleName`,createTime) values (#{roleName},now())
+        insert into ce_role (roleName,createTime) values (#{roleName},now())
     </insert>
 
     <update id="updRoleBO" parameterType="com.wisewin.backend.entity.bo.RoleBO">
         update ce_role
         <set>
             <if test="roleName!=null and roleName!=''">
-                `roleName`=#{roleName},
+                roleName=#{roleName},
             </if>
             updateTime=now()
         </set>

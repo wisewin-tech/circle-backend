@@ -46,4 +46,6 @@ public class NewditHelpParam {
     public void setOperatorusername(String operatorusername) {
         this.operatorusername = operatorusername;
     }
+
+
 }

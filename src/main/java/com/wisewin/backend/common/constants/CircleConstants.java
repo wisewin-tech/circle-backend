@@ -13,4 +13,6 @@ public class CircleConstants {
     /*  管理员标识 */
     public static final String YES = "yes";
     public static final String NO = "no";
+
+
 }

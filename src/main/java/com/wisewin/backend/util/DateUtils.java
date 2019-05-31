@@ -568,8 +568,8 @@ public class DateUtils {
     
 	public static void main(String[] args) {
 
-		Date date1 = DateUtils.parseDate("2016-05-18", DATE_PATTERN) ;
-		Date date2 = DateUtils.parseDate("2016-12-31", DATE_PATTERN) ;
+		Date date1 = DateUtils.parseDate("2016-05-18", DATE_PATTERN);
+		Date date2 = DateUtils.parseDate("2016-12-31", DATE_PATTERN);
 
 		System.out.println(DateUtils.getQuot(date1, date2));
 //		System.out.println(DateUtils.getAppointDate(DateUtils.parseDate("2015-01-04", DATE_PATTERN), 100));
@@ -581,71 +581,12 @@ public class DateUtils {
 		 * Integer age = getAgeByBirthday(cal.getTime());
 		 * System.out.println(age);
 		 ****/
-
-//		Date aa = DateUtils.parseDate("2013-02-03", "yyyy-MM-dd");
-//		System.out.println(DateUtils.getSeasonInt(aa));
-//
-//		Date s = DateUtils.getBeforeDay(new Date(), 1);
-//		System.out.println(s);
-//		Calendar cal = Calendar.getInstance();
-//		System.out.println(cal.get(Calendar.DAY_OF_MONTH));
-//		System.out.println("...." +
-//				DateUtils.formatDate(DateUtils.CNLONG_DATE_PATTERN , DateUtils.getBeforeDay(new Date(), -1)));
-
-	}
-
-	//获取当日日期的未来N天
-	public static String getSpecifiedDayBefore(int dayNumber){
-
-		Calendar c = Calendar.getInstance();
-		Date date=new Date();
-		c.setTime(date);
-		int day=c.get(Calendar.DATE);
-
-		c.set(Calendar.DATE, day+dayNumber);
-		String dayBefore=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(c.getTime());
-		return dayBefore;
-	}
-
-	//获取当日日期的未来N天
-	public static String getCheckDate(Date date, int dayNumber){
-
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		int day=c.get(Calendar.DATE);
-
-		c.set(Calendar.DATE, day+dayNumber);
-		String dayBefore=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(c.getTime());
-		return dayBefore;
 	}
 
 
-	//获取指定分钟之前的时间
-	public static String gettheTimeBeforeTheMinute(int zminute){
-		Date now=new Date();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String specifiedDay=simpleDateFormat.format(now);
-
-		Calendar c = Calendar.getInstance();
-		Date date=null;
-		try {
-			date = new SimpleDateFormat("yy-MM-dd HH:mm:ss").parse(specifiedDay);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		c.setTime(date);
-		int minute=c.get(Calendar.MINUTE);
-
-		c.set(Calendar.MINUTE, minute-zminute);
-		String dayBefore=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(c.getTime());
-		return dayBefore;
-	}
-	//查询当前时间5时前
-	public static String getFiveHoursBefore(){
+    public static String now() {
 		Date date=new Date();
 		String dayBefore=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 		return dayBefore;
-	}
-
-
+    }
 }

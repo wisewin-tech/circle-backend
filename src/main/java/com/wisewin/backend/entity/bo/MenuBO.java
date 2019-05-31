@@ -13,9 +13,9 @@ public class MenuBO {
 
     private Integer pid; // 父id
 
-    private Date createTime; //创建时间
+    private String createTime; //创建时间
 
-    private Date updateTime; // 修改时间
+    private String updateTime; // 修改时间
 
     private String url;
 
@@ -91,19 +91,19 @@ public class MenuBO {
         this.pid = pid;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
