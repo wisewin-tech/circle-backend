@@ -3,8 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 【用户】 -->
-<mapper namespace="com.wisewin.backend.dao.AboutUsDAO">
-    <resultMap id="aboutUs" type="com.wisewin.backend.entity.bo.AboutUsBO"  >
+<mapper namespace="com.wisewin.backend.dao.SundryDAO">
+    <resultMap id="aboutUs" type="com.wisewin.backend.entity.bo.SundryBO"  >
 
         <result column="image_url"  property="imageUrl"  />
 
@@ -24,7 +24,7 @@
     </select>
 
     <!--修改-->
-    <update id="updateAboutUs" parameterType="com.wisewin.backend.entity.bo.AboutUsBO">
+    <update id="updateAboutUs" parameterType="com.wisewin.backend.entity.bo.SundryBO">
         UPDATE ce_about_us
         SET
             <if test="content!=null and content!='' " >
@@ -35,7 +35,7 @@
 
     </update>
     <!--增加-->
-    <insert id="insertAboutUs" parameterType="com.wisewin.backend.entity.bo.AboutUsBO">
+    <insert id="insertAboutUs" parameterType="com.wisewin.backend.entity.bo.SundryBO">
       INSERT INTO ce_about_us (content,create_time,create_user_id) VALUES
       (#{content},now(),#{createUserId})
 
