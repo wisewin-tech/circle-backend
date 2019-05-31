@@ -18,13 +18,16 @@ import javax.servlet.http.HttpServletResponse;
  * 关于我们
  */
 @Controller
-@RequestMapping("/aboutUs")
+@RequestMapping("/sundry")
 public class SundryController extends BaseCotroller {
     @Resource
     private SundryService sundryService ;
 
-    //查询
-    @RequestMapping("/select")
+    /**
+     * 查询关于我们
+     * @param response
+     */
+    @RequestMapping("/selectAboutUs")
     public void select(HttpServletResponse response) {
         //通过查询信息,返回aboutUs对象
         SundryBO aboutUs=sundryService.selectContent();
@@ -40,7 +43,7 @@ public class SundryController extends BaseCotroller {
      * @param request
      * @param aboutUsBO
      */
-    @RequestMapping("/update")
+    @RequestMapping("/updateAboutUs")
     public void update(HttpServletResponse response, HttpServletRequest request,SundryBO aboutUsBO) {
         //参数非空验证
         if(aboutUsBO==null){
