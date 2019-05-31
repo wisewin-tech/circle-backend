@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wisewin.backend.dao.InterestSubclassDAO">
+
+    <!--添加二级兴趣-->
+    <insert id="addInterestSubclass" parameterType="com.wisewin.backend.entity.bo.InterestSubclassBO">
+        insert into
+        ce_interest_subclass
+        (father_id,"name",create_time,create_user_id)
+        values
+        (#{fatherId},#{name},now(),#{createUserId})
+    </insert>
+
+    <!--修改二级兴趣-->
+    <update id="updInterestSubclass" parameterType="com.wisewin.backend.entity.bo.InterestSubclassBO">
+        update ce_interest_subclass
+        set
+        "name"=#{name},
+        update_time=now(),
+        update_user_id=#{updateUserId}
+        where id=#{id}
+    </update>
+
+    <!--查询二级兴趣-->
+    <select id="getInterestsSubclassByInterestId" resultType="com.wisewin.backend.entity.bo.InterestSubclassBO" parameterType="java.lang.Integer">
+        select * from ce_interest_subclass where father_id=#{interestId}
+    </select>
+
+    <!--删除二级兴趣-->
+    <delete id="delInterestSubclass">
+        delete from ce_interest_subclass where id=#{id}
+    </delete>
+
+</mapper>
