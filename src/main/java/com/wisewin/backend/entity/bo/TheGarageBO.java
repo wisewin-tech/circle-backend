@@ -1,31 +1,24 @@
 package com.wisewin.backend.entity.bo;
 
-import com.wisewin.backend.entity.bo.common.base.BaseModel;
+public class TheGarageBO {
+    private Integer id; //车库
+    private Integer userId; //用户id
+    private String plateNumber; //车牌号
+    private String brandModel; //品牌型号
+    private String certificationPictures; //认证图片
+    private Integer status; //认证状态
 
-import java.util.Date;
-
-/**
- * Created by 王彬 on 2019/5/16.
- */
-public class TheGarageBO extends BaseModel {
-    //id
-    private Integer id;
-    //用户id
-    private Integer userId;
-    //车牌号
-    private String plateNumber;
-    //品牌型号
-    private String branModel;
-    //车辆识别码
-    private String headingCode;
-    //认证图片
-    private String certificationPictures;
-    //认证状态
-    private String status;
-    //修改时间
-    private Date updateTime;
-    //创建时间
-    private Date createTime;
+    @Override
+    public String toString() {
+        return "TheGarageBO{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", plateNumber='" + plateNumber + '\'' +
+                ", brandModel='" + brandModel + '\'' +
+                ", certificationPictures='" + certificationPictures + '\'' +
+                ", status=" + status +
+                '}';
+    }
 
     public Integer getId() {
         return id;
@@ -51,20 +44,12 @@ public class TheGarageBO extends BaseModel {
         this.plateNumber = plateNumber;
     }
 
-    public String getBranModel() {
-        return branModel;
+    public String getBrandModel() {
+        return brandModel;
     }
 
-    public void setBranModel(String branModel) {
-        this.branModel = branModel;
-    }
-
-    public String getHeadingCode() {
-        return headingCode;
-    }
-
-    public void setHeadingCode(String headingCode) {
-        this.headingCode = headingCode;
+    public void setBrandModel(String brandModel) {
+        this.brandModel = brandModel;
     }
 
     public String getCertificationPictures() {
@@ -75,27 +60,11 @@ public class TheGarageBO extends BaseModel {
         this.certificationPictures = certificationPictures;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 }

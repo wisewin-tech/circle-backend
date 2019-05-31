@@ -1,33 +1,20 @@
 package com.wisewin.backend.entity.bo;
 
+import com.wisewin.backend.common.base.BaseModel;
+
 import java.util.Date;
 
-/**
- * Created by 王彬 on 2019/5/16.
- */
-public class FeedbackBO {
-    //id
-    private Integer id;
-    //用户id
-    private Integer userId;
-    //内容
-    private String centent;
-    //图片（备用字段）
-    private String image;
-    //联系方式
-    private String contactWay;
-    //联系号码
-    private String contactNumber;
-    //创建时间
-    private Date createTime;
-    //状态
-    private String status;
-    //系统用户id
-    private Integer adminId;
-    //修改时间
-    private Date updateTime;
-    //处理结果
-    private String disposeResult;
+public class FeedbackBO extends BaseModel{
+    private Integer id;//意见反馈
+    private Integer userId;//用户id
+    private String content;//反馈内容
+    private String image;//图片
+    private String contactWay;//联系方式
+    private String contactNumber;//联系号码
+    private Date createTime;//创建时间
+    private String status;//状态
+    private Integer adminId;//操作员id
+    private Date updateTime;//修改时间
 
     public Integer getId() {
         return id;
@@ -45,12 +32,12 @@ public class FeedbackBO {
         this.userId = userId;
     }
 
-    public String getCentent() {
-        return centent;
+    public String getContent() {
+        return content;
     }
 
-    public void setCentent(String centent) {
-        this.centent = centent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getImage() {
@@ -107,13 +94,5 @@ public class FeedbackBO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getDisposeResult() {
-        return disposeResult;
-    }
-
-    public void setDisposeResult(String disposeResult) {
-        this.disposeResult = disposeResult;
     }
 }

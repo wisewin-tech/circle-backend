@@ -1,30 +1,18 @@
 package com.wisewin.backend.entity.bo;
 
-import com.wisewin.backend.entity.bo.common.base.BaseModel;
-
 import java.util.Date;
 import java.util.List;
 
-
-public class NewbitHelpBO extends BaseModel {
-
-    private Integer id;//id
-    private Integer pId;//父id
+public class NewbitHelpBO {
+    private Integer id; //新手帮助
+    private Integer pId; //父id
     private String masterTitle; //主标题
-    private String slaveTitle;//副标题
-    private  Integer createUserId;//创建人id
-    private Date createTime;//创建时间
-    private Integer updateUserId;//修改人id
-    private Date updateTime;//修改时间
-    List<NewbitHelpBO> list;
-
-    public List<NewbitHelpBO> getList() {
-        return list;
-    }
-
-    public void setList(List<NewbitHelpBO> list) {
-        this.list = list;
-    }
+    private String slaveTitle; //副标题
+    private Date createTime; //创建时间
+    private Date updateTime; //修改时间
+    private Integer operatorUserId; //修改人id
+    private String operatorUserName; //修改人姓名
+    private List<NewbitHelpBO>  list;//新手帮助内容
 
     public Integer getId() {
         return id;
@@ -58,14 +46,6 @@ public class NewbitHelpBO extends BaseModel {
         this.slaveTitle = slaveTitle;
     }
 
-    public Integer getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Integer createUserId) {
-        this.createUserId = createUserId;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -74,19 +54,35 @@ public class NewbitHelpBO extends BaseModel {
         this.createTime = createTime;
     }
 
-    public Integer getUpdateUserId() {
-        return updateUserId;
-    }
-
-    public void setUpdateUserId(Integer updateUserId) {
-        this.updateUserId = updateUserId;
-    }
-
     public Date getUpdateTime() {
         return updateTime;
     }
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getOperatorUserId() {
+        return operatorUserId;
+    }
+
+    public void setOperatorUserId(Integer operatorUserId) {
+        this.operatorUserId = operatorUserId;
+    }
+
+    public String getOperatorUserName() {
+        return operatorUserName;
+    }
+
+    public void setOperatorUserName(String operatorUserName) {
+        this.operatorUserName = operatorUserName;
+    }
+
+    public List<NewbitHelpBO> getList() {
+        return list;
+    }
+
+    public void setList(List<NewbitHelpBO> list) {
+        this.list = list;
     }
 }

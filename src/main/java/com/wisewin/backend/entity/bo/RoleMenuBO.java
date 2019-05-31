@@ -1,23 +1,17 @@
 package com.wisewin.backend.entity.bo;
 
-import com.wisewin.backend.entity.bo.common.base.BaseModel;
-
 import java.util.Date;
 
-/**
- * Created by 王彬 on 2019/5/16.
- */
-public class RoleMenuBO extends BaseModel {
-    //id
-    private Integer id;
-    //角色id
-    private Integer roleId;
-    //菜单id
-    private Integer menuId;
-    //创建时间
-    private Date createTime;
-    //修改时间
-    private Date updateTime;
+public class RoleMenuBO {
+    private Integer id; // 角色菜单
+
+    private Integer roleId; // 角色id
+
+    private Integer menuId; // 权限id
+
+    private Date createTime; // 创建时间按
+
+    private Date updateTime; // 修改时间
 
     public Integer getId() {
         return id;

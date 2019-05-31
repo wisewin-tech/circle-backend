@@ -1,15 +1,15 @@
 package com.wisewin.backend.dao;
 
 
-import com.wisewin.backend.entity.bo.SundryBO;
+import com.wisewin.backend.entity.bo.AboutUsBO;
 
-public interface SundryDAO {
+public interface AboutUsDAO {
 
     /**
      * 查询"关于我们"的信息
      * @return
      */
-    SundryBO selectAbout();
+    AboutUsBO selectAbout();
 
     /**
      * 查询表中数据是否为1
@@ -21,12 +21,12 @@ public interface SundryDAO {
      * 修改信息
      * @param aboutUs
      */
-    void updateAboutUs(SundryBO aboutUs);
+    void updateAboutUs(AboutUsBO aboutUs);
 
     /**
      * 添加信息
      * @param aboutUsBO
      */
-    void insertAboutUs(SundryBO aboutUsBO);
+    void insertAboutUs(AboutUsBO aboutUsBO);
     //void insertAboutUs(AboutUsBO aboutUsBO,Integer createUserId);
 }

@@ -1,33 +1,49 @@
 package com.wisewin.backend.entity.bo;
 
-import com.wisewin.backend.common.base.BaseModel;
-
 import java.util.Date;
+import java.util.List;
 
 /**
- * Created by 王彬 on 2019/5/16.
+ * Created by yxw on 2018/11/5.
  */
-public class AdminBO extends BaseModel {
-    //id
-    private Integer id;
-    //手机号
-    private String phoneNumber;
-    //姓名
-    private String name;
-    //密码
-    private String password;
-    //yes/no状态
-    private String status;
-    //性别 男(male)/女(female)
-    private String gender;
-    //创建时间
-    private Date createTime;
-    //修改时间
-    private Date updateTime;
-    //角色id
-    private Integer roleId;
-    //邮箱
+public class AdminBO {
+    private Integer id;// 管理员用户
+
+    private String phoneNumber; // 手机号
+
+    private String name; // 名称
+
+    private String password; // 密码
+
+    private String status; // 状态
+
+    private String gender; // 性别
+
+    private int roleId; // 角色id
+
+    private Date createTime; // 创建时间
+
+    private Date updateTime; // 修改时间
+
     private String email;
+
+    private List<RoleBO> roleBO;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<RoleBO> getRoleBO() {
+        return roleBO;
+    }
+
+    public void setRoleBO(List<RoleBO> roleBO) {
+        this.roleBO = roleBO;
+    }
 
     public Integer getId() {
         return id;
@@ -42,7 +58,7 @@ public class AdminBO extends BaseModel {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber == null ? null : phoneNumber.trim();
     }
 
     public String getName() {
@@ -50,7 +66,7 @@ public class AdminBO extends BaseModel {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public String getPassword() {
@@ -58,7 +74,7 @@ public class AdminBO extends BaseModel {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null ? null : password.trim();
     }
 
     public String getStatus() {
@@ -66,7 +82,7 @@ public class AdminBO extends BaseModel {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = status == null ? null : status.trim();
     }
 
     public String getGender() {
@@ -74,7 +90,15 @@ public class AdminBO extends BaseModel {
     }
 
     public void setGender(String gender) {
-        this.gender = gender;
+        this.gender = gender == null ? null : gender.trim();
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public Date getCreateTime() {
@@ -91,21 +115,5 @@ public class AdminBO extends BaseModel {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

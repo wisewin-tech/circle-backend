@@ -1,21 +1,21 @@
 package com.wisewin.backend.service;
 
-import com.wisewin.backend.dao.SundryDAO;
-import com.wisewin.backend.entity.bo.SundryBO;
+import com.wisewin.backend.dao.AboutUsDAO;
+import com.wisewin.backend.entity.bo.AboutUsBO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
-@Service("sundryService")
+@Service("aboutUsService")
 @Transactional
-public class SundryService {
+public class AboutUsService {
     @Resource
-    private SundryDAO sundryDAO;
+    private AboutUsDAO aboutUsDAO;
 
     //查询"关于我们"的信息
-    public SundryBO selectContent() {
-        return sundryDAO.selectAbout();
+    public AboutUsBO selectContent() {
+        return aboutUsDAO.selectAbout();
     }
 
     //修改"关于我们"的信息
@@ -24,15 +24,15 @@ public class SundryService {
     只有一条时,修改;
     大于一条时,数据异常
      */
-    public boolean updateAbouUs(SundryBO aboutUsBO) {
-        int i = sundryDAO.selectid();
+    public boolean updateAbouUs(AboutUsBO aboutUsBO) {
+        int i = aboutUsDAO.selectid();
         if (i==0){  //如果表里没有数据
             //新增内容
-            sundryDAO.insertAboutUs(aboutUsBO);
+            aboutUsDAO.insertAboutUs(aboutUsBO);
         }else if(i==1) {  //如果表里有且只有一条数据
 
             //修改内容
-            sundryDAO.updateAboutUs(aboutUsBO);
+            aboutUsDAO.updateAboutUs(aboutUsBO);
         }else{
             return false;
         }

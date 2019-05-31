@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * 兴趣分类
  */
-public class InteresttypeBO {
+public class InterestTypeBO {
 
     private int id;//兴趣分类id
     private String typeName; //分类名称
@@ -14,7 +14,7 @@ public class InteresttypeBO {
     private Integer updateUserId; //修改人
     private Integer createUserId; //修改人
 
-    public InteresttypeBO(){}
+    public InterestTypeBO(){}
 
     public int getId() {
         return id;
