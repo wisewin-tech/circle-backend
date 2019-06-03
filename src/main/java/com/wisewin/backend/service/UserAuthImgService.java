@@ -2,28 +2,36 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.UserAuthImgDAO;
 import com.wisewin.backend.entity.bo.UserAuthImgBO;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
- * Created by 王彬 on 2019/5/20.
+ *用户认证信息
  */
+@Service("UserAuthImgService")
+@Transactional
 public class UserAuthImgService {
 
     @Resource
     private UserAuthImgDAO userAuthImgDAO;
 
-    public UserAuthImgBO queryUserAuthById(String id){
-        return userAuthImgDAO.queryUserAuthById(id);
+    /*
+     *查询用户认证信息
+     */
+    public List<UserAuthImgBO> getUserAuth(Integer userId,String status){
+        return userAuthImgDAO.getUserAuth(userId,status);
     }
 
-    public void updateUserAuth(UserAuthImgBO userAuthImg){
-        userAuthImgDAO.updateUserAuth(userAuthImg);
+    /*
+     *修改用户认证信息状态
+     */
+    public Integer updUserAuth(UserAuthImgBO authImgBO){
+        return userAuthImgDAO.updUserAuth(authImgBO);
     }
 
-    public void insetUserAuth(UserAuthImgBO userAuthImg){
-        userAuthImgDAO.insetUserAuth(userAuthImg);
-    }
 
 
 }

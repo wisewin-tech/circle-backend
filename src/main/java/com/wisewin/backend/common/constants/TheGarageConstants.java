@@ -1,15 +1,19 @@
 package com.wisewin.backend.common.constants;
 
-public enum CaseConstants {
+public enum TheGarageConstants {
 
-    /*可查看*/ YES("yes"),
-    /*不可查看*/ NO("no");
 
-    private CaseConstants(String value) {
+    /*未通过认证*/ UNVERIFIED("unverified"),
+    /*已通过认证*/ AUTHENTICATED("authenticated"),
+    /*未经过审核*/  UNREVIEWED("unreviewed");
+
+
+
+    private TheGarageConstants(String value) {
         this.value = value;
     }
 
-    private CaseConstants(Integer num) {
+    private TheGarageConstants(Integer num) {
         this.num = num;
     }
 
