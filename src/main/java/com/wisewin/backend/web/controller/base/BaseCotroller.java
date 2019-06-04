@@ -3,7 +3,6 @@ package com.wisewin.backend.web.controller.base;
 import com.google.common.collect.Lists;
 import com.wisewin.backend.common.constants.SysConstants;
 import com.wisewin.backend.entity.bo.AdminBO;
-import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.query.PageObject;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.util.redisUtils.RedissonHandler;
