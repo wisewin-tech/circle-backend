@@ -10,41 +10,36 @@ public class PatternBO {
     private Integer userId; //用户id
     private Date updateTime; //最后修改时间
     private String describe; //描述
-    private String interest; //兴起
+    private String interest; //兴趣
     private String  type; //模式  DATE/BFF模式
-    private String inquireAge; //查询年龄开始
-    private String inquireSex; //查询性别
-    private String inquireAgeOver; //查询年龄结束
-    private String queryLocation; //位置
-    private String likeSum; //被喜欢次数
 
+    private Integer inquireAge;//查询年龄开始
+    private Integer inquireSex;//查询性别
+    private Integer inquireAgeOver;//查询年龄结束
+    private String queryLocation;//查询位置
+    private Integer likeSum;//被喜欢次数
 
-    public PatternBO(Integer userId, String type) {
-        this.userId = userId;
-        this.type = type;
-    }
-
-    public String getInquireAge() {
+    public Integer getInquireAge() {
         return inquireAge;
     }
 
-    public void setInquireAge(String inquireAge) {
+    public void setInquireAge(Integer inquireAge) {
         this.inquireAge = inquireAge;
     }
 
-    public String getInquireSex() {
+    public Integer getInquireSex() {
         return inquireSex;
     }
 
-    public void setInquireSex(String inquireSex) {
+    public void setInquireSex(Integer inquireSex) {
         this.inquireSex = inquireSex;
     }
 
-    public String getInquireAgeOver() {
+    public Integer getInquireAgeOver() {
         return inquireAgeOver;
     }
 
-    public void setInquireAgeOver(String inquireAgeOver) {
+    public void setInquireAgeOver(Integer inquireAgeOver) {
         this.inquireAgeOver = inquireAgeOver;
     }
 
@@ -56,12 +51,17 @@ public class PatternBO {
         this.queryLocation = queryLocation;
     }
 
-    public String getLikeSum() {
+    public Integer getLikeSum() {
         return likeSum;
     }
 
-    public void setLikeSum(String likeSum) {
+    public void setLikeSum(Integer likeSum) {
         this.likeSum = likeSum;
+    }
+
+    public PatternBO(Integer userId, String type) {
+        this.userId = userId;
+        this.type = type;
     }
 
     public PatternBO(){}
