@@ -64,7 +64,7 @@ public class TheGarageImgController extends BaseCotroller{
             super.safeJsonPrint(response, json);
             return;
         }
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("删除车库图片失败！"));
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002"));
         super.safeJsonPrint(response, json);
     }
 }

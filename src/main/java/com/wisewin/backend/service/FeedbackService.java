@@ -1,6 +1,7 @@
 package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.FeedbackDAO;
+import com.wisewin.backend.entity.bo.FeedBackResultBO;
 import com.wisewin.backend.entity.bo.FeedbackBO;
 import com.wisewin.backend.entity.param.FeedbackParam;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class FeedbackService {
      * @param map
      * @return
      */
-    public List<FeedbackBO> selectFeedback(Map<String,Object> map){
+    public List<FeedBackResultBO> selectFeedback(Map<String,Object> map){
         return feedbackDAO.selectFeedback(map);
     }
 

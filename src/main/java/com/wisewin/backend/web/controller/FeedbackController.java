@@ -1,5 +1,6 @@
 package com.wisewin.backend.web.controller;
 
+import com.wisewin.backend.entity.bo.FeedBackResultBO;
 import com.wisewin.backend.entity.bo.FeedbackBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.FeedbackParam;
@@ -35,7 +36,7 @@ public class FeedbackController extends BaseCotroller{
     public void selectFeedback(Integer pageNo, Integer pageSize,FeedbackParam feedbackParam, HttpServletRequest request, HttpServletResponse response){
         //验证参数
         if (feedbackParam==null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
             super.safeJsonPrint(response, result);
             return ;
         }
@@ -50,10 +51,10 @@ public class FeedbackController extends BaseCotroller{
 //        maps.put("begin",feedbackParam.getBegin());
 //        maps.put("end",feedbackParam.getEnd());
 
-        List<FeedbackBO> feedbackBOList = feedbackService.selectFeedback(maps);
+        List<FeedBackResultBO> feedBackResultBOList = feedbackService.selectFeedback(maps);
         Integer count = feedbackService.selectbylimitCount(maps);
         Map<String,Object>  resultMap=new HashMap<String, Object>();
-        resultMap.put("data",feedbackBOList);
+        resultMap.put("feedBackResultBOList",feedBackResultBOList);
         resultMap.put("count",count);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
         super.safeJsonPrint(response, result);
