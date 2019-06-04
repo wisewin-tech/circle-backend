@@ -64,4 +64,5 @@ public class UserAuthController extends BaseCotroller {
             super.safeHtmlPrint(response,languagejson);
         }
     }
+
 }

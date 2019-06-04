@@ -14,8 +14,10 @@ public class UserAuthImgBO extends BaseModel {
     private Integer userId;
     //状态
     private String status;
-    //图片路径
+    //认证图片路径
     private String imgUrl;
+    //认证示例图片的路径
+    private String sampleImgUrl;
     //审核员id
     private Integer adminId;
 
@@ -23,6 +25,14 @@ public class UserAuthImgBO extends BaseModel {
     private Date updateTime;
     //通知给用户的信息
     private String notice;
+
+    public String getSampleImgUrl() {
+        return sampleImgUrl;
+    }
+
+    public void setSampleImgUrl(String sampleImgUrl) {
+        this.sampleImgUrl = sampleImgUrl;
+    }
 
     public Integer getId() {
         return id;
