@@ -25,13 +25,6 @@ public class CaseService {
     }
 
     public boolean updCase(CaseBO caseImgBO){
-        if(caseImgBO.getStatus()!=null&&!caseImgBO.getStatus().equals("")){
-            if(caseImgBO.getStatus().equals("yes")){
-                caseImgBO.setStatus(CaseConstants.YES.getValue());
-            }else{
-                caseImgBO.setStatus(CaseConstants.NO.getValue());
-            }
-        }
         return caseDAO.updCase(caseImgBO)>0;
     }
 
