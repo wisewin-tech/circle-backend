@@ -23,7 +23,7 @@ public interface PairingDAO {
     /**
      * 查找数据库是否有数据
      */
-    int findPairing(@Param("key")String key);
+    Integer findPairing(@Param("key")String key);
 
     /**
      * 根据条件显示信息

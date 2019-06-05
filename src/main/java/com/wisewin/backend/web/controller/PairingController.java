@@ -47,7 +47,7 @@ public class PairingController extends BaseCotroller{
         }
 
         //查询数据库是否有相同的数据
-        int findPairingjoin=pairingService.findPairing(param.getKey());
+        Integer findPairingjoin=pairingService.findPairing(param.getKey());
         if (findPairingjoin>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
             super.safeJsonPrint(response, result);

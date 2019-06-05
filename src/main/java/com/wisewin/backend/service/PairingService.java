@@ -39,7 +39,7 @@ public class PairingService {
     /**
      * 查找数据库是否有数据
      */
-    public int findPairing(String key){
+    public Integer findPairing(String key){
 
         return  pairingDAO.findPairing(key);
 
