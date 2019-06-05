@@ -27,7 +27,7 @@ public class NewbitHelpController extends BaseCotroller{
     private NewbitHelpService newbitHelpService;
 
     /**
-     * 查询新手帮助信息
+     * 查询新手帮助标题
      * @param request
      * @param response
      */
@@ -40,7 +40,7 @@ public class NewbitHelpController extends BaseCotroller{
     }
 
     /**
-     * 新增新手帮助信息
+     * 新增新手帮助标题
      * @param request
      * @param response
      * @param param
@@ -64,7 +64,7 @@ public class NewbitHelpController extends BaseCotroller{
     }
 
     /**
-     * 删除新手帮助信息
+     * 删除新手帮助标题
      * @param
      * @param request
      * @param response
@@ -88,6 +88,14 @@ public class NewbitHelpController extends BaseCotroller{
             super.safeJsonPrint(response, result);
         }
     }
+
+    /**
+     *修改新手帮助标题
+     * @param request
+     * @param response
+     * @param masterTitle
+     * @param id
+     */
     @RequestMapping("/editNewditHelp")
     public void editNewditHelp(HttpServletRequest request,HttpServletResponse response,String masterTitle,Integer id){
     //参数验证

@@ -14,21 +14,21 @@ public interface NewbitHelpDAO {
     List<NewbitHelpBO> selectNewbitHelp();
 
     /**
-     * 新增新手帮助信息
+     * 新增新手帮助标题
      * @param newditHelpParam
      * @return
      */
     Integer insertNewbitHelp(NewditHelpParam newditHelpParam);
 
     /**
-     * 删除新手帮助信息
+     * 删除新手帮助标题
      * @param id
      * @return
      */
     boolean deleteNewbitHelp(Integer id);
 
     /**
-     * 修改新手帮助信息
+     * 修改新手帮助标题
      * @param masterTitle
      * @param id
      * @return

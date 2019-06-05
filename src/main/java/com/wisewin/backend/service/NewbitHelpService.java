@@ -25,7 +25,7 @@ public class NewbitHelpService {
 }
 
     /**
-     * 新增新手帮助信息
+     * 新增新手帮助标题
      * @return
      */
     public Integer insertNewbitHelp(NewditHelpParam newditHelpParam){
@@ -33,7 +33,7 @@ public class NewbitHelpService {
 }
 
     /**
-     * 删除新手帮助信息
+     * 删除新手帮助标题
      * @param id
      * @return
      */
@@ -43,7 +43,7 @@ public class NewbitHelpService {
 }
 
     /**
-     * 修改新手帮助信息
+     * 修改新手帮助标题
      * @param masterTitle 标题
      * @param id
      * @return

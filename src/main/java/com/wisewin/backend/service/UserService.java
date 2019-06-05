@@ -1,6 +1,7 @@
 package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.UserDAO;
+import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.entity.param.UserParam;
 import com.wisewin.backend.util.MD5Util;
 import com.wisewin.backend.util.StringUtils;

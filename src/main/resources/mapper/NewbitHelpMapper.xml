@@ -12,14 +12,14 @@
             <result column="title"  property="masterTitle"  />
         </collection>
     </resultMap>
-    <!-- 查询新手帮助信息 -->
+    <!-- 查询新手帮助标题 -->
     <select id="selectNewbitHelp" resultMap="newbit" >
-       SELECT  newbit.master_title ,  `help`.master_title title FROM
-                            `ce_newbit_help`  newbit   INNER  JOIN
-                              `ce_newbit_help`  `help`    ON   newbit.id  = `help`.p_id
+       SELECT  newbit.master_title ,  help.master_title title FROM
+                            ce_newbit_help  newbit   INNER  JOIN
+                              ce_newbit_help  help    ON   newbit.id  = help.p_id
        </select>
 
-    <!--新增新手帮助信息-->
+    <!--新增新手帮助标题-->
     <insert id="insertNewbitHelp" parameterType="com.wisewin.backend.entity.param.NewditHelpParam">
       INSERT INTO ce_newbit_help
         <set>
@@ -32,7 +32,7 @@
       DELETE FROM ce_newbit_help WHERE id=#{id}
     </delete>
 
-    <!--  编辑新手帮助信息  -->
+    <!--  编辑新手帮助标题  -->
     <update id="editNewditHelp" parameterType="com.wisewin.backend.entity.param.NewditHelpParam">
         UPDATE ce_newbit_help
         <set>

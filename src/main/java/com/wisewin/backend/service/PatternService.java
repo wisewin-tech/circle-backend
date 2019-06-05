@@ -1,6 +1,7 @@
 package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.PatternDAO;
+import com.wisewin.backend.entity.bo.PatternBO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
