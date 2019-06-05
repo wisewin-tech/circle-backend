@@ -6,35 +6,26 @@
 <mapper namespace="com.wisewin.backend.dao.NewbitHelpContentDAO">
     <!--添加新手帮助内容-->
     <insert id="addNewbitHelpContent" parameterType="com.wisewin.backend.entity.bo.NewbitHelpContentBO">
-        INSERT INTO ce_newbit_help_content (help_id,content,author) VALUES (#{helpId},#{content},#{author})
+        INSERT INTO ce_newbit_help_content (help_id,content) VALUES (#{helpId},#{content})
     </insert>
 
     <!--修改帮助内容-->
-    <update id="updNewbitHelpContentBO" parameterType="com.wisewin.backend.entity.bo.NewbitHelpContentBO">
+    <update id="updNewbitHelpContent" parameterType="com.wisewin.backend.entity.bo.NewbitHelpContentBO">
         UPDATE ce_newbit_help_content
         <set>
         <if test="content!=null and content!=''">content=#{content},</if>
-        <if test="helpId!=null">help_id=#{helpId}</if>
         </set>
-        WHERE id=#{id}
+        WHERE help_id=#{helpId}
 
     </update>
 
     <!--删除新手帮助内容-->
-    <delete id="delNewbitHelpContentBO" parameterType="java.lang.Integer">
+    <delete id="delNewbitHelpContent" parameterType="java.lang.Integer">
         delete from ce_newbit_help_content where id=#{id}
     </delete>
 
     <!--查询新手帮助有信息-->
-    <select id="getNewbitHelpContentBO" resultType="com.wisewin.backend.entity.bo.NewbitHelpContentBO">
-        SELECT
-	      cp."id",cp.p_id,cp.master_title,
-	      ct."id" contentId,ct.help_id,
-	      ct."content",ct.img_url,
-	      ct.author,cp.create_user_id,
-	      cp.create_time,cp.update_user_id,cp.update_time
-        FROM
-	      ce_newbit_help cp
-	    LEFT JOIN "ce_newbit_help_content" ct ON cp."id" = ct.help_id
+    <select id="getNewbitHelpContent" resultType="com.wisewin.backend.entity.bo.NewbitHelpContentBO">
+        SELECT * FROM ce_newbit_help_content WHERE help_id =#{helpId}
     </select>
 </mapper>

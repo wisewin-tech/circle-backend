@@ -2,8 +2,10 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.dao.NewbitHelpDAO;
 import com.wisewin.backend.entity.bo.NewbitHelpBO;
+import com.wisewin.backend.entity.bo.NewbitHelpContentBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.NewditHelpParam;
+import com.wisewin.backend.service.NewbitHelpContentService;
 import com.wisewin.backend.service.NewbitHelpService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.StringUtils;
@@ -25,6 +27,8 @@ import java.util.List;
 public class NewbitHelpController extends BaseCotroller{
     @Resource
     private NewbitHelpService newbitHelpService;
+    @Resource
+    private NewbitHelpContentService newbitHelpContentService;
 
     /**
      * 查询新手帮助标题
@@ -114,5 +118,95 @@ public class NewbitHelpController extends BaseCotroller{
             super.safeJsonPrint(response, result);
         }
     }
+
+    /**
+     * 添加新手帮助内容
+     * @param helpId
+     * @param content
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/addNewbitHelpContent")
+    public void addNewbitHelpContent(Integer helpId, String content,HttpServletRequest request, HttpServletResponse response){
+        //参数验证
+        if (helpId==null||StringUtils.isEmpty(content)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        Integer i = newbitHelpContentService.addNewbitHelpContent(helpId, content);
+        if (i>0){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("新手帮助内容添加完成！"));
+            super.safeJsonPrint(response, result);
+        }
+    }
+
+    /**
+     * 修改新手帮助内容
+     * @param helpId
+     * @param content
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/updNewbitHelpContent")
+    public void updNewbitHelpContent(Integer helpId, String content,HttpServletRequest request, HttpServletResponse response){
+        //参数验证
+        if (helpId==null||StringUtils.isEmpty(content)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        boolean b = newbitHelpContentService.updNewbitHelpContent(helpId, content);
+        if (b){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("新手帮助内容修改成功！"));
+            super.safeJsonPrint(response, result);
+        }
+    }
+
+    /**
+     * 删除新手帮助内容
+     * @param
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/delNewbitHelpContent")
+    public void delNewbitHelpContent(Integer id, HttpServletRequest request, HttpServletResponse response){
+        //参数验证
+        if (id==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+
+        //执行删除操作
+        boolean i = newbitHelpContentService.delNewbitHelpContent(id);
+        if (i) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("新手帮助内容删除成功！"));
+            super.safeJsonPrint(response, result);
+        }
+    }
+
+    /**
+     * 查询新手帮助内容
+     * @param
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/getNewbitHelpContent")
+    public void getNewbitHelpContent(Integer helpId, HttpServletRequest request, HttpServletResponse response){
+        //参数验证
+        if (helpId==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+
+        NewbitHelpContentBO newbitHelpContentBO = newbitHelpContentService.getNewbitHelpContent(helpId);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(newbitHelpContentBO));
+        super.safeJsonPrint(response, result);
+
+    }
+
+
 
 }
