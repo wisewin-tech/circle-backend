@@ -2,10 +2,8 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.PairingBO;
-import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.PairingParam;
-import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.PairingService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.StringUtils;

@@ -1,6 +1,5 @@
 package com.wisewin.backend.dao;
 
-import com.wisewin.backend.entity.bo.NewbitHelpBO;
 import com.wisewin.backend.entity.bo.PatternBO;
 
 import java.util.List;

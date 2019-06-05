@@ -1,8 +1,6 @@
 package com.wisewin.backend.dao;
 
-import com.wisewin.backend.entity.bo.PatternBO;
 import com.wisewin.backend.entity.bo.RoleBO;
-import com.wisewin.backend.entity.bo.RoleMenuBO;
 
 import java.util.List;
 
