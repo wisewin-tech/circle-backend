@@ -38,17 +38,19 @@ public class AdminService {
      */
     public AdminBO queryAdminInfoByMobile(String mobile) {
         AdminBO adminBO = adminDAO.queryAdminInfoByMobile(mobile);
+        System.err.println(adminBO.toString());
         if (adminBO != null) {
+            System.err.println(adminBO.getRoleId());
             List<String> urls = adminDAO.queryAdminUrl(adminBO.getRoleId());
             Set<String> set = new HashSet<String>();
-            if (urls != null) {
+            /*if (urls != null) {
                 for (String url : urls) {
                     String[] split = url.split(",");
                     for (String str : split) {
                         set.add(str);
                     }
                 }
-            }
+            }*/
             adminBO.setUrl(set);
         }
         return adminBO;
