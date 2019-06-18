@@ -38,7 +38,7 @@ public class AdminService {
      */
     public AdminBO queryAdminInfoByMobile(String mobile) {
         AdminBO adminBO = adminDAO.queryAdminInfoByMobile(mobile);
-        System.err.println(adminBO.toString());
+        System.err.println(adminBO);
         if (adminBO != null) {
             System.err.println(adminBO.getRoleId());
            List<Integer> list =  adminDAO.queryrolemenuId(adminBO.getRoleId());

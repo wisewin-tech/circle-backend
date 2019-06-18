@@ -95,5 +95,4 @@ public class CaseController extends BaseCotroller {
         String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(caseBOS));
         super.safeJsonPrint(response,json);
     }
-
 }
