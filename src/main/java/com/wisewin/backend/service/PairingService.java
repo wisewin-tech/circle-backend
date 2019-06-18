@@ -30,9 +30,7 @@ public class PairingService {
      * @return
      */
     public boolean addPairing(Integer createUserId,Integer updateUserId, PairingParam param){
-
         PairingBO pairingBO=new PairingBO(param.getKey(),param.getValue(),param.getDescribe(),createUserId,updateUserId);
-
         return pairingDAO.addPairing(pairingBO)>0;
     }
 
@@ -79,6 +77,7 @@ public class PairingService {
     public int findPairingId(Integer id,String key){
         return pairingDAO.findPairingId(id,key);
     }
+
     /**
      * 查找修改数据ID和key是否重复
      */
