@@ -18,13 +18,25 @@ public class NewbitHelpContentService {
 
     @Resource
     NewbitHelpContentDAO newbitHelpContentDAO;
+
     /**
      * 增加新手帮助内容
-     * @param newbitHelpContentBO
+     * @param helpId
+     * @param content
      * @return
      */
-    public Integer addNewbitHelpContent(NewbitHelpContentBO newbitHelpContentBO){
-        return newbitHelpContentDAO.addNewbitHelpContent(newbitHelpContentBO);
+    public Integer addNewbitHelpContent(Integer helpId, String content){
+        return newbitHelpContentDAO.addNewbitHelpContent(helpId, content);
+    }
+
+    /**
+     * 修改新手帮助内容
+     * @param helpId
+     * @param content
+     * @return
+     */
+    public boolean updNewbitHelpContent(Integer helpId, String content){
+        return newbitHelpContentDAO.updNewbitHelpContent(helpId, content);
     }
 
     /**
@@ -32,25 +44,16 @@ public class NewbitHelpContentService {
      * @param id
      * @return
      */
-    public boolean delNewbitHelpContentBO(Integer id){
-        return newbitHelpContentDAO.delNewbitHelpContentBO(id);
+    public boolean delNewbitHelpContent(Integer id){
+        return newbitHelpContentDAO.delNewbitHelpContent(id);
     }
 
     /**
-     * 修改新手帮助内容
-     * @param newbitHelpContentBO
+     * 查询新手帮助内容
      * @return
      */
-    public boolean updNewbitHelpContentBO(NewbitHelpContentBO newbitHelpContentBO){
-        return newbitHelpContentDAO.updNewbitHelpContentBO(newbitHelpContentBO);
-    }
-
-    /**
-     * 查询新手帮助有信息
-     * @return
-     */
-    public List<NewbitHelpContentBO> getNewbitHelpContentBO(){
-        return newbitHelpContentDAO.getNewbitHelpContentBO();
+    public NewbitHelpContentBO getNewbitHelpContent(Integer helpId){
+        return newbitHelpContentDAO.getNewbitHelpContent(helpId);
     }
 
 }

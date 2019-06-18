@@ -1,6 +1,9 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.TheGarageImgBO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * Created by 王彬 on 2019/5/20.
@@ -8,11 +11,17 @@ import com.wisewin.backend.entity.bo.TheGarageImgBO;
 public interface TheGarageImgDAO {
 
     /**
-     * 根据id查询
-     * @param id
+     * 查询车库图片信息
      * @return
      */
-    TheGarageImgBO queryTheGarageImgById(String id);
+    List<TheGarageImgBO> queryTheGarageImg();
+
+    /**
+     * 删除车库图片信息
+     * @param idArr
+     * @return
+     */
+    Integer delTheGarageImg(@Param("idArr") Integer[] idArr);
 
     /**
      * 修改

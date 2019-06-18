@@ -1,26 +1,16 @@
 package com.wisewin.backend.entity.bo;
 
+import com.wisewin.backend.web.controller.base.BaseCotroller;
+
 import java.util.Date;
 
-public class WallBO {
-
-
+public class WallBO extends BaseCotroller {
     private Integer id; //背景墙
     private Integer userId; //用户id
-    private Integer sort; //排序
+    private Double sort; //排序
     private Date createTime; //创建时间
-    private Integer status; //0/1
-
-    @Override
-    public String toString() {
-        return "WallBO{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", sort=" + sort +
-                ", createTime=" + createTime +
-                ", status=" + status +
-                '}';
-    }
+    private Date updateTime;//修改时间
+    private String status;
 
     public Integer getId() {
         return id;
@@ -38,11 +28,11 @@ public class WallBO {
         this.userId = userId;
     }
 
-    public Integer getSort() {
+    public Double getSort() {
         return sort;
     }
 
-    public void setSort(Integer sort) {
+    public void setSort(Double sort) {
         this.sort = sort;
     }
 
@@ -54,11 +44,31 @@ public class WallBO {
         this.createTime = createTime;
     }
 
-    public Integer getStatus() {
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "WallBO{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", sort=" + sort +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

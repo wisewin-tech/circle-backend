@@ -1,10 +1,8 @@
-package com.wisewin.backend.entity.bo;
-
-import com.wisewin.backend.common.base.BaseModel;
+package com.wisewin.backend.entity.dto;
 
 import java.util.Date;
 
-public class FeedbackBO extends BaseModel{
+public class FeedBackDTO {
     private Integer id;//意见反馈
     private Integer userId;//用户id
     private String content;//反馈内容

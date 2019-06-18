@@ -1,6 +1,4 @@
 package com.wisewin.backend.web.controller;
-
-
 import com.wisewin.backend.common.constants.CircleConstants;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.MenuBO;
@@ -46,6 +44,8 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/adminLogin")
     public void Login(HttpServletRequest request, HttpServletResponse response,String mobile,String password){
+        System.err.println(mobile);
+        System.err.println(password);
         /* 1. 验证参数是否完整 */
         if(StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
@@ -53,7 +53,9 @@ public class AdminController extends BaseCotroller {
             return ;
         }
         //手机号和密码登录
+        System.err.println("执行前");
         AdminBO adminBO = adminService.queryAdminInfoByMobile(mobile);
+        //System.err.println("执行后"+adminBO.toString());
         if(adminBO == null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004" , "用户不存在！")) ;
             super.safeJsonPrint(response, result);
@@ -111,7 +113,7 @@ public class AdminController extends BaseCotroller {
 
         // 判断用户名是否注册过
         int name = adminService.selectCountByName(param.getName());
-        if(name > 0 ){
+        if(name > 0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "用户名已存在")) ;
             super.safeJsonPrint(response , result);
             return ;

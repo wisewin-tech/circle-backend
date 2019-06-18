@@ -1,28 +1,24 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.UserAuthImgBO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
- * Created by 王彬 on 2019/5/20.
+ * 用户认证信息
  */
 public interface UserAuthImgDAO {
 
-    /**
-     * 根据id查询
-     * @param id
-     * @return
+    /*
+     *查询用户认证信息
      */
-    UserAuthImgBO queryUserAuthById(String id);
+    List<UserAuthImgBO> getUserAuth(@Param("userId")Integer userId,@Param("status")String status);
 
-    /**
-     * 修改
-     * @param userAuthImg
+    /*
+     *修改用户认证信息状态
      */
-    void updateUserAuth(UserAuthImgBO userAuthImg);
+    Integer updUserAuth(UserAuthImgBO authImgBO);
 
-    /**
-     * 添加
-     * @param userAuthImg
-     */
-    void insetUserAuth(UserAuthImgBO userAuthImg);
+
 }

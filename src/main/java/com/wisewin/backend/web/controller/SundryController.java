@@ -64,10 +64,6 @@ public class SundryController extends BaseCotroller {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001","数据异常"));
            super.safeJsonPrint(response, json);
             return;
-
         }
-
     }
-
-
 }

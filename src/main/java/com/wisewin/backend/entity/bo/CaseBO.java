@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by 王彬 on 2019/5/16.
  */
-public class CaseImgBO extends BaseModel {
+public class CaseBO extends BaseModel {
     //id
     private Integer id;
     //图片路径

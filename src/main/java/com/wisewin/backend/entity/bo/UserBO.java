@@ -1,56 +1,121 @@
 package com.wisewin.backend.entity.bo;
 
+import com.wisewin.backend.entity.bo.common.base.BaseModel;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
-public class UserBO {
+public class UserBO extends BaseModel {
     private Integer id; //用户
-    private String phone; //手机
+    private String phoneNumber; //手机
+    private String password;
     private String name; //姓名
-    private String password;//密码
-    private Integer gender; //性别0女 1男
+    private String gender; //性别 帅哥|美女
     private Integer age; //年龄
     private String email; //邮箱
     private Integer stature; //身高(cm)
-    private String birthday; //生日
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday; //生日
     private String constellation; //星座
     private String birthplace; //出生地
+    private String createTime;//创建时间
     private String schooling; //受教育程度
-    private String introduce; //介绍
-    private Date createTime; //创建时间
-    private Integer authentication; //认证状态
-    private String authenticationImg; //认证图像
-    private String headPortrait; //头像
     private String work; //工作
     private String school; //学校
-    private String location; //位置
+    private String authenticationStatus; //认证状态
+    private Date authenticationTime;//认证时间
+    private String pattern; //模式
+    private Integer updateCount; //修改次数
+    private String longitude;//经度
+    private String latitude;//纬度
+    private String accountStatus;//账号状态
 
-    @Override
-    public String toString() {
-        return "UserBO{" +
-                "id=" + id +
-                ", phone='" + phone + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", gender=" + gender +
-                ", age=" + age +
-                ", email='" + email + '\'' +
-                ", stature=" + stature +
-                ", birthday='" + birthday + '\'' +
-                ", constellation='" + constellation + '\'' +
-                ", birthplace='" + birthplace + '\'' +
-                ", schooling='" + schooling + '\'' +
-                ", introduce='" + introduce + '\'' +
-                ", createTime=" + createTime +
-                ", authentication=" + authentication +
-                ", authenticationImg='" + authenticationImg + '\'' +
-                ", headPortrait='" + headPortrait + '\'' +
-                ", work='" + work + '\'' +
-                ", school='" + school + '\'' +
-                ", location='" + location + '\'' +
-                '}';
+    public String getCreateTime() {
+        return createTime;
     }
 
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
+    public Date getAuthenticationTime() {
+        return authenticationTime;
+    }
+
+    public void setAuthenticationTime(Date authenticationTime) {
+        this.authenticationTime = authenticationTime;
+    }
+
+    public UserBO() {
+    }
+    public UserBO(Integer id, String phoneNumber, String password, String name) {
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.name = name;
+    }
+    /**
+     * 注册初始化
+     * @param phoneNumber
+     */
+    public UserBO(String phoneNumber){
+        this.phoneNumber=phoneNumber;
+        this.updateCount=0;
+        this.accountStatus="yes";
+    }
+
+    public UserBO(String phone, String password) {
+        this.phoneNumber = phone;
+        this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
+    }
+
+    public Integer getUpdateCount() {
+        return updateCount;
+    }
+
+    public void setUpdateCount(Integer updateCount) {
+        this.updateCount = updateCount;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(String accountStatus) {
+        this.accountStatus = accountStatus;
+    }
 
 
     public Integer getId() {
@@ -61,12 +126,13 @@ public class UserBO {
         this.id = id;
     }
 
-    public String getPhone() {
-        return phone;
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
@@ -77,11 +143,11 @@ public class UserBO {
         this.name = name;
     }
 
-    public Integer getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Integer gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -109,17 +175,18 @@ public class UserBO {
         this.stature = stature;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
     public String getConstellation() {
         return constellation;
     }
+
 
     public void setConstellation(String constellation) {
         this.constellation = constellation;
@@ -141,46 +208,6 @@ public class UserBO {
         this.schooling = schooling;
     }
 
-    public String getIntroduce() {
-        return introduce;
-    }
-
-    public void setIntroduce(String introduce) {
-        this.introduce = introduce;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getAuthentication() {
-        return authentication;
-    }
-
-    public void setAuthentication(Integer authentication) {
-        this.authentication = authentication;
-    }
-
-    public String getAuthenticationImg() {
-        return authenticationImg;
-    }
-
-    public void setAuthenticationImg(String authenticationImg) {
-        this.authenticationImg = authenticationImg;
-    }
-
-    public String getHeadPortrait() {
-        return headPortrait;
-    }
-
-    public void setHeadPortrait(String headPortrait) {
-        this.headPortrait = headPortrait;
-    }
-
     public String getWork() {
         return work;
     }
@@ -197,19 +224,14 @@ public class UserBO {
         this.school = school;
     }
 
-    public String getLocation() {
-        return location;
+
+    public String getAuthenticationStatus() {
+        return authenticationStatus;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setAuthenticationStatus(String authenticationStatus) {
+        this.authenticationStatus = authenticationStatus;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

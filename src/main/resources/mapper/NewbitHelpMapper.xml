@@ -7,19 +7,23 @@
     <resultMap id="newbit" type="com.wisewin.backend.entity.bo.NewbitHelpBO"  >
 
         <result column="master_title"  property="masterTitle"  />
+        <result column="newbitId"  property="id"  />
+        <result column="p_id"  property="pId"  />
         <collection property="list"   ofType="com.wisewin.backend.entity.bo.NewbitHelpBO" >
 
             <result column="title"  property="masterTitle"  />
+            <result column="helpId"  property="id"  />
+            <result column="pId"  property="pId"  />
         </collection>
     </resultMap>
-    <!-- 查询新手帮助信息 -->
+    <!-- 查询新手帮助标题 -->
     <select id="selectNewbitHelp" resultMap="newbit" >
-       SELECT  newbit.master_title ,  `help`.master_title title FROM
-                            `ce_newbit_help`  newbit   INNER  JOIN
-                              `ce_newbit_help`  `help`    ON   newbit.id  = `help`.p_id
+       SELECT  newbit.master_title , help.master_title title,help.id helpId, newbit.id newbitId,help.p_id pId,newbit.p_id FROM
+                            ce_newbit_help  newbit   INNER  JOIN
+                              ce_newbit_help  help    ON   newbit.id  = help.p_id
        </select>
 
-    <!--新增新手帮助信息-->
+    <!--新增新手帮助标题-->
     <insert id="insertNewbitHelp" parameterType="com.wisewin.backend.entity.param.NewditHelpParam">
       INSERT INTO ce_newbit_help
         <set>
@@ -32,7 +36,7 @@
       DELETE FROM ce_newbit_help WHERE id=#{id}
     </delete>
 
-    <!--  编辑新手帮助信息  -->
+    <!--  编辑新手帮助标题  -->
     <update id="editNewditHelp" parameterType="com.wisewin.backend.entity.param.NewditHelpParam">
         UPDATE ce_newbit_help
         <set>

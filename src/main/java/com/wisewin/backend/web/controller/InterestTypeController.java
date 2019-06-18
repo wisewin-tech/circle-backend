@@ -59,8 +59,6 @@ public class InterestTypeController extends BaseCotroller {
             String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002"));
             super.safeHtmlPrint(response,languagejson);
         }
-
-
     }
 
     /**

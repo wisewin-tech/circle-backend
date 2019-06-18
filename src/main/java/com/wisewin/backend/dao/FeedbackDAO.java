@@ -1,5 +1,6 @@
 package com.wisewin.backend.dao;
 
+import com.wisewin.backend.entity.bo.FeedBackResultBO;
 import com.wisewin.backend.entity.bo.FeedbackBO;
 import com.wisewin.backend.entity.param.FeedbackParam;
 
@@ -13,7 +14,7 @@ public interface FeedbackDAO {
      * @param map
      * @return
      */
-    List<FeedbackBO> selectFeedback(Map<String,Object> map);
+    List<FeedBackResultBO> selectFeedback(Map<String,Object> map);
 
 
     /**
