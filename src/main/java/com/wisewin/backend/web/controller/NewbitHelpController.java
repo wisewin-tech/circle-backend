@@ -94,23 +94,22 @@ public class NewbitHelpController extends BaseCotroller{
     }
 
     /**
-     *修改新手帮助标题
+     * 修改新手帮助标题
      * @param request
      * @param response
-     * @param masterTitle
-     * @param id
+     * @param param
      */
     @RequestMapping("/editNewditHelp")
-    public void editNewditHelp(HttpServletRequest request,HttpServletResponse response,String masterTitle,Integer id){
+    public void editNewditHelp(HttpServletRequest request,HttpServletResponse response,NewditHelpParam param){
     //参数验证
-        if (StringUtils.isEmpty(masterTitle)||StringUtils.isEmpty(String.valueOf(id))){
+        if (StringUtils.isEmpty(param.getMasterTitle())||param.getId()==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001","参数异常"));
             super.safeJsonPrint(response, result);
             return;
         }
         //执行修改
-         newbitHelpService.editNewditHelp(masterTitle,id);
-        if (newbitHelpService.editNewditHelp(masterTitle,id)){
+         newbitHelpService.editNewditHelp(param);
+        if (newbitHelpService.editNewditHelp(param)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改新手帮助信息成功！"));
             super.safeJsonPrint(response, result);
         }else{
@@ -121,20 +120,19 @@ public class NewbitHelpController extends BaseCotroller{
 
     /**
      * 添加新手帮助内容
-     * @param helpId
-     * @param content
+     * @param newbitHelpContentBO
      * @param request
      * @param response
      */
     @RequestMapping("/addNewbitHelpContent")
-    public void addNewbitHelpContent(Integer helpId, String content,HttpServletRequest request, HttpServletResponse response){
+    public void addNewbitHelpContent(NewbitHelpContentBO newbitHelpContentBO,HttpServletRequest request, HttpServletResponse response){
         //参数验证
-        if (helpId==null||StringUtils.isEmpty(content)){
+        if (newbitHelpContentBO.getHelpId()==null||StringUtils.isEmpty(newbitHelpContentBO.getContent())){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
-        Integer i = newbitHelpContentService.addNewbitHelpContent(helpId, content);
+        Integer i = newbitHelpContentService.addNewbitHelpContent(newbitHelpContentBO);
         if (i>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("新手帮助内容添加完成！"));
             super.safeJsonPrint(response, result);

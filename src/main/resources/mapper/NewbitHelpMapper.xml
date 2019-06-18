@@ -26,12 +26,12 @@
     <!--新增新手帮助标题-->
     <insert id="insertNewbitHelp" parameterType="com.wisewin.backend.entity.param.NewditHelpParam">
       INSERT INTO ce_newbit_help
-        <set>
-        master_title = #{masterTitle},p_id = #{pid},create_time=now()
-    </set>
+         (master_title,p_id,create_time) VALUES (#{masterTitle},#{pid},now())
+      <!--master_title = #{masterTitle},p_id = #{pid},create_time=now()-->
+
     </insert>
 
-    <!--删除新手帮助信息-->
+    <!--删除新手帮助标题-->
     <delete id="deleteNewbitHelp" parameterType="Integer">
       DELETE FROM ce_newbit_help WHERE id=#{id}
     </delete>
@@ -40,7 +40,8 @@
     <update id="editNewditHelp" parameterType="com.wisewin.backend.entity.param.NewditHelpParam">
         UPDATE ce_newbit_help
         <set>
-            <if test="masterTitle!=null and masterTitle!=''" >`master_title`=#{masterTitle},</if>
+            <if test="masterTitle!=null and masterTitle!=''" >master_title=#{masterTitle},</if>
+            <if test="pid!=null and pid!=''" >p_id=#{pid},</if>
             update_time = now()
         </set>
         WHERE   id=#{id}
