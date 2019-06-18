@@ -206,7 +206,4 @@ public class NewbitHelpController extends BaseCotroller{
         super.safeJsonPrint(response, result);
 
     }
-
-
-
 }

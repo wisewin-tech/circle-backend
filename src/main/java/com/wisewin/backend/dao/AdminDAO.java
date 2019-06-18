@@ -32,6 +32,9 @@ public interface AdminDAO {
      */
     List<String> queryAdminUrl(Integer roleid);
 
+    List<Integer> queryrolemenuId(Integer id);
+
+    List<String> queryUrl(List<Integer> list);
     /**
      * 注册管理员信息
      *

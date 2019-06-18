@@ -23,10 +23,8 @@ import java.util.List;
 @RequestMapping("/pairing")
 public class PairingController extends BaseCotroller{
 
-
     @Resource
     private PairingService pairingService;
-
 
     /**
      * 添加

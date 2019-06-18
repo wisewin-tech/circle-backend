@@ -41,16 +41,26 @@ public class AdminService {
         System.err.println(adminBO.toString());
         if (adminBO != null) {
             System.err.println(adminBO.getRoleId());
-            List<String> urls = adminDAO.queryAdminUrl(adminBO.getRoleId());
+           List<Integer> list =  adminDAO.queryrolemenuId(adminBO.getRoleId());
+            System.err.println(list);
+            //List<String> urls = adminDAO.queryAdminUrl(adminBO.getRoleId());
+            List<String> urls =  adminDAO.queryUrl(list);
+            System.err.println(urls);
+            System.err.println(urls);
             Set<String> set = new HashSet<String>();
-            /*if (urls != null) {
+            if (urls != null || urls.size() > 0) {
+                System.err.println("断点1");
                 for (String url : urls) {
+                    System.err.println(url);
+                    System.err.println("断点2");
                     String[] split = url.split(",");
+                    System.err.println("断点3");
                     for (String str : split) {
+                        System.err.println("断点4");
                         set.add(str);
                     }
                 }
-            }*/
+            }
             adminBO.setUrl(set);
         }
         return adminBO;
