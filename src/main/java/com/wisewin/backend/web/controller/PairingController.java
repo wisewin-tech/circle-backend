@@ -34,9 +34,9 @@ public class PairingController extends BaseCotroller{
     @RequestMapping("/addPairing")
     public void addPairing(HttpServletRequest request, HttpServletResponse response, PairingParam param){
 
-        AdminBO loginUser=super.getLoginUser(request);
+        AdminBO loginUser = super.getLoginUser(request);
         Integer id = loginUser.getId();
-        if (id==null ||  StringUtils.isObjEmpty(param.getKey())||StringUtils.isObjEmpty(param.getValue())){
+        if (id == null ||  StringUtils.isObjEmpty(param.getKey())||StringUtils.isObjEmpty(param.getValue())){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return ;
@@ -57,7 +57,6 @@ public class PairingController extends BaseCotroller{
             super.safeJsonPrint(response, result);
             return ;
         }
-
     }
 
     /**
@@ -65,9 +64,8 @@ public class PairingController extends BaseCotroller{
      */
     @RequestMapping("/queryPairing")
     public void queryPairing(HttpServletRequest request, HttpServletResponse response, String key, PairingParam param){
-
         //根据条件查询
-        List<PairingBO> list=pairingService.queryPairing(key);
+        List<PairingBO> list = pairingService.queryPairing(key);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
         super.safeJsonPrint(response, json);
         return;
@@ -79,7 +77,7 @@ public class PairingController extends BaseCotroller{
     @RequestMapping("/deletePairing")
     public void deletePairing(HttpServletRequest request,HttpServletResponse response,Integer id){
 
-        if (id==null){
+        if (id == null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return ;
@@ -96,6 +94,8 @@ public class PairingController extends BaseCotroller{
         return ;
     }
 
+
+
     /**
      * 修改
      */
@@ -103,12 +103,12 @@ public class PairingController extends BaseCotroller{
     public void updatePairing(HttpServletRequest request,HttpServletResponse response,String key,String value,String describe,Integer id){
         AdminBO loginUser=super.getLoginUser(request);
         Integer updateUserId = loginUser.getId();
+        System.err.println(id);
         if ( updateUserId==null || value.equals("")){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return ;
         }
-
         //根据id和键查询修改本身数据是否相同，如果相同的话进行添加，如果不相同进行查询数据库是否跟其他列相同
         int findPairingIdjoin=pairingService.findPairingId(id,key);
         if (findPairingIdjoin==0){
@@ -123,10 +123,8 @@ public class PairingController extends BaseCotroller{
                 }
             }
         }
-
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
         super.safeJsonPrint(response, result);
         return ;
-
     }
 }

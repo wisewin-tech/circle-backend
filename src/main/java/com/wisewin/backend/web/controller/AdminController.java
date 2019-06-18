@@ -113,7 +113,7 @@ public class AdminController extends BaseCotroller {
 
         // 判断用户名是否注册过
         int name = adminService.selectCountByName(param.getName());
-        if(name > 0 ){
+        if(name > 0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "用户名已存在")) ;
             super.safeJsonPrint(response , result);
             return ;

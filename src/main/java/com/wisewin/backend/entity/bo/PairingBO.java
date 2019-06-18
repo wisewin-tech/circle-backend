@@ -4,7 +4,7 @@ package com.wisewin.backend.entity.bo;
 import java.util.Date;
 
 /**
- * 配对
+ *  key value
  */
 public class PairingBO {
 
