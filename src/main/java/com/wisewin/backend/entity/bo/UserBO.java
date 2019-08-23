@@ -11,7 +11,6 @@ public class UserBO extends BaseModel {
     private String password;
     private String name; //姓名
     private String gender; //性别 帅哥|美女
-    private Integer age; //年龄
     private String email; //邮箱
     private Integer stature; //身高(cm)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -24,7 +23,6 @@ public class UserBO extends BaseModel {
     private String school; //学校
     private String authenticationStatus; //认证状态
     private Date authenticationTime;//认证时间
-    private String pattern; //模式
     private Integer updateCount; //修改次数
     private String longitude;//经度
     private String latitude;//纬度
@@ -75,14 +73,6 @@ public class UserBO extends BaseModel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getPattern() {
-        return pattern;
-    }
-
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
     }
 
     public Integer getUpdateCount() {
@@ -149,14 +139,6 @@ public class UserBO extends BaseModel {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public String getEmail() {
