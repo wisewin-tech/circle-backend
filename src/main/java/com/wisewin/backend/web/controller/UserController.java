@@ -1,10 +1,12 @@
 package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.bo.StatisticalRecords;
 import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.UserParam;
 import com.wisewin.backend.query.QueryInfo;
+import com.wisewin.backend.service.BackendHomeService;
 import com.wisewin.backend.service.UserService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.ParamNullUtil;
@@ -24,6 +26,9 @@ import java.util.Map;
 public class UserController extends BaseCotroller{
     @Resource
     private UserService userService;
+
+    @Resource
+    private BackendHomeService backendHomeService;
 
     /**
      * 查询所有用户信息
@@ -76,6 +81,24 @@ public class UserController extends BaseCotroller{
             super.safeJsonPrint(response, result);
         }
 
+
+    }
+
+    /**
+     * 管理后台首页统计
+     * */
+    @RequestMapping("/getStatisticalRecords")
+    public void getStatisticalRecords(HttpServletResponse response,HttpServletRequest request){
+        //如果id或者参数为空,提示参数异常
+        AdminBO adminBO= super.getLoginUser(request);
+        if (adminBO==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003", "用户未登录")) ;
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        List<StatisticalRecords> statisticalRecords=backendHomeService.getStatisticalRecords();
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(statisticalRecords)) ;
+        super.safeJsonPrint(response, result);
 
     }
 }
