@@ -1,14 +1,18 @@
 package com.wisewin.backend.entity.bo;
 
+import com.wisewin.backend.common.base.BaseModel;
+
+import java.util.Date;
+
 /**
  * 活跃 匹配 注册 数 记录表
  * */
-public class StatisticalRecords {
+public class StatisticalRecords extends BaseModel {
     private Integer id;
-    private String activeCount;//活跃数
-    private String registrationCount;//注册数
-    private String pairingCount;//配对数
-    private String createTime;//当天日期
+    private Integer activeCount;//活跃数
+    private Integer registrationCount;//注册数
+    private Integer pairingCount;//配对数
+    private Date createTime;//当天日期
 
     public Integer getId() {
         return id;
@@ -18,35 +22,35 @@ public class StatisticalRecords {
         this.id = id;
     }
 
-    public String getActiveCount() {
+    public Integer getActiveCount() {
         return activeCount;
     }
 
-    public void setActiveCount(String activeCount) {
+    public void setActiveCount(Integer activeCount) {
         this.activeCount = activeCount;
     }
 
-    public String getRegistrationCount() {
+    public Integer getRegistrationCount() {
         return registrationCount;
     }
 
-    public void setRegistrationCount(String registrationCount) {
+    public void setRegistrationCount(Integer registrationCount) {
         this.registrationCount = registrationCount;
     }
 
-    public String getPairingCount() {
+    public Integer getPairingCount() {
         return pairingCount;
     }
 
-    public void setPairingCount(String pairingCount) {
+    public void setPairingCount(Integer pairingCount) {
         this.pairingCount = pairingCount;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 }
