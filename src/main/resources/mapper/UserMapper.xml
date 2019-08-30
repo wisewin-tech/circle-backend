@@ -22,9 +22,7 @@
         <include refid="limit" />
 
     </select>
-    <sql id="limit">
-        LIMIT #{pageOffset} OFFSET #{pageSize}
-    </sql>
+
 
     <!--查询所有条数-->
     <select id="selectCount"   parameterType="java.util.Map"   resultType="java.lang.Integer">
