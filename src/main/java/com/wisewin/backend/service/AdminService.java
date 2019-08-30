@@ -1,31 +1,26 @@
 package com.wisewin.backend.service;
 
-
+import com.wisewin.backend.common.constants.LanguageTalentConstants;
 import com.wisewin.backend.dao.AdminDAO;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.MenuBO;
 import com.wisewin.backend.entity.bo.RoleBO;
-import com.wisewin.backend.entity.bo.RoleMenuBO;
-import com.wisewin.backend.entity.dto.AdminDTO;
-import com.wisewin.backend.entity.dto.AdminRoleDTO;
-import com.wisewin.backend.entity.dto.MenuDTO;
-import com.wisewin.backend.entity.dto.RoleDTO;
-import com.wisewin.backend.entity.param.MenuParam;
-import com.wisewin.backend.entity.param.RegisterParam;
-import com.wisewin.backend.util.DateUtils;
+import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.MD5Util;
+import com.wisewin.backend.util.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-/**
- * Created by 王彬 on 2019/5/16.
- */
-@Service("adminService")
+@Service("AdminService")
 @Transactional
 public class AdminService {
+
     @Resource
     private AdminDAO adminDAO;
 
@@ -38,34 +33,68 @@ public class AdminService {
      */
     public AdminBO queryAdminInfoByMobile(String mobile) {
         AdminBO adminBO = adminDAO.queryAdminInfoByMobile(mobile);
-        System.err.println(adminBO);
         if (adminBO != null) {
-            System.err.println(adminBO.getRoleId());
-           List<Integer> list =  adminDAO.queryrolemenuId(adminBO.getRoleId());
-            System.err.println(list);
-            //List<String> urls = adminDAO.queryAdminUrl(adminBO.getRoleId());
-            List<String> urls =  adminDAO.queryUrl(list);
-            System.err.println(urls);
-            System.err.println(urls);
+            List<MenuBO> urls = adminDAO.getMenuByRoleId(adminBO.getRoleId());
             Set<String> set = new HashSet<String>();
-            if (urls != null || urls.size() > 0) {
-                System.err.println("断点1");
-                for (String url : urls) {
-                    System.err.println(url);
-                    System.err.println("断点2");
-                    String[] split = url.split(",");
-                    System.err.println("断点3");
-                    for (String str : split) {
-                        System.err.println("断点4");
-                        set.add(str);
+            if (urls != null && urls.size() > 0) {
+                for (MenuBO menuBO : urls) {
+                    if (menuBO.getUrl() != null && !StringUtils.isEmpty(menuBO.getUrl())) {
+                        String[] split = menuBO.getUrl().split(",");
+                        for (String str : split) {
+                            set.add(str);
+                        }
                     }
                 }
             }
             adminBO.setUrl(set);
         }
+
         return adminBO;
     }
 
+
+    /**
+     * 根据当前登陆用户的角色id查询对应的权限
+     *
+     * @param roleId 角色id
+     * @return 登陆用户对应的权限
+     */
+    public List<MenuBO> getRoleMenuSuccess(Integer roleId) {
+        List<MenuBO> menuBOS = adminDAO.getMenuByRoleId(roleId);
+        if(menuBOS!=null && menuBOS.size()>0) {
+            for (int i = 0; i < menuBOS.size(); i++) {
+                MenuBO menuBO = menuBOS.get(i);
+                for(int x=0;x<menuBOS.size();x++){
+                    if(menuBO.getPid().equals(menuBOS.get(x).getId())){
+                        menuBOS.get(x).getCh().add(menuBO);
+                        menuBOS.remove(i);
+                        --i;
+                        break;
+                    }
+                }
+            }
+        }
+        return menuBOS;
+    }
+
+    //获取所有菜单权限
+    public List<MenuBO> getMenuList(){
+        List<MenuBO> menuBOList=adminDAO.getMenuList();
+        if(menuBOList!=null && menuBOList.size()>0) {
+            for (int i = 0; i < menuBOList.size(); i++) {
+                MenuBO menuBO = menuBOList.get(i);
+                for(int x=0;x<menuBOList.size();x++){
+                    if(menuBO.getPid().equals(menuBOList.get(x).getId())){
+                        menuBOList.get(x).getCh().add(menuBO);
+                        menuBOList.remove(i);
+                        --i;
+                        break;
+                    }
+                }
+            }
+        }
+        return menuBOList;
+    }
 
     /**
      * 管理员注册
@@ -74,6 +103,10 @@ public class AdminService {
      * @return
      */
     public int adminRegister(AdminBO admin) {
+        //初始化管理员状态
+        admin.setStatus(LanguageTalentConstants.NORMAL);// 状态 normal:正常  logout：注销
+        //加密密码
+        admin.setPassword(MD5Util.digest(admin.getPassword()));
         return adminDAO.adminRegister(admin);
     }
 
@@ -112,391 +145,63 @@ public class AdminService {
      * 添加角色信息
      *
      * @param roleBO
-     * @return 返回受影响的行数
+     * @return 返回角色id
      */
-    public void addRole(RoleBO roleBO) {
-        adminDAO.addRole(roleBO);
+    public Integer addRole(RoleBO roleBO) {
+        return adminDAO.addRole(roleBO);
     }
 
     /**
-     * 查询所有的角色信息
+     * wy查询所有的角色信息
      *
      * @return 角色集合
      */
-    public List<RoleBO> getRoleList() {
-        return adminDAO.getRoleList();
+    public List<RoleBO> getRoleList(String status) {
+        return adminDAO.getRoleList(status);
     }
 
     /**
-     * 查询所有的权限(菜单)信息
-     *
-     * @return 权限集合
+     * 查询角色下是否有用户
      */
-    public List<MenuBO> getMenuList() {
-        return adminDAO.getMenuList();
-    }
-
-    /**
-     * 向角色权限表中添加数据
-     *
-     * @param roleMenuBo
-     * @return
-     */
-    public int addRoleMenu(RoleMenuBO roleMenuBo) {
-        return adminDAO.addRoleMenu(roleMenuBo);
-    }
-
-    /**
-     * 根据用户id查询所对应的权限
-     *
-     * @param userId 用户id
-     * @return 返回权限信息
-     */
-    public List<MenuBO> getAdminToMenu(Integer userId) {
-        return adminDAO.getAdminToMenu(userId);
-    }
-
-    /**
-     * 根据父id向权限表中添加数据
-     *
-     * @param menuParam 添加的权限信息
-     * @return 受影响的行数
-     */
-    public int addMenuByPid(MenuParam menuParam) {
-        MenuBO menuBO = new MenuBO();
-        menuBO.setMenuName(menuParam.getMenuName());
-        menuBO.setPid(menuParam.getPid());
-        menuBO.setStatus(menuParam.getStatus());
-        menuBO.setUrl(menuParam.getUrl());
-        menuBO.setIndex(menuParam.getIndex());
-        menuBO.setIcon(menuParam.getIcon());
-        menuBO.setCreateTime(DateUtils.now());
-        menuBO.setUpdateTime(DateUtils.now());
-        return adminDAO.addMenuByPid(menuBO);
-    }
-
-    /**
-     * 根据id查找下面有没有子菜单 如果没有则删除，如果有不能删除
-     *
-     * @param id
-     * @return 返回是否删除成功
-     */
-    public boolean delMenuById(Integer id) {
-        MenuBO menuBO = adminDAO.getMenuByPid(id);
-        if (menuBO == null) {
-            return adminDAO.delMenuById(id);
+    public Integer checkRoleUser(String roleIds) {
+        Integer[] idArr = JsonUtils.getIntegerArray4Json(roleIds);
+        for (int i = 0; i < idArr.length; i++) {
+            int count = adminDAO.checkRoleUser(new Integer(idArr[i]));
+            if (count > 0) {
+                return idArr[i];
+            }
         }
-        return false;
+        return null;
     }
 
     /**
-     * 根据权限名称查询权限是否存在
-     *
-     * @param menuName 权限名称
-     * @return
-     */
-    public boolean selectCountMenuName(String menuName) {
-        return adminDAO.selectCountMenuName(menuName);
-    }
-
-    /**
-     * 根据菜单id修改菜单信息
-     *
-     * @param menuParam
-     * @return
-     */
-    public int updateMenuById(MenuParam menuParam) {
-        MenuBO menuBO = new MenuBO();
-        menuBO.setId(menuParam.getId());
-        menuBO.setPid(menuParam.getPid());
-        menuBO.setStatus(menuParam.getStatus());
-        menuBO.setUrl(menuParam.getUrl());
-        menuBO.setMenuName(menuParam.getMenuName());
-        menuBO.setIcon(menuParam.getIcon());
-        menuBO.setIndex(menuParam.getIndex());
-        menuBO.setUpdateTime(DateUtils.now());
-        return adminDAO.updateMenuById(menuBO);
-    }
-
-    /**
-     * 根据id查询权限表(菜单信息)
-     * @param id  权限id
-     * @return 菜单信息
-     */
-
-    /**
-     * 根据角色名查询拥有的权限
-     *
-     * @param map
-     * @return 返回对应的权限
-     */
-    public List<RoleDTO> selectRoleToMenu(Map<String, Object> map, String roleName, String menuIds) {
-        RoleBO roleBO = new RoleBO();
-        roleBO.setRoleName(roleName);
-        roleBO.setCreateTime(new Date());
-        roleBO.setUpdateTime(new Date());
-        // 添加角色
-        adminDAO.addRole(roleBO);
-        boolean status = menuIds.contains(",");
-        if (status) {
-            String[] ids = menuIds.split(",");
-            for (String id :
-                    ids) {
-                RoleMenuBO roleMenuBO = new RoleMenuBO();
-                roleMenuBO.setRoleId(roleBO.getId());
-                roleMenuBO.setMenuId(Integer.parseInt(id));
-                roleMenuBO.setCreateTime(new Date());
-                roleMenuBO.setUpdateTime(new Date());
-                // 添加权限
-                adminDAO.addRoleMenu(roleMenuBO);
-            }
-        } else {
-            RoleMenuBO roleMenuBO = new RoleMenuBO();
-            roleMenuBO.setRoleId(roleBO.getId());
-            roleMenuBO.setMenuId(Integer.parseInt(menuIds));
-            roleMenuBO.setCreateTime(new Date());
-            roleMenuBO.setUpdateTime(new Date());
-            // 添加权限
-            adminDAO.addRoleMenu(roleMenuBO);
-        }
-        List<RoleBO> roleBOS = adminDAO.selectRoleToMenu(map);
-        List<RoleDTO> roleDTOS = new ArrayList<RoleDTO>();
-        for (RoleBO ro : roleBOS) {
-            RoleDTO roleDTO = new RoleDTO();
-            List<Integer> menuId = new ArrayList<Integer>();// 存放权限id
-            List<String> menuName = new ArrayList<String>(); // 存放权限name
-            roleDTO.setId(ro.getId());// 角色id
-            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
-            roleDTO.setCreateTime(ro.getCreateTime());
-            roleDTO.setUpdateTime(ro.getUpdateTime());
-            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
-            for (int i = 0; i < menus.size(); i++) {
-                menuName.add(menus.get(i).getMenuName());
-            }
-            boolean flag = menuIds.contains(",");
-            if (flag) {
-                String[] ids = menuIds.split(",");
-                for (String id :
-                        ids) {
-                    menuId.add(Integer.parseInt(id));
-                }
-            }
-            roleDTO.setMenuIds(menuId);
-            roleDTO.setMenuNames(menuName);
-            roleDTOS.add(roleDTO);
-        }
-        return roleDTOS;
-
-    }
-
-    /**
-     * 根据角色名称查找对应的权限总数
-     *
-     * @param map
-     * @return
-     */
-    public Integer getCountRoleToMenu(Map<String, Object> map) {
-        return adminDAO.getCountRoleToMenu(map);
-    }
-
-    /**
-     * 根据角色id查询拥有的权限
-     *
-     * @param roleId 角色名
-     * @return 返回对应的权限
-     */
-    public List<RoleDTO> selectRoleMenuById(Integer roleId, String menuIds) {
-        // 根据角色id删除对应的权限
-        adminDAO.delRoleMenuByRoleId(roleId);
-        boolean status = menuIds.contains(",");
-        if (status) {
-            String[] ids = menuIds.split(",");
-            for (String id :
-                    ids) {
-                RoleMenuBO roleMenuBO = new RoleMenuBO();
-                roleMenuBO.setRoleId(roleId);
-                roleMenuBO.setMenuId(Integer.parseInt(id));
-                // roleMenuBO.setCreateTime(new Date());
-                roleMenuBO.setUpdateTime(new Date());
-                // 添加权限
-                adminDAO.addRoleMenu(roleMenuBO);
-            }
-        } else {
-            RoleMenuBO roleMenuBO = new RoleMenuBO();
-            roleMenuBO.setRoleId(roleId);
-            roleMenuBO.setMenuId(Integer.parseInt(menuIds));
-            // roleMenuBO.setCreateTime(new Date());
-            roleMenuBO.setUpdateTime(new Date());
-            // 添加权限
-            adminDAO.addRoleMenu(roleMenuBO);
-        }
-        // 查询角色所拥有的权限
-        List<RoleDTO> roleDTOS = new ArrayList<RoleDTO>();
-        List<RoleBO> menuList = adminDAO.selectRoleMenuById(roleId);
-        for (RoleBO ro : menuList) {
-            RoleDTO roleDTO = new RoleDTO();
-            List<Integer> menuId = new ArrayList<Integer>();// 存放权限id
-            List<String> menuName = new ArrayList<String>(); // 存放权限name
-            roleDTO.setId(ro.getId());// 角色id
-            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
-            roleDTO.setCreateTime(ro.getCreateTime());
-            roleDTO.setUpdateTime(ro.getUpdateTime());
-            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
-            for (int i = 0; i < menus.size(); i++) {
-                menuName.add(menus.get(i).getMenuName());
-            }
-            boolean flag = menuIds.contains(",");
-            if (flag) {
-                String[] ids = menuIds.split(",");
-                for (String id :
-                        ids) {
-                    menuId.add(Integer.parseInt(id));
-                }
-            }
-            roleDTO.setMenuIds(menuId);
-            roleDTO.setMenuNames(menuName);
-            roleDTOS.add(roleDTO);
-        }
-        return roleDTOS;
-    }
-
-    /**
-     * 根据角色名称查询对应的权限(模糊查询)
-     *
-     * @param dimName 模糊查询的名字
-     * @return 查询的权限信息
-     */
-    public List<MenuDTO> getDimRoleMenu(String dimName) {
-        return adminDAO.getDimRoleMenu(dimName);
-    }
-
-    /**
-     * 根据角色id删除角色
-     *
-     * @param roleIds 角色id
-     */
-    public boolean delRoleById(String roleIds) {
-        boolean status = roleIds.contains(",");
-        if (status) {
-            String[] ids = roleIds.split(",");
-            for (String id : ids) {
-                return adminDAO.delRoleById(Integer.parseInt(id));
-            }
-        } else {
-            return adminDAO.delRoleById(Integer.parseInt(roleIds));
-        }
-        return false;
-    }
-
-    /**
-     * 查询所有角色的权限
+     * 根据条件分页查询用户信息
+     * wy
+     * userId 用户id
+     * roleId 角色id
+     * userName 用户名
      *
      * @return
      */
-    public List<MenuDTO> getRoleMenu(String roleName) {
-        return adminDAO.getRoleMenu(roleName);
+    public List<AdminBO> getAdminByCond(Map<String, Object> map) {
+        return adminDAO.getAdminByCond(map);
     }
 
     /**
-     * 根据用户名查询对应的角色
+     * 根据条件查询用户信息总数量
+     * wy
+     * userId 用户id
+     * roleId 角色id
+     * userName 用户名
      *
-     * @param userName
      * @return
      */
-    public List<AdminRoleDTO> getAdminRoleByName(String userName) {
-        return adminDAO.getAdminRoleByName(userName);
-    }
-
-
-    /**
-     * 根据用户id修改角色id
-     *
-     * @param roleId 角色id
-     * @param id     用户id
-     * @return
-     */
-    public boolean editUserRole(Integer roleId, Integer id) {
-        return adminDAO.editUserRole(roleId, id);
+    public Integer getAdminCountByCond(Map<String, Object> map) {
+        return adminDAO.getAdminCountByCond(map);
     }
 
     /**
-     * 根据用户id删除用户信息
-     *
-     * @param Did
-     * @return
-     */
-    public boolean delAdminById(String[] Did) {
-        return adminDAO.delAdminById(Did);
-    }
-
-    /**
-     * 修改admin用户信息
-     *
-     * @param param 用户信息
-     * @return 是否修改成功
-     */
-    public boolean updateAdminUser(RegisterParam param) {
-        AdminBO adminBO = new AdminBO();
-        AdminBO admin = new AdminBO();
-        adminBO.setId(param.getId());
-        List<AdminDTO> adminBOS = adminDAO.getAdminNoFenYe(adminBO);
-        for (AdminDTO adminDTO : adminBOS) {
-            if (param.getId() != null) {
-                adminDTO.setId(param.getId());
-                admin.setId(adminDTO.getId());
-            }
-            if (param.getGender() != null) {
-                adminDTO.setGender(param.getGender());
-                admin.setGender(adminDTO.getGender());
-            }
-            if (param.getPassword() != null) {
-                adminDTO.setPassword(MD5Util.digest(param.getPassword()));
-                admin.setPassword(adminDTO.getPassword());
-            }
-            if (param.getMobile() != null) {
-                adminDTO.setMobile(param.getMobile());
-                admin.setPhoneNumber(adminDTO.getMobile());
-            }
-            if (param.getName() != null) {
-                // 判断前端传的名称是否相同
-                if (adminDTO.getName().equals(param.getName())) {
-                    adminDTO.setName("");
-                } else {
-                    // 判断用户名是否存在
-                    String name1 = param.getName();
-                    int name = adminDAO.selectCountByName(name1);
-                    if (name > 0) {
-                        return false;
-                    }
-                    adminDTO.setName(param.getName());
-                    admin.setName(adminDTO.getName());
-                }
-            }
-            if (param.getEmail() != null) {
-                adminDTO.setEmail(param.getEmail());
-                admin.setEmail(adminDTO.getEmail());
-            }
-            if (param.getRoleId() != null) {
-                adminDTO.setRoleId(param.getRoleId());
-                admin.setRoleId(adminDTO.getRoleId());
-            }
-            admin.setUpdateTime(new Date());
-            return adminDAO.updateAdminUser(admin);
-        }
-        return false;
-    }
-
-    /**
-     * 查询用户信息不使用分页
-     *
-     * @param adminBO
-     * @return
-     */
-    public List<AdminDTO> getAdminNoFenYe(AdminBO adminBO) {
-        return adminDAO.getAdminNoFenYe(adminBO);
-    }
-
-    /**
+     * wy
      * 根据角色id查询角色信息
      *
      * @param roleId
@@ -507,63 +212,62 @@ public class AdminService {
     }
 
     /**
-     * 根据权限id查询权限信息
+     * 向角色权限表中添加数据
      *
-     * @param menuId
+     * @param roleId    角色id
+     * @param menuIdArr 菜单id数组
      * @return
      */
-    public MenuBO getMenuById(Integer menuId) {
-        return adminDAO.getMenuById(menuId);
+    public int addRoleMenu(Integer roleId, Integer[] menuIdArr) {
+        return adminDAO.addRoleMenu(roleId, menuIdArr);
     }
 
     /**
-     * 查询admin用户信息
+     * 根据角色id删除角色
      *
-     * @param map
+     * @param roleIds 角色id
+     */
+    public boolean delRoleById(Integer[] roleIds) {
+        return adminDAO.delRoleById(roleIds);
+    }
+
+
+    /**
+     * 修改一个角色的菜单权限信息
+     *
+     * @param roleBO    这个角色的信息
+     * @param menuIdArr 菜单id
+     */
+    public boolean updRoleToMenu(RoleBO roleBO, String menuIdArr) {
+        Integer[] menuIds = JsonUtils.getIntegerArray4Json(menuIdArr);
+        //删除这个角色所有权限
+        adminDAO.delRoleMenuByRoleId(roleBO.getId());
+        //添加权限
+        return adminDAO.addRoleMenu(roleBO.getId(), menuIds) > 0;
+    }
+    /**
+     * wy根据用户id删除用户信息
+     *
+     * @param idArr
      * @return
      */
-    public List<AdminDTO> getAdmin(Map map) {
-        return adminDAO.getAdmin(map);
+    public boolean delAdminById(Integer[] idArr) {
+        return adminDAO.delAdminById(idArr);
     }
 
     /**
-     * 根据用户信息查询用户信息(封装到map中)
+     * wy
+     * 修改admin用户信息
      *
-     * @param map
-     * @return
+     * @param param 用户信息
+     * @return 是否修改成功
      */
-    public Integer getAdminCountByMap(Map map) {
-        return adminDAO.getAdminCountByMap(map);
-    }
-
-    /**
-     * 根据角色名称查找对应的角色id
-     *
-     * @param roleName
-     * @return
-     */
-    public Integer getRoleIdByRoleName(String roleName) {
-        return adminDAO.getRoleIdByRoleName(roleName);
-    }
-
-    /**
-     * 删除某个角色对应的id
-     *
-     * @param roleId 角色id
-     * @param menuId 权限id
-     * @return 是否删除成功
-     */
-    public boolean delRoleMenu(Integer roleId, Integer menuId) {
-        return adminDAO.delRoleMenu(roleId, menuId);
-    }
-
-    /**
-     * 根据角色id删除对应的权限
-     *
-     * @param roleId
-     */
-    public void delRoleMenuByRoleId(Integer roleId) {
-        adminDAO.delRoleMenuByRoleId(roleId);
+    public boolean updateAdminUser(AdminBO param) {
+        //加密密码
+        if(!StringUtils.isEmpty(param.getPassword())) {
+            param.setPassword(MD5Util.digest(param.getPassword()));
+        }
+        return adminDAO.updateAdminUser(param) > 0;
     }
 
     /**
@@ -572,61 +276,40 @@ public class AdminService {
      * @param roleId   角色id
      * @param roleName 角色名称
      */
-    public void updateRoleNameByRoleId(Integer roleId, String roleName, Date updateTime) {
-        adminDAO.updateRoleNameByRoleId(roleId, roleName, updateTime);
+    public void updateRoleNameByRoleId(Integer roleId, String roleName) {
+        adminDAO.updateRoleNameByRoleId(roleId, roleName);
     }
 
     /**
      * 查询角色对应的菜单
      *
-     * @param roleName 角色名
+     * @param roleName 角色名称 为null查询所有
      * @return
      */
-    public List<RoleDTO> getRole(String roleName) {
-        List<RoleBO> ros = adminDAO.getRole(roleName);
-        List<RoleDTO> roleDTOs = new ArrayList<RoleDTO>();
+    public List<RoleBO> getRoleByRoleName(String roleName) {
+        //查询所有角色
+        List<RoleBO> roleList = adminDAO.getRoleByName(roleName);
 
-        for (RoleBO ro : ros) {
-            RoleDTO roleDTO = new RoleDTO();
-            List<Integer> menuIds = new ArrayList<Integer>();// 存放权限id
-            List<String> menuName = new ArrayList<String>(); // 存放权限name
-            roleDTO.setId(ro.getId());// 角色id
-            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
-            roleDTO.setCreateTime(ro.getCreateTime());
-            roleDTO.setUpdateTime(ro.getUpdateTime());
-            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
-            for (int i = 0; i < menus.size(); i++) {
-                menuIds.add(menus.get(i).getId());
-                menuName.add(menus.get(i).getMenuName());
+        //循环查询角色拥有的菜单
+        for (RoleBO role : roleList) {
+            List<MenuBO> menus = adminDAO.getMenuByRoleId(role.getId());
+            if(menus!=null && menus.size()>0) {
+                for (int i = 0; i < menus.size(); i++) {
+                    MenuBO menuBO = menus.get(i);
+                    for(int x=0;x<menus.size();x++){
+                        if(menuBO.getPid().equals(menus.get(x).getId())){
+                            menus.get(x).getCh().add(menuBO);
+                            menus.remove(i);
+                            --i;
+                            break;
+                        }
+                    }
+                }
             }
-            roleDTO.setMenuIds(menuIds);
-            roleDTO.setMenuNames(menuName);
-            roleDTOs.add(roleDTO);
+            role.setMenuBOS(menus);
         }
 
-
-        return roleDTOs;
+        return roleList;
     }
-
-    /**
-     * 查询角色对应的菜单的总数
-     *
-     * @param map 角色名
-     * @return
-     */
-    public Integer getCountRole(Map map) {
-        return adminDAO.getCountRole(map);
-    }
-
-    /**
-     * 根据当前登陆用户的角色id查询对应的权限
-     *
-     * @param roleId 角色id
-     * @return 登陆用户对应的权限
-     */
-    public List<RoleBO> getRoleMenuSuccess(Integer roleId) {
-        return adminDAO.getRoleMenuSuccess(roleId);
-    }
-
 
 }

@@ -22,7 +22,7 @@ public class AdminBO extends BaseModel {
 
     private String gender; // 性别
 
-    private int roleId; // 角色id
+    private Integer roleId; // 角色id
 
     private Date createTime; // 创建时间
 
@@ -43,8 +43,12 @@ public class AdminBO extends BaseModel {
     }
 
 
-    public int getRoleId() {
+    public Integer getRoleId() {
         return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public Integer getId() {
