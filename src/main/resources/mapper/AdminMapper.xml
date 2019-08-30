@@ -19,8 +19,8 @@
     <insert id="adminRegister" parameterType="com.wisewin.backend.entity.bo.AdminBO" useGeneratedKeys="true"
             keyProperty="id">
           insert into ce_admin
-         (name,phone_umber,phone_umber,password,create_time,status,role_id,update_time)
-         value
+         (name,phone_number,password,create_time,status,role_id,update_time)
+         values
          ( #{name},#{phoneNumber},#{password},now(),#{status},#{roleId},now())
     </insert>
 
