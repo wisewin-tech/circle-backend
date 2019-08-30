@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author: Bin Wang
+ * @Author:  Wang bin
  * @date: Created in 14:58 2019/6/4
  */
 public interface UserBackgroundDAO {
