@@ -60,21 +60,21 @@ public class AdminService {
      * @return 登陆用户对应的权限
      */
     public List<MenuBO> getRoleMenuSuccess(Integer roleId) {
-        List<MenuBO> menuBOS = adminDAO.getMenuByRoleId(roleId);
-        if(menuBOS!=null && menuBOS.size()>0) {
-            for (int i = 0; i < menuBOS.size(); i++) {
-                MenuBO menuBO = menuBOS.get(i);
-                for(int x=0;x<menuBOS.size();x++){
-                    if(menuBO.getPid().equals(menuBOS.get(x).getId())){
-                        menuBOS.get(x).getCh().add(menuBO);
-                        menuBOS.remove(i);
+        List<MenuBO> menus = adminDAO.getMenuByRoleId(roleId);
+        if(menus!=null && menus.size()>0) {
+            for (int i = 0; i < menus.size(); i++) {
+                MenuBO menuBO = menus.get(i);
+                for(int x=0;x<menus.size();x++){
+                    if(menuBO.getPid().equals(menus.get(x).getId())){
+                        menus.get(x).getCh().add(menuBO);
+                        menus.remove(i);
                         --i;
                         break;
                     }
                 }
             }
         }
-        return menuBOS;
+        return  menus;
     }
 
     //获取所有菜单权限

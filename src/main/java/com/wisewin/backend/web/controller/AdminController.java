@@ -72,6 +72,30 @@ public class AdminController extends BaseCotroller {
     }
 
     /**
+     * 查询当前登录的管理员的权限
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/getAdminLoginMenus")
+    public void getAdminLoginMenus(HttpServletRequest request, HttpServletResponse response){
+        AdminBO loginAdmin = super.getLoginUser(request);
+        //验证用户
+        if(loginAdmin==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "用户未登录")) ;
+            super.safeJsonPrint(response, result);
+            return ;
+        }
+
+        List<MenuBO> roleMenuSuccess = adminService.getRoleMenuSuccess(loginAdmin.getRoleId());
+        Map<String,Object>  resultMap=new HashMap<String, Object>();
+        resultMap.put("menu",roleMenuSuccess);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap)) ;
+        super.safeJsonPrint(response, result);
+        return;
+    }
+
+
+    /**
      * 创建管理员
      * @param request
      * @param response
@@ -254,7 +278,7 @@ public class AdminController extends BaseCotroller {
         //判断之前的密码是否一样
         AdminBO adminBO = adminService.queryAdminInfoByMobile(loginAdmin.getPhoneNumber());
         if(!adminBO.getPassword().equals(MD5Util.digest(passWord))){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000208")) ;
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000094")) ;
             super.safeJsonPrint(response , result);
             return ;
         }
@@ -276,7 +300,7 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/addRoleGrantAuthority")
     public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,
-                 String roleName,String menuIds,String hotelIds){
+                 String roleName,String menuIds){
         AdminBO loginAdmin = super.getLoginUser(request);
         //验证用户
         if(loginAdmin==null){
@@ -285,7 +309,7 @@ public class AdminController extends BaseCotroller {
             return ;
         }
         //参数验证
-        if(StringUtils.isEmpty(roleName) || StringUtils.isEmpty(menuIds)||StringUtils.isEmpty(hotelIds)){
+        if(StringUtils.isEmpty(roleName) || StringUtils.isEmpty(menuIds)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
             super.safeJsonPrint(response , result);
             return ;
@@ -301,10 +325,8 @@ public class AdminController extends BaseCotroller {
         RoleBO roleBO=new RoleBO();
         roleBO.setRoleName(roleName);
         adminService.addRole(roleBO);
-        System.err.println(roleBO.getId());
         //添加权限
         Integer[] menuIdArr= JsonUtils.getIntegerArray4Json(menuIds);
-        Integer[] hotelIdArr= JsonUtils.getIntegerArray4Json(hotelIds);
         adminService.addRoleMenu(roleBO.getId(),menuIdArr);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
         super.safeJsonPrint(response , result);
@@ -342,7 +364,7 @@ public class AdminController extends BaseCotroller {
      * @param menuIds  权限id
      */
     @RequestMapping("/grantAuthority")
-    public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds,String hotelIds,String roleName){
+    public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds,String roleName){
         AdminBO loginAdmin = super.getLoginUser(request);
         //验证用户
         if(loginAdmin==null){
@@ -358,6 +380,11 @@ public class AdminController extends BaseCotroller {
         }
         //验证角色名
         RoleBO roleBO = adminService.getRoleById(roleId);
+        if(roleBO==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            super.safeJsonPrint(response , result);
+            return ;
+        }
         if(!roleBO.getRoleName().equals(roleName)){
             // 不一致查询是否重复
             Integer nameCount = adminService.selectCountByRoleName(roleName);
