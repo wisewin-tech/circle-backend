@@ -62,9 +62,6 @@
     <!-- 下拉框展示 查询所有角色  -->
     <select id="getRoleList" resultType="com.wisewin.backend.entity.bo.RoleBO">
         SELECT id,role_name FROM ce_role
-        <if test="status==null or status==''">
-            where id!='1'
-        </if>
     </select>
 
     <!-- 根据角色id删除对应的所有权限  -->
