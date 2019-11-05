@@ -30,8 +30,6 @@ import java.util.List;
 public class BaseCotroller {
     protected transient final Logger log = Logger.getLogger(getClass());
 
-//    @Resource( name = "loginService" )
-//    LoginService loginService;
 
     protected PageObject pager = null;
     private int default_page_size = 10;
@@ -223,7 +221,11 @@ public class BaseCotroller {
 
     /** 获取登录用户*/
     public AdminBO getLoginUser (HttpServletRequest request ) {
-        return (AdminBO) this.getSession(request, SysConstants.CURRENT_LOGIN_USER) ;
+        Object obj=this.getSession(request, SysConstants.CURRENT_LOGIN_USER);
+        if(obj==null){
+            return null;
+        }
+        return (AdminBO) obj ;
     }
 
     /** putLoginUser*/
@@ -232,15 +234,7 @@ public class BaseCotroller {
     }
 
 
-//    /** 获取登录用户*/
-//    public ClientInfo getLoginClientInfo (HttpServletRequest request ) {
-//        return (ClientInfo)this.getClientSession(request, SysConstants.CURRENT_LOGIN_CLIENT) ;
-//    }
-//
-//    /** putLoginUser*/
-//    public void putLoginClientInfo (String loginId , ClientInfo clientInfo) {
-//        this.putSession(createKey(loginId, SysConstants.CURRENT_LOGIN_CLIENT), clientInfo) ;
-//    }
+
 
     /** putSession */
     public void putSession (HttpServletRequest request, String key , String value ) {

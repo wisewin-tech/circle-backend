@@ -1,5 +1,7 @@
 package com.wisewin.backend.entity.bo;
 
+import com.wisewin.backend.entity.bo.MenuBO;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +17,25 @@ public class RoleBO {
     private List<MenuBO> menuBOS;
 
     private MenuBO menuBO;
+    private List<Integer> menuIds; // 角色对应的所有权限的ids
+
+    private List<String> menuNames;// 角色对应的所有的权限名称
+
+    public List<Integer> getMenuIds() {
+        return menuIds;
+    }
+
+    public void setMenuIds(List<Integer> menuIds) {
+        this.menuIds = menuIds;
+    }
+
+    public List<String> getMenuNames() {
+        return menuNames;
+    }
+
+    public void setMenuNames(List<String> menuNames) {
+        this.menuNames = menuNames;
+    }
 
     public MenuBO getMenuBO() {
         return menuBO;

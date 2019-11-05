@@ -1,5 +1,7 @@
 package com.wisewin.backend.service;
 
+
+
 import com.wisewin.backend.common.constants.LanguageTalentConstants;
 import com.wisewin.backend.dao.AdminDAO;
 import com.wisewin.backend.entity.bo.AdminBO;
@@ -12,10 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service("AdminService")
 @Transactional
@@ -218,7 +217,7 @@ public class AdminService {
      * @param menuIdArr 菜单id数组
      * @return
      */
-    public int addRoleMenu(Integer roleId, Integer[] menuIdArr) {
+    public int addRoleMenu(Integer roleId, String[] menuIdArr) {
         return adminDAO.addRoleMenu(roleId, menuIdArr);
     }
 
@@ -239,7 +238,10 @@ public class AdminService {
      * @param menuIdArr 菜单id
      */
     public boolean updRoleToMenu(RoleBO roleBO, String menuIdArr) {
-        Integer[] menuIds = JsonUtils.getIntegerArray4Json(menuIdArr);
+        String[] menuIds = {};
+        if(menuIdArr!=null){
+            menuIds=menuIdArr.split(",");
+        }
         //删除这个角色所有权限
         adminDAO.delRoleMenuByRoleId(roleBO.getId());
         //添加权限
@@ -282,7 +284,6 @@ public class AdminService {
 
     /**
      * 查询角色对应的菜单
-     *
      * @param roleName 角色名称 为null查询所有
      * @return
      */
@@ -292,10 +293,16 @@ public class AdminService {
 
         //循环查询角色拥有的菜单
         for (RoleBO role : roleList) {
+            List<Integer> menuIds = new ArrayList<Integer>();// 存放权限id
+            List<String> menuNames = new ArrayList<String>(); // 存放权限name
             List<MenuBO> menus = adminDAO.getMenuByRoleId(role.getId());
             if(menus!=null && menus.size()>0) {
                 for (int i = 0; i < menus.size(); i++) {
                     MenuBO menuBO = menus.get(i);
+                    if(menuBO.getPid()!=0){
+                        menuIds.add(menuBO.getId());
+                    }
+                    menuNames.add(menuBO.getMenuName());
                     for(int x=0;x<menus.size();x++){
                         if(menuBO.getPid().equals(menus.get(x).getId())){
                             menus.get(x).getCh().add(menuBO);
@@ -307,6 +314,8 @@ public class AdminService {
                 }
             }
             role.setMenuBOS(menus);
+            role.setMenuIds(menuIds);
+            role.setMenuNames(menuNames);
         }
 
         return roleList;

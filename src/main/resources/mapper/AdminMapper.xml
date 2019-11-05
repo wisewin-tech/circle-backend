@@ -6,37 +6,37 @@
 <mapper namespace="com.wisewin.backend.dao.AdminDAO">
     <!--根据手机号查找管理员信息-->
     <select id="queryAdminInfoByMobile" parameterType="java.lang.String"
-            resultType="com.wisewin.backend.entity.bo.AdminBO">
-        select ce_admin.*,ce_role.id as  roleId
-            from  ce_admin left  join ce_role  on  ce_role.id=ce_admin.role_id where  phone_number=  #{phoneNumber}
+            resultType="com.wisewin.api.entity.bo.AdminBO">
+        select sys_admin.*,sys_role.id as  roleId
+            from  sys_admin left  join sys_role  on  sys_role.id=sys_admin.role_id where  phone_number=  #{phoneNumber}
     </select>
 
     <sql id="limit">
-        limit #{pageSize} offset #{pageOffset}
+        limit  #{pageSize} offset #{pageOffset}
     </sql>
 
     <!--添加管理员信息(管理員注冊)-->
-    <insert id="adminRegister" parameterType="com.wisewin.backend.entity.bo.AdminBO" useGeneratedKeys="true"
+    <insert id="adminRegister" parameterType="com.wisewin.api.entity.bo.AdminBO" useGeneratedKeys="true"
             keyProperty="id">
-          insert into ce_admin
-         (name,phone_number,password,create_time,status,role_id,update_time)
+          insert into sys_admin
+         (name,phone_number,password,status,role_id)
          values
-         ( #{name},#{phoneNumber},#{password},now(),#{status},#{roleId},now())
+         ( #{name},#{phoneNumber},#{password},#{status},#{roleId})
     </insert>
 
     <!-- 查找角色名是否注册过  -->
     <select id="selectCountByRoleName" parameterType="String" resultType="Integer">
-        select count(role_name) from ce_role where role_name = #{roleName}
+        select count(role_name) from sys_role where role_name = #{roleName}
     </select>
     <!-- 查找手机号是否注册过  -->
     <select id="selectCountByMobile" parameterType="String" resultType="int">
-       select count(id) from ce_admin where phone_number = #{phoneNumber}
+       select count(id) from sys_admin where phone_number = #{phoneNumber}
     </select>
 
     <!-- 添加角色信息  -->
-    <insert id="addRole" parameterType="com.wisewin.backend.entity.bo.RoleBO" useGeneratedKeys="true"
+    <insert id="addRole" parameterType="com.wisewin.api.entity.bo.RoleBO" useGeneratedKeys="true"
             keyProperty="id">
-        insert into ce_role
+        insert into sys_role
         (role_name,create_time,update_time)
         values
         ( #{roleName},now(),now())
@@ -44,7 +44,7 @@
 
     <!-- 给角色赋予权限  -->
     <insert id="addRoleMenu">
-        insert into ce_role_menu
+        insert into sys_role_menu
         (role_id,menu_id)
         values
         <foreach collection="menuIdArr" item="menuId" separator=",">
@@ -53,51 +53,51 @@
     </insert>
     <!--  根据角色id删除角色信息  -->
     <delete id="delRoleById" parameterType="Integer">
-        delete from ce_role where
+        delete from sys_role where
         <foreach collection="roleIds" item="roleId" separator="OR">
             id=#{roleId}
         </foreach>
     </delete>
 
     <!-- 下拉框展示 查询所有角色  -->
-    <select id="getRoleList" resultType="com.wisewin.backend.entity.bo.RoleBO">
-        SELECT id,role_name FROM ce_role
+    <select id="getRoleList" resultType="com.wisewin.api.entity.bo.RoleBO">
+        SELECT id,role_name FROM sys_role
     </select>
 
     <!-- 根据角色id删除对应的所有权限  -->
     <delete id="delRoleMenuByRoleId" parameterType="Integer">
-        DELETE FROM ce_role_menu WHERE role_id=#{roleId}
+        DELETE FROM sys_role_menu WHERE role_id=#{roleId}
     </delete>
 
     <!--查询角色下是否存在用户-->
     <select id="checkRoleUser" parameterType="java.lang.Integer" resultType="int">
-           SELECT count(id) FROM ce_admin  WHERE  role_id =#{roleId}
+           SELECT count(id) FROM sys_admin  WHERE  role_id =#{roleId}
     </select>
     <!--根据角色id修改角色名称  -->
     <select id="updateRoleNameByRoleId">
-        UPDATE ce_role SET
+        UPDATE sys_role SET
         <if test="roleName !=null and roleName!=''">
             role_name=#{roleName},
         </if>
         update_time=now() WHERE id=#{roleId}
     </select>
     <!--根据角色名称查询角色信息  -->
-    <select id="getRoleByName" resultType="com.wisewin.backend.entity.bo.RoleBO" parameterType="java.lang.String">
-        select * from ce_role
+    <select id="getRoleByName" resultType="com.wisewin.api.entity.bo.RoleBO" parameterType="java.lang.String">
+        select * from sys_role
         <if test="roleName!=null and roleName!=''">
             where role_name like '%${roleName}%'
         </if>
     </select>
     <!--根据角色id查询角色信息  -->
-    <select id="getRoleById" resultType="com.wisewin.backend.entity.bo.RoleBO" parameterType="java.lang.Integer">
-        select * from ce_role
+    <select id="getRoleById" resultType="com.wisewin.api.entity.bo.RoleBO" parameterType="java.lang.Integer">
+        select * from sys_role
         <if test="roleId!=null and roleId!=''">
             where id = #{roleId}
         </if>
     </select>
     <!--修改admin用户信息  -->
-    <update id="updateAdminUser" parameterType="com.wisewin.backend.entity.bo.AdminBO">
-        UPDATE ce_admin
+    <update id="updateAdminUser" parameterType="com.wisewin.api.entity.bo.AdminBO">
+        UPDATE sys_admin
         <set>
             <if test="name!=null and name!=''">name=#{name},</if>
             <if test="phoneNumber !=null and phoneNumber!='' ">phone_number=#{phoneNumber},</if>
@@ -109,27 +109,27 @@
     </update>
     <!--根据用户id删除信息  -->
     <delete id="delAdminById">
-        DELETE FROM ce_admin WHERE
+        DELETE FROM sys_admin WHERE
         <foreach collection="idArr" item="id" separator="OR">
             id=#{id}
         </foreach>
     </delete>
     <!--查询角色拥有的权限-->
-    <select id="getMenuByRoleId" resultType="com.wisewin.backend.entity.bo.MenuBO" parameterType="java.lang.Integer">
+    <select id="getMenuByRoleId" resultType="com.wisewin.api.entity.bo.MenuBO" parameterType="java.lang.Integer">
         select me.*
-        from ce_role_menu  rm
-        inner join  ce_menu me
+        from sys_role_menu  rm
+        inner join  sys_menu me
         on rm.menu_id=me.id
         where  rm.role_id=#{roleId}
     </select>
 
     <!--根据 用户id\角色id\用户名 查询用户信息-->
-    <select id="getAdminByCond" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.AdminBO">
-        select ce_admin.id,name,phone_number,role_id,role_name,ce_admin.create_time
-        from ce_admin ,ce_role
-        where role_id=ce_role.id
+    <select id="getAdminByCond" parameterType="java.util.Map" resultType="com.wisewin.api.entity.bo.AdminBO">
+        select sys_admin.id,name,phone_number,role_id,role_name
+        from sys_admin ,sys_role
+        where role_id=sys_role.id
         <if test="userId!=null and userId!=''">
-            and ce_admin.id=#{userId}
+            and sys_admin.id=#{userId}
         </if>
         <if test="roleId!=null and roleId!=''">
             and role_id=#{roleId}
@@ -141,16 +141,16 @@
     </select>
 
     <sql id="adminLimit">
-        limit #{pageSize} offset #{pageNo}
+        limit #{pageNo},#{pageSize}
     </sql>
 
     <!--根据 用户id\角色id\用户名 查询用户信息总数-->
     <select id="getAdminCountByCond" parameterType="java.util.Map" resultType="java.lang.Integer">
         select count(*)
-        from ce_admin,ce_role
-        where role_id=ce_role.id
+        from sys_admin,sys_role
+        where role_id=sys_role.id
         <if test="userId!=null and userId!=''">
-            and ce_admin.id=#{userId}
+            and sys_admin.id=#{userId}
         </if>
         <if test="roleId!=null and roleId!=''">
             and role_id=#{roleId}
@@ -161,8 +161,8 @@
     </select>
 
     <!--查询所有菜单-->
-    <select id="getMenuList" resultType="com.wisewin.backend.entity.bo.MenuBO">
-        select * from ce_menu
+    <select id="getMenuList" resultType="com.wisewin.api.entity.bo.MenuBO">
+        select * from sys_menu
     </select>
 
 

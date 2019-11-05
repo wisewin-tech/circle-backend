@@ -1,6 +1,7 @@
 package com.wisewin.backend.entity.bo;
 
-import com.wisewin.backend.common.base.BaseModel;
+
+import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.util.Date;
 import java.util.Set;
@@ -20,15 +21,11 @@ public class AdminBO extends BaseModel {
 
     private String status; // 状态
 
-    private String gender; // 性别
-
     private Integer roleId; // 角色id
 
     private Date createTime; // 创建时间
 
     private Date updateTime; // 修改时间
-
-    private String email;  //邮箱
 
     private  String roleName; //角色
 
@@ -91,16 +88,6 @@ public class AdminBO extends BaseModel {
         this.status = status;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-
-
     public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
@@ -121,39 +108,11 @@ public class AdminBO extends BaseModel {
         this.updateTime = updateTime;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getRoleName() {
         return roleName;
     }
 
     public void setRoleName(String roleName) {
-
-
         this.roleName = roleName;
-    }
-
-    @Override
-    public String toString() {
-        return "AdminBO{" +
-                "id=" + id +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", status='" + status + '\'' +
-                ", gender='" + gender + '\'' +
-                ", roleId=" + roleId +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", email='" + email + '\'' +
-                ", roleName='" + roleName + '\'' +
-                ", url=" + url +
-                '}';
     }
 }

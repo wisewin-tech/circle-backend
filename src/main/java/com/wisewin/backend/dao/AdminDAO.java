@@ -1,15 +1,11 @@
 package com.wisewin.backend.dao;
 
+
+import com.wisewin.backend.entity.bo.RoleBO;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.MenuBO;
-import com.wisewin.backend.entity.bo.RoleBO;
-import com.wisewin.backend.entity.bo.RoleMenuBO;
-import com.wisewin.backend.entity.dto.AdminDTO;
-import com.wisewin.backend.entity.dto.AdminRoleDTO;
-import com.wisewin.backend.entity.dto.MenuDTO;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +64,7 @@ public interface AdminDAO {
      * @param menuIdArr 菜单id数组
      * @return
      */
-    int addRoleMenu(@Param("roleId") Integer roleId, @Param("menuIdArr") Integer[] menuIdArr);
+    int addRoleMenu(@Param("roleId") Integer roleId, @Param("menuIdArr") String[] menuIdArr);
 
     /**
      * 根据角色姓名 查询角色信息
@@ -89,7 +85,7 @@ public interface AdminDAO {
      * 根据角色id删除角色信息
      * @param roleIds 角色id
      */
-    boolean delRoleById(@Param("roleIds")Integer[] roleIds);
+    boolean delRoleById(@Param("roleIds") Integer[] roleIds);
 
     /**
      * 批量删除
