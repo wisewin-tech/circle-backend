@@ -21,12 +21,11 @@ public class NewbitHelpContentService {
 
     /**
      * 增加新手帮助内容
-     * @param helpId
-     * @param content
+     * @param newbitHelpContentBO
      * @return
      */
-    public Integer addNewbitHelpContent(Integer helpId, String content){
-        return newbitHelpContentDAO.addNewbitHelpContent(helpId, content);
+    public Integer addNewbitHelpContent(NewbitHelpContentBO newbitHelpContentBO){
+        return newbitHelpContentDAO.addNewbitHelpContent(newbitHelpContentBO);
     }
 
     /**

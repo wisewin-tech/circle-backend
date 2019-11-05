@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wisewin.backend.dao.BackendHomeDAO">
+
+    <select id="getStatisticalRecordsSum" resultType="com.wisewin.backend.entity.bo.StatisticalRecords">
+            select
+            sum(active_count) as activeCount,
+            sum(registration_count) as registrationCount,
+            sum(pairing_count) as pairingCount
+            from statistical_records
+            <where>
+                <if test="year!=null and year!=''">
+                    extract (year from create_time)=#{year}
+                </if>
+                <if test="month!=null and month!=''">
+                    and extract (month from create_time)=#{month}
+                </if>
+                <if test="day!=null and day!=''">
+                    and extract (day from create_time)=#{day}
+                </if>
+            </where>
+    </select>
+
+
+</mapper>

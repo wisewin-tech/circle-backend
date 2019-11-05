@@ -1,5 +1,7 @@
 package com.wisewin.backend.entity.param;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -7,25 +9,28 @@ import java.util.Date;
  */
 public class UserParam {
     private Integer id; //用户
-    private String phone; //手机
+    private String phoneNumber; //手机
+    private String password;
     private String name; //姓名
-    private String password;//密码
-    private Integer gender; //性别0女 1男
-    private Integer age; //年龄
+    private String gender; //性别 帅哥|美女
     private String email; //邮箱
     private Integer stature; //身高(cm)
-    private String birthday; //生日
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday; //生日
     private String constellation; //星座
     private String birthplace; //出生地
+    private String createTime;//创建时间
     private String schooling; //受教育程度
-    private String introduce; //介绍
-    private Date createTime; //创建时间
-    private Integer authentication; //认证状态
-    private String authenticationImg; //认证图像
-    private String headPortrait; //头像
     private String work; //工作
     private String school; //学校
-    private String location; //位置
+    private String authenticationStatus; //认证状态
+    private Date authenticationTime;//认证时间
+    private Integer updateCount; //修改次数
+    private String longitude;//经度
+    private String latitude;//纬度
+    private String accountStatus;//账号状态
+    private Integer pageNo;//当前页
+    private Integer pageSize;//页面容量
 
     public Integer getId() {
         return id;
@@ -35,20 +40,12 @@ public class UserParam {
         this.id = id;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPassword() {
@@ -59,20 +56,20 @@ public class UserParam {
         this.password = password;
     }
 
-    public Integer getGender() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Integer gender) {
+    public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public String getEmail() {
@@ -91,11 +88,11 @@ public class UserParam {
         this.stature = stature;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -115,52 +112,20 @@ public class UserParam {
         this.birthplace = birthplace;
     }
 
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
     public String getSchooling() {
         return schooling;
     }
 
     public void setSchooling(String schooling) {
         this.schooling = schooling;
-    }
-
-    public String getIntroduce() {
-        return introduce;
-    }
-
-    public void setIntroduce(String introduce) {
-        this.introduce = introduce;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getAuthentication() {
-        return authentication;
-    }
-
-    public void setAuthentication(Integer authentication) {
-        this.authentication = authentication;
-    }
-
-    public String getAuthenticationImg() {
-        return authenticationImg;
-    }
-
-    public void setAuthenticationImg(String authenticationImg) {
-        this.authenticationImg = authenticationImg;
-    }
-
-    public String getHeadPortrait() {
-        return headPortrait;
-    }
-
-    public void setHeadPortrait(String headPortrait) {
-        this.headPortrait = headPortrait;
     }
 
     public String getWork() {
@@ -179,11 +144,67 @@ public class UserParam {
         this.school = school;
     }
 
-    public String getLocation() {
-        return location;
+    public String getAuthenticationStatus() {
+        return authenticationStatus;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setAuthenticationStatus(String authenticationStatus) {
+        this.authenticationStatus = authenticationStatus;
+    }
+
+    public Date getAuthenticationTime() {
+        return authenticationTime;
+    }
+
+    public void setAuthenticationTime(Date authenticationTime) {
+        this.authenticationTime = authenticationTime;
+    }
+
+    public Integer getUpdateCount() {
+        return updateCount;
+    }
+
+    public void setUpdateCount(Integer updateCount) {
+        this.updateCount = updateCount;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(String accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+    public Integer getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }

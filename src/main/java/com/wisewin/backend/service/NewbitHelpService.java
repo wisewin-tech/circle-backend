@@ -44,11 +44,10 @@ public class NewbitHelpService {
 
     /**
      * 修改新手帮助标题
-     * @param masterTitle 标题
-     * @param id
+     * @param param
      * @return
      */
-    public boolean editNewditHelp(String masterTitle,Integer id){
-        return newbitHelpDAO.editNewditHelp(masterTitle,id);
+    public boolean editNewditHelp(NewditHelpParam param){
+        return newbitHelpDAO.editNewditHelp(param);
     }
 }

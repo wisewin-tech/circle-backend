@@ -29,9 +29,8 @@ public interface NewbitHelpDAO {
 
     /**
      * 修改新手帮助标题
-     * @param masterTitle
-     * @param id
+     * @param param
      * @return
      */
-    boolean editNewditHelp(@Param("masterTitle")String masterTitle,@Param("id") Integer id);
+    boolean editNewditHelp(NewditHelpParam param);
 }

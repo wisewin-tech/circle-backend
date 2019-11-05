@@ -16,9 +16,9 @@ public class HttpRequestUtil {
 
     public static final String DEFAULT_CHARSET = "utf-8";
 
-    private static int DEFAULT_CONNTIME = 5000;
+    private static final int DEFAULT_CONNTIME = 5000;
 
-    private static int DEFAULT_READTIME = 5000;
+    private static final int DEFAULT_READTIME = 5000;
     // 获取access_token的路径
     private static String token_path = "https://management.weixin.qq.com/cgi-bin/token";
 

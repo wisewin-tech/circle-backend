@@ -12,11 +12,10 @@ public interface NewbitHelpContentDAO {
 
     /**
      * 增加新手帮助内容
-     * @param helpId
-     * @param content
+     * @param newbitHelpContentBO
      * @return
      */
-    Integer addNewbitHelpContent(@Param("helpId") Integer helpId,@Param("content") String content);
+    Integer addNewbitHelpContent(NewbitHelpContentBO newbitHelpContentBO);
 
     /**
      * 修改新手帮助内容
