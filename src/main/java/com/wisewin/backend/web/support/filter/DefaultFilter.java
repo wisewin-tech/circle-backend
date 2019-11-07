@@ -21,8 +21,8 @@ public class DefaultFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        log.debug("URl:{} \t content type:{}  ", request.getRequestURI(), request.getContentType());
-        log.debug("param:{}  ", JsonUtils.getJsonString4JavaPOJO(request.getParameterMap()));
+        log.info("URl:{} \t content type:{}  ", request.getRequestURI(), request.getContentType());
+        log.info("param:{}  ", JsonUtils.getJsonString4JavaPOJO(request.getParameterMap()));
         //到过滤器链的下一个过滤器
         filterChain.doFilter(request, response);
     }

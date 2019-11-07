@@ -1,11 +1,9 @@
 package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.InterestDAO;
-import com.wisewin.backend.dao.InterestSubclassDAO;
-import com.wisewin.backend.dao.InterestTypeDAO;
 import com.wisewin.backend.entity.bo.InterestBO;
-import com.wisewin.backend.entity.bo.InterestSubclassBO;
-import com.wisewin.backend.entity.bo.InterestTypeBO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,29 +16,43 @@ import java.util.List;
 @Service("InterestService")
 @Transactional
 public class InterestService {
+    static final Logger log = LoggerFactory.getLogger(InterestService.class);
+
     @Resource
     InterestDAO interestDAO;
 
-    @Resource
-    InterestSubclassDAO interestSubclassDAO;
-
-    //增加一级兴趣
-    public boolean addInterest(InterestBO interestBO){
-        return interestDAO.addInterest(interestBO)>0;
+    /**
+     * 查询兴趣
+     * @param typeId 兴趣分类id
+     * @return
+     */
+    public List<InterestBO> queryInterestByTypeId(Integer typeId){
+        return interestDAO.queryInterestByTypeId(typeId);
     }
 
-    /**删除一级兴趣 同时删除二级兴趣
-    */
-    public boolean delInterest(Integer id){
-        //删除子兴趣
-        //interestSubclassDAO.delInterestSubclass(null,id);
-        //删除兴趣
-        return interestDAO.delInterest(id,null)>0;
+    /**
+     * 添加兴趣
+     * @param interestBO
+     * @return
+     */
+    public Integer addInterest(InterestBO interestBO){
+        return interestDAO.addInterest(interestBO);
     }
 
-    //查询一级兴趣
-    public List<InterestBO> getInterestsByTypeId(Integer interestTypeId){
-        return interestDAO.getInterestsByTypeId(interestTypeId);
+    /**
+     * 删除兴趣
+     * @param id  兴趣id
+     * @return
+     */
+    public Integer delInterest(Integer id){
+        return interestDAO.delInterest(id);
+    }
+
+    /**
+     * 查询兴趣分类
+     */
+    public List<InterestBO> queryInterestType(){
+        return interestDAO.queryInterestType();
     }
 
 }

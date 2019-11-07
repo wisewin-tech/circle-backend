@@ -5,28 +5,31 @@
 <!--二级兴趣管理-->
 <mapper namespace="com.wisewin.backend.dao.InterestDAO">
 
-    <!--添加兴趣-->
-    <insert id="addInterest" parameterType="com.wisewin.backend.entity.bo.InterestBO">
-        insert into
-        ce_interest
-        (interest_type_id,interest_name,grade,create_time,create_user_id,update_time,update_user_id)
-        values
-        (#{interestTypeId},#{interestName},#{grade},now(),#{createUserId},now(),#{createUserId})
-    </insert>
-
     <!--通过兴趣分类id查询分类下的兴趣-->
-    <select id="getInterestsByTypeId" resultType="com.wisewin.backend.entity.bo.InterestBO"
-            parameterType="java.lang.Integer">
-        select * from ce_interest where interest_type_id=#{interestTypeId} order by update_time desc
+    <select id="queryInterestByTypeId" resultType="com.wisewin.backend.entity.bo.InterestBO">
+      SELECT st.id,ty.type_name,st.interest_name ,ty."id" AS typeId ,st.create_time  FROM  "ci_interest" st
+        LEFT JOIN "ci_interest_type" ty ON ty."id" =st.type_id
+        <where>
+            <if test="typeId!=null" >
+                ty.id =#{typeId}
+            </if>
+         </where>
+        ORDER BY id DESC
     </select>
 
+    <!--添加兴趣-->
+    <insert id="addInterest" parameterType="com.wisewin.backend.entity.bo.InterestBO">
+       INSERT INTO "ci_interest"( "type_id", "interest_name","create_time") VALUES ( #{typeId},#{interestName},NOW());
+    </insert>
+
     <!--删除兴趣-->
-    <delete id="delInterest">
-        delete from ce_interest
-        <where>
-            <if test="id!=null and id!=''">and id=#{id}</if>
-            <if test="typeId!=null and typeId!=''">and interest_type_id=#{typeId}</if>
-        </where>
+    <delete id="delInterest" >
+        delete from "ci_interest"  WHERE id=#{id}
     </delete>
+
+    <!--查询兴趣分类-->
+    <select id="queryInterestType"  resultType="com.wisewin.backend.entity.bo.InterestBO">
+        select * from "ci_interest_type"
+    </select>
 
 </mapper>
