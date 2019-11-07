@@ -77,6 +77,19 @@ public class UserController extends BaseCotroller{
         return;
     }
 
+    @RequestMapping("/getModelByUserId")
+    public void getModelByUserId(Long userId,HttpServletRequest request, HttpServletResponse response){
+        //验证参数
+        if (userId==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
+            super.safeJsonPrint(response, result);
+            return ;
+        }
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success( userService.getModelByUserId(userId)));
+        super.safeJsonPrint(response, json);
+    }
+
+
     /**
      * 修改用户信息
      */

@@ -3,6 +3,7 @@ package com.wisewin.backend.entity.bo;
 import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 public class ModelBO extends BaseModel {
     private Long id;//模式
@@ -14,8 +15,8 @@ public class ModelBO extends BaseModel {
     private Long sexCount;//性别修改次数
     private Date birthday;//生日
     private String constellation;//星座
-    private Long height;//身高
-    private Long weight;//体重
+    private String height;//身高
+    private String weight;//体重
     private String education;//学历教育
     private String birthplace;//出生地
     private String searchDistance;//搜索距离
@@ -29,6 +30,16 @@ public class ModelBO extends BaseModel {
     private Date superLikeTime;//超级喜欢时间
     private Long beShieldingCount;//被屏蔽次数
     private Date updateTime;
+
+    private List<UserPictureBO> pictureBOList;
+
+    public List<UserPictureBO> getPictureBOList() {
+        return pictureBOList;
+    }
+
+    public void setPictureBOList(List<UserPictureBO> pictureBOList) {
+        this.pictureBOList = pictureBOList;
+    }
 
     public Long getId() {
         return id;
@@ -102,19 +113,19 @@ public class ModelBO extends BaseModel {
         this.constellation = constellation;
     }
 
-    public Long getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(Long height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
-    public Long getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(Long weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 

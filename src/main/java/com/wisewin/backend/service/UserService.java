@@ -1,8 +1,10 @@
 package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.UserDAO;
+import com.wisewin.backend.entity.bo.ModelBO;
 import com.wisewin.backend.entity.bo.TheGarageImgBO;
 import com.wisewin.backend.entity.bo.UserBO;
+import com.wisewin.backend.entity.bo.UserPictureBO;
 import com.wisewin.backend.entity.dto.BackgroundCountDTO;
 import com.wisewin.backend.entity.dto.GarageDTO;
 import com.wisewin.backend.entity.dto.GarageImgDTO;
@@ -25,19 +27,26 @@ public class UserService {
     @Resource
     private UserDAO userDAO;
 
-    /**
-     * 查询用户信息列表
-     */
+    //查询用户信息列表
     public List<UserBO> getUserList(Map<String, Object> map) {
-        return userDAO.getUserList(map);
+        List<UserBO> userBOS=userDAO.getUserList(map);
+        return userBOS;
     }
-
-    /**
-     * 查询用户信息列表数量
-     */
+    //查询用户信息列表数量
     public Integer getUserListCount(Map<String, Object> map) {
         return userDAO.getUserListCount(map);
     }
+    //根据用户查询模式的信息
+    public List<ModelBO> getModelByUserId(Long userId){
+        List<ModelBO> modelBOList=userDAO.getModelByUserId(userId);
+        for (ModelBO modelBO:modelBOList) {
+           if(modelBO!=null&&modelBO.getName()!=null){
+               modelBO.setPictureBOList(userDAO.getPictureByModelId(modelBO.getId()));
+           }
+        }
+        return modelBOList;
+    }
+
 
     /**
      * 修改用户信息

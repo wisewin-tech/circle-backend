@@ -12,8 +12,8 @@ public enum CircleConstants {
     /*未审核*/  NOT("not"),
     /*审核中*/  AUDIT("audit"),
     /*汽车模式*/ CAR("car"),
-    /*异性模式*/ ISOMERISM("isomerism"),
-    /*同性模式*/  GAY("gay");
+    /*异性模式*/ DATE("date"),
+    /*同性模式*/  FRIEND("friend");
 
     private CircleConstants(String value) {
         this.value = value;
