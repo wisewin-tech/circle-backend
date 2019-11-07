@@ -141,7 +141,7 @@
     </select>
 
     <sql id="adminLimit">
-        limit #{pageNo},#{pageSize}
+        limit #{pageSize} offset #{pageNo}
     </sql>
 
     <!--根据 用户id\角色id\用户名 查询用户信息总数-->

@@ -463,9 +463,7 @@ public class AdminController extends BaseCotroller {
         adminService.delRoleById(roleIdArr);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000")) ;
         super.safeJsonPrint(response, result);
-
     }
-
 
     //退出登录
     @RequestMapping("/exitLogin")
