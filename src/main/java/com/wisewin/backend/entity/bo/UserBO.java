@@ -215,5 +215,4 @@ public class UserBO extends BaseModel {
         this.authenticationStatus = authenticationStatus;
     }
 
-
 }

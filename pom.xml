@@ -500,9 +500,9 @@
     <profile>
       <id>test</id>
       <properties>
-        <jdbc.url.ip>39.96.179.85:5432/circle</jdbc.url.ip>
+        <jdbc.url.ip>123.56.71.194:5432/circle</jdbc.url.ip>
         <jdbc.username>postgres</jdbc.username>
-        <jdbc.password>123456</jdbc.password>
+        <jdbc.password>postgres</jdbc.password>
 
         <system.cfg.imageBaeUrl>http://39.107.224.185:8080/</system.cfg.imageBaeUrl>
         <system.cfg.uploadBaseUrl>/home/zlftFiles/image</system.cfg.uploadBaseUrl>
