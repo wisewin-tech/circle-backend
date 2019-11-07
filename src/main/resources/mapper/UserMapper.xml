@@ -24,7 +24,7 @@
     <select id="getUserListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
         select count(1) from ci_user
         <where>
-            <if test="phone!=null and phone!=''"> AND phone=#{phone} </if>
+            <if test="phone!=null and phone!=''"> AND phone like '%${phone}%' </if>
             <if test="certificationStatus!=null and certificationStatus!=''"> AND certification_status=#{certificationStatus} </if>
             <if test="carStatus!=null and carStatus!=''"> AND car_status=#{carStatus} </if>
             <if test="userStatus!=null and userStatus!=''"> AND user_status=#{userStatus} </if>
