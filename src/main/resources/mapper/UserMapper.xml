@@ -4,39 +4,32 @@
 
 <!-- 【用户】 -->
 <mapper namespace="com.wisewin.backend.dao.UserDAO">
-    <!--分页查询用户信息-->
-    <select id="selectAll" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.UserBO">
-      SELECT
-        id,name,password,gender,phone_number,email,stature,birthday,constellation,
-        birthplace,schooling,create_time,work,school,authentication_status,authentication_time,
-        update_count,longitude,latitude,account_status
-      FROM ce_user
+    <sql id="limit">
+        limit #{pageSize} offset #{pageOffset}
+    </sql>
+    <!--分页查询用户列表-->
+    <select id="getUserList" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.UserBO">
+        select * from ci_user
         <where>
-
-            <if test="id!=null"> AND id=#{id} </if>
-            <if test="name!=null and name!=''"> AND name=#{name} </if>
-            <if test="phoneNumber!=null and phoneNumber!=''"> AND phone_number=#{phoneNumber} </if>
-            <if test="gender!=null and gender!=''"> AND gender=#{gender} </if>
-            <if test="authenticationStatus!=null and authenticationStatus!=''"> AND authentication_status=#{authenticationStatus} </if>
+            <if test="phone!=null and phone!=''"> AND phone like '%${phone}%'</if>
+            <if test="certificationStatus!=null and certificationStatus!=''"> AND certification_status=#{certificationStatus} </if>
+            <if test="carStatus!=null and carStatus!=''"> AND car_status=#{carStatus} </if>
+            <if test="userStatus!=null and userStatus!=''"> AND user_status=#{userStatus} </if>
+            <if test="robotStatus!=null and robotStatus!=''"> AND robot_status=#{robotStatus} </if>
         </where>
+        order by create_time desc
         <include refid="limit" />
-
     </select>
-
-
-    <!--查询所有条数-->
-    <select id="selectCount"   parameterType="java.util.Map"   resultType="java.lang.Integer">
-        SELECT  count(1)  FROM  ce_user
+    <!--查询用户列表条数-->
+    <select id="getUserListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from ci_user
         <where>
-
-            <if test="id!=null"> AND id=#{id} </if>
-            <if test="name!=null and name!=''"> AND name=#{name} </if>
-            <if test="phoneNumber!=null and phoneNumber!=''"> AND phone_number=#{phoneNumber} </if>
-            <if test="gender!=null and gender!=''"> AND gender=#{gender} </if>
-            <if test="authenticationStatus!=null and authenticationStatus!=''"> AND authentication_status=#{authenticationStatus} </if>
-
+            <if test="phone!=null and phone!=''"> AND phone=#{phone} </if>
+            <if test="certificationStatus!=null and certificationStatus!=''"> AND certification_status=#{certificationStatus} </if>
+            <if test="carStatus!=null and carStatus!=''"> AND car_status=#{carStatus} </if>
+            <if test="userStatus!=null and userStatus!=''"> AND user_status=#{userStatus} </if>
+            <if test="robotStatus!=null and robotStatus!=''"> AND robot_status=#{robotStatus} </if>
         </where>
-
     </select>
 
 
@@ -81,9 +74,7 @@
             <include refid="limit" />
     </select>
 
-        <sql id="limit">
-        limit #{pageOffset} offset #{pageSize}
-        </sql>
+
 
 
     <select id="queryUserBackgroundCount" parameterType="java.util.Map" resultType="int">

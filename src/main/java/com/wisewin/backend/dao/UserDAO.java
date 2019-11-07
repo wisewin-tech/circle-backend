@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserDAO {
-    //查询所有用户信息
-    List<UserBO> selectAll(Map<String, Object> map);
-    //(条件)查询总条数
-    Integer selectCount(Map<String, Object> map);
+    //查询用户列表信息
+    List<UserBO> getUserList(Map<String, Object> map);
+    //查询用户列表条数
+    Integer getUserListCount(Map<String, Object> map);
     //通过id查询用户信息
     UserBO queryUserById(Integer id);
     //修改用户信息

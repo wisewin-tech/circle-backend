@@ -26,21 +26,17 @@ public class UserService {
     private UserDAO userDAO;
 
     /**
-     * 查询所有用户信息
-     * @param map
-     * @return
+     * 查询用户信息列表
      */
-    public List<UserBO> selectAll(Map<String, Object> map) {
-        return userDAO.selectAll(map);
+    public List<UserBO> getUserList(Map<String, Object> map) {
+        return userDAO.getUserList(map);
     }
 
     /**
-     * 查询用户总条数
-     * @param map
-     * @return
+     * 查询用户信息列表数量
      */
-    public Integer selectCount(Map<String, Object> map) {
-        return userDAO.selectCount(map);
+    public Integer getUserListCount(Map<String, Object> map) {
+        return userDAO.getUserListCount(map);
     }
 
     /**

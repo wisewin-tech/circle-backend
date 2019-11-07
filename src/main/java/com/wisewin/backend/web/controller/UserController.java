@@ -11,12 +11,16 @@ import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.UserService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,36 +32,45 @@ public class UserController extends BaseCotroller{
     @Resource
     private UserService userService;
 
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
     /**
      * 查询所有用户信息
      * pageNo 页数
      * pageSize 每页条数
+     * certificationStatus 用户认证状态
+     * carStatus 汽车认证状态
+     * userStatus 用户状态
+     * robotStatus 是否为机器人
+     * phone 手机号
      * @param response
      */
-    @RequestMapping("/selectAll")
-    public void selectAll(UserParam userParam,HttpServletRequest request,HttpServletResponse response) {
-        AdminBO loginUser = super.getLoginUser(request);
-        if(loginUser == null){
-            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-            super.safeHtmlPrint(response,languagejson);
-            return;
+    @RequestMapping("/getUserList")
+    public void getUserList(UserBO userBO,Integer pageNo,Integer pageSize, HttpServletRequest request, HttpServletResponse response) {
+        //验证参数
+        if (userBO==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
+            super.safeJsonPrint(response, result);
+            return ;
         }
-        QueryInfo queryInfo = getQueryInfo(userParam.getPageNo(),userParam.getPageSize());
-        Map<String, Object> queryMap = new HashMap<String, Object>();
-        if(queryInfo != null){
-            queryMap.put("pageOffset", queryInfo.getPageOffset());
-            queryMap.put("pageSize", queryInfo.getPageSize());
+        QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
+        //封装条件
+        Map<String,Object> queryMap=new HashMap<String, Object>();
+        queryMap.put("pageOffset",queryInfo.getPageOffset());
+        queryMap.put("pageSize",queryInfo.getPageSize());
+        queryMap.put("certificationStatus",userBO.getCertificationStatus());
+        queryMap.put("carStatus",userBO.getCarStatus());
+        queryMap.put("userStatus",userBO.getUserStatus());
+        queryMap.put("robotStatus",userBO.getRobotStatus());
+        queryMap.put("phone",userBO.getPhone());
+        //查询
+        Integer count = userService.getUserListCount(queryMap);
+        List<UserBO> userBOS=new ArrayList<UserBO>();
+        if(count!=0){
+            userBOS = userService.getUserList(queryMap);
         }
-        queryMap.put("id",userParam.getId());
-        queryMap.put("name",userParam.getName());
-        queryMap.put("phoneNumber",userParam.getPhoneNumber());
-        queryMap.put("gender",userParam.getGender());
-        queryMap.put("authenticationStatus",userParam.getAuthenticationStatus());
-        //把带有条件的查询结果集放入map中
-        List<UserBO> userBOS= userService.selectAll(queryMap);
-        Integer count = userService.selectCount(queryMap);
         Map<String,Object>  resultMap = new HashMap<String, Object>();
-        resultMap.put("UserBOList",userBOS);
+        resultMap.put("userBOS",userBOS);
         resultMap.put("count",count);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
         super.safeJsonPrint(response, json);

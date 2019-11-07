@@ -4,83 +4,43 @@ import com.wisewin.backend.entity.bo.common.base.BaseModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 public class UserBO extends BaseModel {
-    private Integer id; //用户
-    private String phoneNumber; //手机
-    private String password;
-    private String name; //姓名
-    private String gender; //性别 帅哥|美女
-    private String email; //邮箱
-    private Integer stature; //身高(cm)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birthday; //生日
-    private String constellation; //星座
-    private String birthplace; //出生地
-    private String createTime;//创建时间
-    private String schooling; //受教育程度
-    private String work; //工作
-    private String school; //学校
-    private String authenticationStatus; //认证状态
-    private Date authenticationTime;//认证时间
-    private Integer updateCount; //修改次数
+    private Long id; //用户
+    private String phone; //手机
+    private String password;//密码
     private String longitude;//经度
     private String latitude;//纬度
-    private String accountStatus;//账号状态
+    private String certificationStatus;//用户认证状态
+    private String carStatus;//汽车认证状态
+    private String userStatus;//用户状态
+    private String robotStatus;//是否为机器人
+    private Date createTime;//注册时间
 
-    public String getCreateTime() {
-        return createTime;
+    private List<ModelBO> modelBOList;//模式信息
+    public Long getId() {
+        return id;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getAuthenticationTime() {
-        return authenticationTime;
-    }
-
-    public void setAuthenticationTime(Date authenticationTime) {
-        this.authenticationTime = authenticationTime;
-    }
-
-    public UserBO() {
-    }
-    public UserBO(Integer id, String phoneNumber, String password, String name) {
+    public void setId(Long id) {
         this.id = id;
-        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
-        this.name = name;
-    }
-    /**
-     * 注册初始化
-     * @param phoneNumber
-     */
-    public UserBO(String phoneNumber){
-        this.phoneNumber=phoneNumber;
-        this.updateCount=0;
-        this.accountStatus="yes";
-    }
-
-    public UserBO(String phone, String password) {
-        this.phoneNumber = phone;
-        this.password = password;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Integer getUpdateCount() {
-        return updateCount;
-    }
-
-    public void setUpdateCount(Integer updateCount) {
-        this.updateCount = updateCount;
     }
 
     public String getLongitude() {
@@ -99,120 +59,43 @@ public class UserBO extends BaseModel {
         this.latitude = latitude;
     }
 
-    public String getAccountStatus() {
-        return accountStatus;
+    public String getCertificationStatus() {
+        return certificationStatus;
     }
 
-    public void setAccountStatus(String accountStatus) {
-        this.accountStatus = accountStatus;
+    public void setCertificationStatus(String certificationStatus) {
+        this.certificationStatus = certificationStatus;
     }
 
-
-    public Integer getId() {
-        return id;
+    public String getCarStatus() {
+        return carStatus;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCarStatus(String carStatus) {
+        this.carStatus = carStatus;
     }
 
-
-    public String getPassword() {
-        return password;
+    public String getUserStatus() {
+        return userStatus;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
     }
 
-    public String getName() {
-        return name;
+    public String getRobotStatus() {
+        return robotStatus;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRobotStatus(String robotStatus) {
+        this.robotStatus = robotStatus;
     }
 
-    public String getGender() {
-        return gender;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Integer getStature() {
-        return stature;
-    }
-
-    public void setStature(Integer stature) {
-        this.stature = stature;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getConstellation() {
-        return constellation;
-    }
-
-
-    public void setConstellation(String constellation) {
-        this.constellation = constellation;
-    }
-
-    public String getBirthplace() {
-        return birthplace;
-    }
-
-    public void setBirthplace(String birthplace) {
-        this.birthplace = birthplace;
-    }
-
-    public String getSchooling() {
-        return schooling;
-    }
-
-    public void setSchooling(String schooling) {
-        this.schooling = schooling;
-    }
-
-    public String getWork() {
-        return work;
-    }
-
-    public void setWork(String work) {
-        this.work = work;
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school;
-    }
-
-
-    public String getAuthenticationStatus() {
-        return authenticationStatus;
-    }
-
-    public void setAuthenticationStatus(String authenticationStatus) {
-        this.authenticationStatus = authenticationStatus;
-    }
-
 }
