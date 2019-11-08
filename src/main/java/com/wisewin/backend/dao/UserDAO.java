@@ -1,18 +1,18 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.*;
-import com.wisewin.backend.entity.dto.GarageDTO;
-import com.wisewin.backend.entity.dto.UserBackgroundDTO;
 import com.wisewin.backend.entity.param.UserParam;
-import org.apache.ibatis.annotations.Param;
-import sun.rmi.runtime.Log;
 
 import java.util.List;
 import java.util.Map;
 
 public interface UserDAO {
     //添加用户信息
-    //Integer addUser(UserParam userParam);
+    Integer addUser(UserBO userBO);
+    //添加模块信息
+    Integer addModel(ModelBO modelBO);
+    //添加兴趣信息
+    Integer addInterest(UserInterestBO interestBO);
 
     //查询用户列表信息
     List<UserBO> getUserList(Map<String, Object> map);

@@ -34,6 +34,15 @@ public class ModelBO extends BaseModel {
 
     private List<UserPictureBO> pictureBOList;//背景图
     private List<InterestTypeBO> interestTypeBOList=new ArrayList<InterestTypeBO>();//兴趣分类
+    private List<UserInterestBO> userInterestBOS=new ArrayList<UserInterestBO>();//兴趣分类
+
+    public List<UserInterestBO> getUserInterestBOS() {
+        return userInterestBOS;
+    }
+
+    public void setUserInterestBOS(List<UserInterestBO> userInterestBOS) {
+        this.userInterestBOS = userInterestBOS;
+    }
 
     public List<InterestTypeBO> getInterestTypeBOList() {
         return interestTypeBOList;

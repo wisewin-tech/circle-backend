@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface UserPictureDAO {
+    //添加背景墙
+    Integer addUserPicture(UserPictureBO userPictureBO);
+
     //根据模式id查询背景墙列表
     List<UserPictureBO> getPictureByModelId(Long modelId);
     //根据审核状态查询背景墙列表

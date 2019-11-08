@@ -3,9 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- keyvalue -->
-<mapper namespace="com.wisewin.api.dao.KeyValueDAO">
+<mapper namespace="com.wisewin.backend.dao.KeyValueDAO">
 
-    <update id="updKeyValue" parameterType="com.wisewin.api.entity.bo.KeyValueBO">
+    <update id="updKeyValue" parameterType="com.wisewin.backend.entity.bo.KeyValueBO">
         update ap_key_val
         <set>
             <if test="comment!=null and comment!=''">
@@ -18,7 +18,7 @@
         where id=#{id}
     </update>
 
-    <select id="getKeyValueList" resultType="com.wisewin.api.entity.bo.KeyValueBO">
+    <select id="getKeyValueList" resultType="com.wisewin.backend.entity.bo.KeyValueBO">
         select * from ap_key_val
     </select>
 

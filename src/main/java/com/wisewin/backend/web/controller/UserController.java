@@ -147,7 +147,7 @@ public class UserController extends BaseCotroller {
      * 添加机器人
      */
     @RequestMapping("/addRobotUser")
-    public void addRobotUser(@RequestBody UserParam userParam, HttpServletRequest request, HttpServletResponse response){
+    public void addRobotUser(@RequestBody UserBO userParam, HttpServletRequest request, HttpServletResponse response){
         if (userParam == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
@@ -163,7 +163,7 @@ public class UserController extends BaseCotroller {
      * 修改机器人信息
      */
     @RequestMapping("/updRobotUser")
-    public void updRobotUser(UserParam userParam,HttpServletRequest request, HttpServletResponse response){
+    public void updRobotUser(UserBO userParam,HttpServletRequest request, HttpServletResponse response){
         if (userParam == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);

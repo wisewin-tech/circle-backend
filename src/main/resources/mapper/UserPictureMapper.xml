@@ -4,6 +4,15 @@
 
 <!-- 背景图管理 -->
 <mapper namespace="com.wisewin.backend.dao.UserPictureDAO">
+    <!-- 添加背景图片-->
+    <insert id="addUserPicture" parameterType="com.wisewin.backend.entity.bo.UserPictureBO">
+        insert into ci_user_picture
+        (model_id,picture_url,sort,picture_status,create_time,update_time)
+        values
+        (#{modelId},#{pictureUrl},#{sort},#{pictureStatus},now(),now())
+    </insert>
+
+
     <sql id="limit">
         limit #{pageSize} offset #{pageOffset}
     </sql>

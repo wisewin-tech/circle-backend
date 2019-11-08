@@ -33,14 +33,15 @@ public class UserService {
 
     //查询用户信息列表
     public List<UserBO> getUserList(Map<String, Object> map) {
-        List<UserBO> userBOS=userDAO.getUserList(map);
+        List<UserBO> userBOS = userDAO.getUserList(map);
         return userBOS;
     }
+
     //根据用户查询模式的信息
-    public List<ModelBO> getModelByUserId(Long userId){
-        List<ModelBO> modelBOList=userDAO.getModelByUserId(userId);
-        for (ModelBO modelBO:modelBOList) {
-            if(modelBO!=null&&modelBO.getName()!=null){
+    public List<ModelBO> getModelByUserId(Long userId) {
+        List<ModelBO> modelBOList = userDAO.getModelByUserId(userId);
+        for (ModelBO modelBO : modelBOList) {
+            if (modelBO != null && modelBO.getName() != null) {
                 //每个模式下的背景图
                 modelBO.setPictureBOList(userPictureDAO.getPictureByModelId(modelBO.getId()));
                 //每个模式下的兴趣分类，兴趣分类下包括兴趣
@@ -49,41 +50,54 @@ public class UserService {
         }
         return modelBOList;
     }
+
     //查询用户信息列表数量
     public Integer getUserListCount(Map<String, Object> map) {
         return userDAO.getUserListCount(map);
     }
+
     //修改用户信息
-    public Integer updateUser(UserParam userParam){
+    public Integer updateUser(UserParam userParam) {
         return userDAO.updateUser(userParam);
     }
+
     //获取用户认证列表
-    public List<UserCertificationBO> getUserCertification(String status){
+    public List<UserCertificationBO> getUserCertification(String status) {
         return userDAO.getUserCertification(status);
     }
+
     //修改用户认证状态
-    public void updUserCertificationStatus(UserCertificationBO userCertificationBO){
+    public void updUserCertificationStatus(UserCertificationBO userCertificationBO) {
         userDAO.updUserCertificationStatus(userCertificationBO);
-        UserParam userParam=new UserParam();
+        UserParam userParam = new UserParam();
         userParam.setCertificationStatus(userCertificationBO.getStatus());
         userParam.setId(userCertificationBO.getId());
         userDAO.updateUser(userParam);
     }
 
     //添加机器人
-    public void addRobotUser(UserParam userParam){
+    public void addRobotUser(UserBO userBO) {
         //添加user
-        //userDAO.addUser(userParam);
-        Long userId=userParam.getId();
+        userDAO.addUser(userBO);
         //循环添加模块信息
-
-        //模块信息中循环添加背景图
-
-        //模块信息中循环添加兴趣
+        for (ModelBO modelBO : userBO.getModelBOList()) {
+            modelBO.setUserId(userBO.getId());
+            userDAO.addModel(modelBO);
+            //模块信息中循环添加背景图
+            for (UserPictureBO userPictureBO : modelBO.getPictureBOList()) {
+                userPictureBO.setModelId(modelBO.getId());
+                userPictureDAO.addUserPicture(userPictureBO);
+            }
+            //模块信息中循环添加兴趣
+            for (UserInterestBO userInterestBO : modelBO.getUserInterestBOS()) {
+                userInterestBO.setModelId(modelBO.getId());
+                userDAO.addInterest(userInterestBO);
+            }
+        }
     }
 
     //修改机器人
-    public void updRobotUser(UserParam userParam){
+    public void updRobotUser(UserBO userParam) {
 
     }
 }
