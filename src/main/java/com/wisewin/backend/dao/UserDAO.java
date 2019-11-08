@@ -20,6 +20,10 @@ public interface UserDAO {
     //修改用户信息
     Integer updateUser(UserParam userParam);
 
+    //查询用户认证列表
+    List<UserCertificationBO> getUserCertification(String status);
+    //修改用户认证状态
+    Integer updUserCertificationStatus(UserCertificationBO userCertificationBO);
 
     /**
      * 获取背景图

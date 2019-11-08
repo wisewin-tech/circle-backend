@@ -1,9 +1,6 @@
 package com.wisewin.backend.web.controller;
 
-import com.wisewin.backend.entity.bo.AdminBO;
-import com.wisewin.backend.entity.bo.TheGarageImgBO;
-import com.wisewin.backend.entity.bo.UserBO;
-import com.wisewin.backend.entity.bo.UserPictureBO;
+import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.dto.BackgroundCountDTO;
 import com.wisewin.backend.entity.dto.GarageImgDTO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
@@ -113,6 +110,43 @@ public class UserController extends BaseCotroller {
         return;
 
     }
+
+    /**
+     * 查询用户认证列表
+     */
+    @RequestMapping("/getUserCertification")
+    public void getUserCertification(HttpServletRequest request, HttpServletResponse response,  String status) {
+        if (status == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(userService.getUserCertification(status)));
+        super.safeJsonPrint(response, result);
+        return;
+
+    }
+
+    /**
+     * 修改用户认证状态（通过，不通过）
+     */
+    @RequestMapping("/updUserCertificationStatus")
+    public void updUserCertificationStatus(HttpServletRequest request, HttpServletResponse response, UserCertificationBO userCertificationBO) {
+        if (userCertificationBO == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        AdminBO adminBO=super.getLoginUser(request);
+        userCertificationBO.setAdminId(adminBO.getId());
+        userService.updUserCertificationStatus(userCertificationBO);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
+        super.safeJsonPrint(response, result);
+        return;
+
+    }
+
+
 
     /**
      * 添加机器人

@@ -57,7 +57,18 @@ public class UserService {
     public Integer updateUser(UserParam userParam){
         return userDAO.updateUser(userParam);
     }
-
+    //获取用户认证列表
+    public List<UserCertificationBO> getUserCertification(String status){
+        return userDAO.getUserCertification(status);
+    }
+    //修改用户认证状态
+    public void updUserCertificationStatus(UserCertificationBO userCertificationBO){
+        userDAO.updUserCertificationStatus(userCertificationBO);
+        UserParam userParam=new UserParam();
+        userParam.setCertificationStatus(userCertificationBO.getStatus());
+        userParam.setId(userCertificationBO.getId());
+        userDAO.updateUser(userParam);
+    }
 
     /**
      * 获取审核背景图

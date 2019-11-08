@@ -11,24 +11,28 @@
     <select id="getUserList" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.UserBO">
         select * from ci_user
         <where>
-            <if test="phone!=null and phone!=''"> AND phone like '%${phone}%'</if>
-            <if test="certificationStatus!=null and certificationStatus!=''"> AND certification_status=#{certificationStatus} </if>
-            <if test="carStatus!=null and carStatus!=''"> AND car_status=#{carStatus} </if>
-            <if test="userStatus!=null and userStatus!=''"> AND user_status=#{userStatus} </if>
-            <if test="robotStatus!=null and robotStatus!=''"> AND robot_status=#{robotStatus} </if>
+            <if test="phone!=null and phone!=''">AND phone like '%${phone}%'</if>
+            <if test="certificationStatus!=null and certificationStatus!=''">AND
+                certification_status=#{certificationStatus}
+            </if>
+            <if test="carStatus!=null and carStatus!=''">AND car_status=#{carStatus}</if>
+            <if test="userStatus!=null and userStatus!=''">AND user_status=#{userStatus}</if>
+            <if test="robotStatus!=null and robotStatus!=''">AND robot_status=#{robotStatus}</if>
         </where>
         order by create_time desc
-        <include refid="limit" />
+        <include refid="limit"/>
     </select>
     <!--查询用户列表条数-->
     <select id="getUserListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
         select count(1) from ci_user
         <where>
-            <if test="phone!=null and phone!=''"> AND phone like '%${phone}%' </if>
-            <if test="certificationStatus!=null and certificationStatus!=''"> AND certification_status=#{certificationStatus} </if>
-            <if test="carStatus!=null and carStatus!=''"> AND car_status=#{carStatus} </if>
-            <if test="userStatus!=null and userStatus!=''"> AND user_status=#{userStatus} </if>
-            <if test="robotStatus!=null and robotStatus!=''"> AND robot_status=#{robotStatus} </if>
+            <if test="phone!=null and phone!=''">AND phone like '%${phone}%'</if>
+            <if test="certificationStatus!=null and certificationStatus!=''">AND
+                certification_status=#{certificationStatus}
+            </if>
+            <if test="carStatus!=null and carStatus!=''">AND car_status=#{carStatus}</if>
+            <if test="userStatus!=null and userStatus!=''">AND user_status=#{userStatus}</if>
+            <if test="robotStatus!=null and robotStatus!=''">AND robot_status=#{robotStatus}</if>
         </where>
     </select>
     <!--根据用户查询模式的信息-->
@@ -39,57 +43,64 @@
     <update id="updateUser" parameterType="com.wisewin.backend.entity.param.UserParam">
         update ci_user
         <set>
-            <if test="phone!=null and phone!=''" >
+            <if test="phone!=null and phone!=''">
                 phone = #{phone},
             </if>
-            <if test="password!=null and password!=''" >
+            <if test="password!=null and password!=''">
                 password = #{password},
             </if>
-            <if test="longitude!=null and longitude!=''" >
+            <if test="longitude!=null and longitude!=''">
                 longitude = #{longitude},
             </if>
-            <if test="latitude!=null and latitude!=''" >
+            <if test="latitude!=null and latitude!=''">
                 latitude = #{latitude},
             </if>
-            <if test="certificationStatus!=null and certificationStatus!=''" >
+            <if test="certificationStatus!=null and certificationStatus!=''">
                 certification_status = #{certificationStatus},
             </if>
-            <if test="carStatus!=null and carStatus!=''" >
+            <if test="carStatus!=null and carStatus!=''">
                 car_status = #{carStatus},
             </if>
-            <if test="userStatus!=null and userStatus!=''" >
+            <if test="userStatus!=null and userStatus!=''">
                 user_status = #{userStatus},
             </if>
-            <if test="robotStatus!=null and robotStatus!=''" >
+            <if test="robotStatus!=null and robotStatus!=''">
                 robot_status = #{robotStatus},
             </if>
         </set>
-        WHERE  id = #{id}
+        WHERE id = #{id}
+    </update>
+    <!--查询用户认证列表-->
+    <select id="getUserCertification" parameterType="java.lang.String"
+            resultType="com.wisewin.backend.entity.bo.UserCertificationBO">
+        select ci_user_certification.*,ci_user_certification_demo.demo_picture
+        from ci_user_certification,ci_user_certification_demo
+        where status=#{status}
+        order by update_time desc
+    </select>
+    <!--修改用户审核状态-->
+    <update parameterType="com.wisewin.backend.entity.bo.UserCertificationBO" id="updUserCertificationStatus">
+        update ci_user_certification
+        <set>
+            <if test="demoId!=null and demo_id!=''">
+                demo_id=#{demoId},
+            </if>
+            <if test="status!=null and status!=''">
+                status=#{status},
+            </if>
+            <if test="remark!=null and remark!=''">
+                remark=#{remark},
+            </if>
+            update_time=now()
+        </set>
+        where id=#{id}
     </update>
 
 
-    <select id="queryUserBackground" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.dto.UserBackgroundDTO">
-            select * from ce_user_background
-          <where>
-              <if test="state != null and state != ''">
-                  `state` = #{state}
-              </if>
-              <if test="pattern != null and pattern != ''">
-                  and pattern = #{pattern}
-              </if>
-              <if test="userId != null and userId != ''">
-                  and user_id = #{userId}
-              </if>
-          </where>
-            <include refid="limit" />
-    </select>
-
-
-
-
-    <select id="queryUserBackgroundCount" parameterType="java.util.Map" resultType="int">
-            select count(1) from ce_user_background
-            <where>
+    <select id="queryUserBackground" parameterType="java.util.Map"
+            resultType="com.wisewin.backend.entity.dto.UserBackgroundDTO">
+        select * from ce_user_background
+        <where>
             <if test="state != null and state != ''">
                 `state` = #{state}
             </if>
@@ -99,30 +110,46 @@
             <if test="userId != null and userId != ''">
                 and user_id = #{userId}
             </if>
-            </where>
+        </where>
+        <include refid="limit"/>
+    </select>
+
+    <select id="queryUserBackgroundCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from ce_user_background
+        <where>
+            <if test="state != null and state != ''">
+                `state` = #{state}
+            </if>
+            <if test="pattern != null and pattern != ''">
+                and pattern = #{pattern}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+        </where>
     </select>
 
 
     <select id="listGarage" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.dto.GarageDTO">
-         select * from  ce_the_garage
-         <where>
-             <if test="userId != null and userId != ''">
-                 user_id = #{userId}
-             </if>
-             <if test="plateNumber != null and plateNumber != ''">
-                 and plate_number = #{plateNumber}
-             </if>
-             <if test="branModel != null and branModel != ''">
-                 and bran_model = #{branModel}
-             </if>
-             <if test="headingCode != null and headingCode != ''">
-                 and heading_code = #{headingCode}
-             </if>
-             <if test="status != null and status != ''">
-                 and status = #{status}
-             </if>
-         </where>
-            <include refid="limit" />
+        select * from ce_the_garage
+        <where>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId}
+            </if>
+            <if test="plateNumber != null and plateNumber != ''">
+                and plate_number = #{plateNumber}
+            </if>
+            <if test="branModel != null and branModel != ''">
+                and bran_model = #{branModel}
+            </if>
+            <if test="headingCode != null and headingCode != ''">
+                and heading_code = #{headingCode}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+        <include refid="limit"/>
     </select>
 
     <select id="garageListCount" parameterType="java.util.Map" resultType="int">
@@ -146,7 +173,8 @@
         </where>
     </select>
 
-    <select id="queryGarageImg" parameterType="java.lang.Integer" resultType="com.wisewin.backend.entity.bo.TheGarageImgBO">
+    <select id="queryGarageImg" parameterType="java.lang.Integer"
+            resultType="com.wisewin.backend.entity.bo.TheGarageImgBO">
         select * from ce_the_garage_img where the_garage_id = #{garageId}
     </select>
 </mapper>

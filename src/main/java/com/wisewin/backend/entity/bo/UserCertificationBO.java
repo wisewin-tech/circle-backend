@@ -8,11 +8,29 @@ public class UserCertificationBO extends BaseModel {
     private Long id;//用户认证
     private Long userId;//用户id
     private Long demoId;//案例id
+    private String demoPicture;//认证图片
     private String userPicture;//用户认证图片
     private String status;//状态
     private String remark;//备注
     private Date createTime;
     private Date updateTime;
+    private Integer adminId;//操作员id
+
+    public String getDemoPicture() {
+        return demoPicture;
+    }
+
+    public void setDemoPicture(String demoPicture) {
+        this.demoPicture = demoPicture;
+    }
+
+    public Integer getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
+    }
 
     public Long getId() {
         return id;
