@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/*
-* 一级兴趣管理
-* */
+
 @Service("InterestService")
 @Transactional
 public class InterestService {
