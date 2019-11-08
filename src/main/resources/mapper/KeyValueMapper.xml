@@ -6,7 +6,7 @@
 <mapper namespace="com.wisewin.backend.dao.KeyValueDAO">
 
     <update id="updKeyValue" parameterType="com.wisewin.backend.entity.bo.KeyValueBO">
-        update ap_key_val
+        update sys_key_value
         <set>
             <if test="comment!=null and comment!=''">
                 comment=#{comment}
@@ -19,7 +19,10 @@
     </update>
 
     <select id="getKeyValueList" resultType="com.wisewin.backend.entity.bo.KeyValueBO">
-        select * from ap_key_val
+        select * from sys_key_value
     </select>
 
+    <select id="getValueByKey" resultType="com.wisewin.backend.entity.bo.KeyValueBO" parameterType="java.lang.String">
+         select * from sys_key_value where key=#{key}
+    </select>
 </mapper>
