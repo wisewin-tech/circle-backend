@@ -108,7 +108,6 @@ public class UserController extends BaseCotroller {
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);
         return;
-
     }
 
     /**
@@ -124,7 +123,6 @@ public class UserController extends BaseCotroller {
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(userService.getUserCertification(status)));
         super.safeJsonPrint(response, result);
         return;
-
     }
 
     /**
@@ -143,107 +141,38 @@ public class UserController extends BaseCotroller {
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);
         return;
-
     }
 
     /**
      * 添加机器人
      */
+    @RequestMapping("/addRobotUser")
+    public void addRobotUser(@RequestBody UserParam userParam, HttpServletRequest request, HttpServletResponse response){
+        if (userParam == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        userService.addRobotUser(userParam);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
+        super.safeJsonPrint(response, result);
+        return;
+    }
 
     /**
      * 修改机器人信息
      */
-
-
-
-
-    /**
-     * 用户背景图审核
-     *
-     * @param request
-     * @param response
-     */
-    @RequestMapping("/queryBackGround")
-    public void userBackGround(HttpServletRequest request, HttpServletResponse response, Integer userId,
-                               String pattern, String state, Integer pageOffset, Integer pageSize) {
-        AdminBO loginUser = super.getLoginUser(request);
-        if (loginUser == null) {
-            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-            super.safeHtmlPrint(response, languagejson);
+    @RequestMapping("/updRobotUser")
+    public void updRobotUser(UserParam userParam,HttpServletRequest request, HttpServletResponse response){
+        if (userParam == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
             return;
         }
-        QueryInfo queryInfo = getQueryInfo(pageOffset, pageSize);
-        //创建一个用于封装sql条件的map集合
-        Map<String, Object> condition = new HashMap<String, Object>();
-        if (queryInfo != null) {
-            //把pageOffset 页数,pageSize每页的条数放入map集合中
-            condition.put("pageOffset", queryInfo.getPageOffset());
-            condition.put("pageSize", queryInfo.getPageSize());
-        }
-        condition.put("userId", userId);
-        condition.put("pattern", pattern);
-        condition.put("state", state);
-        BackgroundCountDTO backgroundCountDTO = userService.queryBackground(condition);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(backgroundCountDTO));
+        userService.updRobotUser(userParam);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);
         return;
     }
 
-    /**
-     * 车辆审核
-     *
-     * @param request
-     * @param response
-     * @param pageOffset
-     * @param pageSize
-     */
-    @RequestMapping("/queryGarage")
-    public void queryGarage(HttpServletRequest request, HttpServletResponse response, Integer pageOffset, Integer pageSize,
-                            Integer userId, String plateNumber, String branModel,
-                            String status, String headingCode) {
-        AdminBO loginUser = super.getLoginUser(request);
-        if (loginUser == null) {
-            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-            super.safeHtmlPrint(response, languagejson);
-            return;
-        }
-        QueryInfo queryInfo = getQueryInfo(pageOffset, pageSize);
-        //创建一个用于封装sql条件的map集合
-        Map<String, Object> condition = new HashMap<String, Object>();
-        if (queryInfo != null) {
-            //把pageOffset 页数,pageSize每页的条数放入map集合中
-            condition.put("pageOffset", queryInfo.getPageOffset());
-            condition.put("pageSize", queryInfo.getPageSize());
-        }
-        condition.put("userId", userId);
-        condition.put("plateNumber", plateNumber);
-        condition.put("branModel", branModel);
-        condition.put("status", status);
-        condition.put("headingCode", headingCode);
-        GarageImgDTO garageImgDTO = userService.queryGarage(condition);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(garageImgDTO));
-        super.safeJsonPrint(response, result);
-        return;
-    }
-
-    /**
-     * 获取车辆图片
-     *
-     * @param request
-     * @param response
-     * @param id
-     */
-    @RequestMapping("/queryGarageImg")
-    public void queryGarageImg(HttpServletRequest request, HttpServletResponse response, Integer id) {
-        AdminBO loginUser = super.getLoginUser(request);
-        if (loginUser == null) {
-            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-            super.safeHtmlPrint(response, languagejson);
-            return;
-        }
-        List<TheGarageImgBO> theGarageImgBOS = userService.queryGarageImg(id);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(theGarageImgBOS));
-        super.safeJsonPrint(response, result);
-        return;
-    }
 }

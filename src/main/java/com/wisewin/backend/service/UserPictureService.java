@@ -16,12 +16,12 @@ public class UserPictureService {
     private UserPictureDAO userPictureDAO;
 
     //根据审核状态查询背景墙列表
-    public List<UserPictureBO> getPictureByStatus(String status, Integer pageOffset, Integer pageSize){
-        return userPictureDAO.getPictureByStatus(status,pageOffset,pageSize);
+    public List<UserPictureBO> getPictureByStatus(String status,Long sort, String model, Integer pageOffset, Integer pageSize){
+        return userPictureDAO.getPictureByStatus(status,sort,model,pageOffset,pageSize);
     }
     //根据审核状态查询背景墙列表数量
-    public Integer getPictureByStatusCount(String status){
-        return userPictureDAO.getPictureByStatusCount(status);
+    public Integer getPictureByStatusCount(String status,Long sort, String model){
+        return userPictureDAO.getPictureByStatusCount(status,sort,model);
     }
     //修改背景墙状态
     public Integer updPictureById(UserPictureBO userPictureBO){

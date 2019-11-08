@@ -15,6 +15,15 @@ public class UserCertificationBO extends BaseModel {
     private Date createTime;
     private Date updateTime;
     private Integer adminId;//操作员id
+    private String adminName;
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
+    }
 
     public String getDemoPicture() {
         return demoPicture;

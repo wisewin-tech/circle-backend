@@ -18,6 +18,16 @@ public class UserBO extends BaseModel {
     private String robotStatus;//是否为机器人
     private Date createTime;//注册时间
 
+    private List<ModelBO> modelBOList;
+
+    public List<ModelBO> getModelBOList() {
+        return modelBOList;
+    }
+
+    public void setModelBOList(List<ModelBO> modelBOList) {
+        this.modelBOList = modelBOList;
+    }
+
     public Long getId() {
         return id;
     }

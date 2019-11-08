@@ -70,42 +70,20 @@ public class UserService {
         userDAO.updateUser(userParam);
     }
 
-    /**
-     * 获取审核背景图
-     * @param map
-     * @return
-     */
-    public BackgroundCountDTO queryBackground(Map<String, Object> map){
-        BackgroundCountDTO backgroundCountDTO = new BackgroundCountDTO();
-        List<UserBackgroundDTO> list = userDAO.queryUserBackground(map);
-        int i = userDAO.queryUserBackgroundCount(map);
-        backgroundCountDTO.setList(list);
-        backgroundCountDTO.setCount(i);
-        return backgroundCountDTO;
+    //添加机器人
+    public void addRobotUser(UserParam userParam){
+        //添加user
+        //userDAO.addUser(userParam);
+        Long userId=userParam.getId();
+        //循环添加模块信息
+
+        //模块信息中循环添加背景图
+
+        //模块信息中循环添加兴趣
     }
 
-    /**
-     * 获取车辆审核列表
-     * @param map
-     * @return
-     */
-    public GarageImgDTO queryGarage(Map<String, Object> map){
-        GarageImgDTO garageImgDTO = new GarageImgDTO();
-        List<GarageDTO> garageDTOS = userDAO.listGarage(map);
-        int i = userDAO.garageListCount(map);
-        garageImgDTO.setList(garageDTOS);
-        garageImgDTO.setCount(i);
-        return garageImgDTO;
+    //修改机器人
+    public void updRobotUser(UserParam userParam){
+
     }
-
-    /**
-     * 获取车库 下面信息的图片
-     * @param garageId
-     * @return
-     */
-    public List<TheGarageImgBO> queryGarageImg(Integer garageId){
-        return userDAO.queryGarageImg(garageId);
-    }
-
-
 }
