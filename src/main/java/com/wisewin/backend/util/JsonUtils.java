@@ -26,7 +26,7 @@ public class JsonUtils {
 	 * 将JAVA对象转换成JSON字符串,并设定日期格式 含有时间类型的对象在转换为JSON时候默认将时间转为
 	 * {"date":15,"day":2,"hours":13,"minutes":24,"month":0,
 	 * "seconds":55,"time":1358256295403,"timezoneOffset":0,"year":113}
-	 * 
+	 *
 	 * 该方法可以将时间格式换如：“yyyy-MM-dd HH:mm:ss” 格式
 	 * 参考：http://blog.csdn.net/hxx688/article/details/7307154
 	 */
@@ -38,7 +38,7 @@ public class JsonUtils {
 
 	/**
 	 * 将JAVA对象转换成JSON字符串,并设定日期格式
-	 * 
+	 *
 	 * @param excludes
 	 *            如果对象的某些属性不需要进行转换可在该数组中配置， 数组的值为属性的名称。
 	 *            如对象包含（id,name,url)，要是不转换name 在数组中添加name即可。
@@ -88,7 +88,7 @@ public class JsonUtils {
 		pojo = JSONObject.toBean(jsonObject, pojoCalss);
 		return pojo;
 	}
-	
+
 	/**
 	 * json对象转换JAVA对象
 	 * @param format 时间转换格式
@@ -105,7 +105,7 @@ public class JsonUtils {
 		JSONUtils.getMorpherRegistry().deregisterMorpher(new MyDateMorpher(new String[] { format }));
 		return pojo;
 	}
-	
+
 	/**
 	 * 将JSONObject对象转化为JAVA对象
 	 * @param jsonObject
@@ -115,7 +115,7 @@ public class JsonUtils {
 	public static Object getObject4JsonObject(JSONObject jsonObject, Class pojoCalss) {
 		return getObject4JsonObject(jsonObject, pojoCalss,null);
 	}
-	
+
 	/**
 	 * 将JSONObject对象转化为JAVA对象
 	 * @param jsonObject
@@ -125,11 +125,11 @@ public class JsonUtils {
 	 */
 	public static Object getObject4JsonObject(JSONObject jsonObject, Class pojoCalss, String format) {
 		if(null == jsonObject) return null;
-		
+
 		if(format == null){
 			format = JsonUtils.LONG_DATE_PATTERN;
 		}
-		
+
 		Object pojo;
 		JSONUtils.getMorpherRegistry().registerMorpher( new MyDateMorpher(new String[] { format }), true);
 		pojo = JSONObject.toBean(jsonObject, pojoCalss);
@@ -142,7 +142,7 @@ public class JsonUtils {
 	 * {"name":"全聚德烤鸭7折优惠","startTime":"2013-01-31",
 	 * "end_time":"2013-12-31","shops":[{"name":"全聚德朝阳店","address":"朝阳区"},
 	 * {"name":"全聚德丰台店","address":"丰台区"}]}
-	 * 
+	 *
 	 * @param jsonString
 	 *            json字符串 对应以上整个字符串
 	 * @param pojoCalss
@@ -158,7 +158,7 @@ public class JsonUtils {
 		pojo = JSONObject.toBean(jsonObject, pojoCalss, classMap);
 		return pojo;
 	}
-	
+
 	/**
 	 * 将List对象转换成JSON字符串
 	 */
@@ -173,32 +173,32 @@ public class JsonUtils {
 	public static String getJsonString4JavaListDate(List list){
 		return getJsonString4JavaListDate(list, null, null);
 	}
-	
+
 	public static String getJsonString4JavaListDate(List list, String datePattern){
 		return getJsonString4JavaListDate(list, datePattern, null);
 	}
-	
+
 	public static String getJsonString4JavaListDate(List list, String[] excludes){
 		return getJsonString4JavaListDate(list, null, excludes);
 	}
-	
+
 	/**
 	 * 将List对象转换成JSON字符串   里面含有时间对象Date
 	 * 需要传入转换的类型，如 LONG_DATE_PATTERN（yyyy-MM-dd HH:mm:ss）
 	 * 或者DEFAULT_DATE_PATTERN（yyyy-MM-dd）等等
 	 */
 	public static String getJsonString4JavaListDate(List list, String datePattern, String[] excludes){
-		
+
 		if(null == datePattern || "".equals(datePattern)) {
 			datePattern = DateJsonValueProcessor.LONG_DATE_PATTERN;
 		}
-		
+
 		JsonConfig jsonConfig = configJson(excludes,datePattern);
         JSONArray jo = JSONArray.fromObject(list, jsonConfig);
 		return jo.toString();
 	}
-	
-	
+
+
 	/**
 	 * 将List对象转换成JSONArray (可用户和其他JSONArray对象拼接)
 	 */
@@ -206,8 +206,8 @@ public class JsonUtils {
 		JSONArray array = new JSONArray();
 		array = JSONArray.fromObject(list);
 		return array;
-	}	
-	
+	}
+
 	/**
 	 * 将JSONArray 转转为 java LIST
 	 * @param ja
@@ -217,7 +217,7 @@ public class JsonUtils {
 	public static List getList4JsonArray(JSONArray ja, Class pojoClass) {
 		return getList4JsonArray(ja, pojoClass,null);
 	}
-	
+
 	/**
 	 * 将JSONArray 转转为 java LIST
 	 * @param ja
@@ -225,19 +225,19 @@ public class JsonUtils {
 	 * @return
 	 */
 	public static List getList4JsonArray(JSONArray ja, Class pojoClass, String format) {
-		
+
 		if(!StringUtils.isEmpty(format)) {
 			JSONUtils.getMorpherRegistry().registerMorpher( new MyDateMorpher(new String[] { format }));
 		}
-		
+
 		List<Object> list = (List<Object>) JSONArray.toCollection(ja, pojoClass);
-		
+
 		if(!StringUtils.isEmpty(format)) {
 			JSONUtils.getMorpherRegistry().deregisterMorpher( new MyDateMorpher(new String[] { format }));
 		}
-        return list ; 
+        return list ;
 	}
-	
+
 	/**
 	 * 将数组JSON字符串转换为List
 	 */
@@ -267,9 +267,9 @@ public class JsonUtils {
 		JSONUtils.getMorpherRegistry().registerMorpher( new MyDateMorpher(new String[] { format }), true);
 		List<Object> list = (List<Object>) JSONArray.toCollection(JSONArray.fromObject(jsonString), pojoClass);
 		JSONUtils.getMorpherRegistry().deregisterMorpher(new MyDateMorpher(new String[] { format }));
-        return list ; 
+        return list ;
 	}
-	
+
 
 	/**
 	 * 把XML字符串解析成JSON字符串
@@ -283,7 +283,7 @@ public class JsonUtils {
 
 	/**
 	 * 把JSON字符串解析成XML字符串
-	 * 
+	 *
 	 * @param rootNodeName
 	 *            根节点名称
 	 * @param elementNodeName
@@ -315,7 +315,7 @@ public class JsonUtils {
 
 	/**
 	 * 解析器具
-	 * 
+	 *
 	 * @param excludes
 	 *            转换是将该数组中的属性排除在外
 	 */
@@ -351,7 +351,7 @@ public class JsonUtils {
 
 	/**
 	 * 从JSON数组中得到相应java数组
-	 * 
+	 *
 	 * @return 数组为JSON字符串类型的对象
 	 */
 	public static Object[] getObjectArray4Json(String jsonString) {
@@ -453,5 +453,15 @@ public class JsonUtils {
 		json.put("msg", msg);
 		json.put("data", data);
 		return json;
+	}
+
+	//把json字符串 转换为对应类型的集合
+	public static <T> List<T> getJSONtoList(String jsonString, Class cls) {
+		List<T> list = new ArrayList<T>();
+		try {
+			list = com.alibaba.fastjson.JSON.parseArray(jsonString, cls);
+		} catch (Exception e) {
+		}
+		return list;
 	}
 }

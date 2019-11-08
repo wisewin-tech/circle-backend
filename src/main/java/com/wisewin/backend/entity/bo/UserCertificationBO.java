@@ -17,6 +17,7 @@ public class UserCertificationBO extends BaseModel {
     private Integer adminId;//操作员id
     private String adminName;
 
+
     public String getAdminName() {
         return adminName;
     }

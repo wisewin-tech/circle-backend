@@ -114,13 +114,22 @@ public class UserController extends BaseCotroller {
      * 查询用户认证列表
      */
     @RequestMapping("/getUserCertification")
-    public void getUserCertification(HttpServletRequest request, HttpServletResponse response,  String status) {
+    public void getUserCertification(HttpServletRequest request, HttpServletResponse response,Integer pageSize,Integer pageNo, String status) {
         if (status == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(userService.getUserCertification(status)));
+        QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
+        List<UserCertificationBO> userCertificationBOS=new ArrayList<UserCertificationBO>();
+        Integer count=userService.getUserCertificationCount(status);
+        if(count>0){
+            userCertificationBOS= userService.getUserCertification(status,queryInfo.getPageOffset(),queryInfo.getPageSize());
+        }
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("count",count);
+        map.put("userCertificationBOS",userCertificationBOS);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
         super.safeJsonPrint(response, result);
         return;
     }
@@ -147,13 +156,19 @@ public class UserController extends BaseCotroller {
      * 添加机器人
      */
     @RequestMapping("/addRobotUser")
-    public void addRobotUser(@RequestBody UserBO userParam, HttpServletRequest request, HttpServletResponse response){
-        if (userParam == null) {
+    public void addRobotUser(String userJson, HttpServletRequest request, HttpServletResponse response){
+        if (userJson == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
-        userService.addRobotUser(userParam);
+
+        UserBO userBO = (UserBO) JsonUtils.getObject4JsonString(userJson, UserBO.class);
+        System.err.println(userBO.getPhone());
+        System.err.println(userBO.getCarStatus());
+        System.err.println(userBO.getRobotStatus());
+        System.err.println(userBO.getModelBOList().size());
+        userService.addRobotUser(userBO);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);
         return;

@@ -7,11 +7,20 @@ import java.util.Date;
 public class UserPictureBO extends BaseModel {
     private Long id;//用户背景墙
     private Long modelId;//模式id
+    private String model;//模式类型
     private String pictureUrl;//图片url
     private Long sort;//排序
     private String pictureStatus;//状态
     private Date createTime;
     private Date updateTime;
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
 
     public Long getId() {
         return id;

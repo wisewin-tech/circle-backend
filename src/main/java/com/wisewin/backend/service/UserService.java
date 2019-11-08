@@ -62,8 +62,12 @@ public class UserService {
     }
 
     //获取用户认证列表
-    public List<UserCertificationBO> getUserCertification(String status) {
-        return userDAO.getUserCertification(status);
+    public List<UserCertificationBO> getUserCertification(String status,Integer pageOffset,Integer pageSize) {
+        return userDAO.getUserCertification(status,pageOffset,pageSize);
+    }
+    //获取用户认证列表数量
+    public Integer getUserCertificationCount(String status) {
+        return userDAO.getUserCertificationCount(status);
     }
 
     //修改用户认证状态

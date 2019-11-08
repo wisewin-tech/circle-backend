@@ -2,6 +2,7 @@ package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.param.UserParam;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,9 @@ public interface UserDAO {
     Integer updateUser(UserParam userParam);
 
     //查询用户认证列表
-    List<UserCertificationBO> getUserCertification(String status);
+    List<UserCertificationBO> getUserCertification(@Param("status") String status,@Param("pageOffset") Integer pageOffset,@Param("pageSize") Integer pageSize);
+    //查询用户认证列表
+    Integer getUserCertificationCount(@Param("status") String status);
     //修改用户认证状态
     Integer updUserCertificationStatus(UserCertificationBO userCertificationBO);
 
