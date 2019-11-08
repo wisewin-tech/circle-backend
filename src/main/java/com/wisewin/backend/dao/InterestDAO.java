@@ -25,6 +25,12 @@ public interface InterestDAO {
     Integer addInterest(InterestBO interestBO);
 
     /**
+     * 修改兴趣
+     *
+     *
+     */
+    Integer updateInterest(InterestBO interestBO);
+    /**
      * 删除兴趣
      * @param id  兴趣id
      * @return

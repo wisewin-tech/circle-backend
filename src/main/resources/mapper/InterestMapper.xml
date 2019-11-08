@@ -17,6 +17,12 @@
         ORDER BY id DESC
     </select>
 
+    <!--修改兴趣-->
+    <update id="updateInterest" parameterType="com.wisewin.backend.entity.bo.InterestBO">
+        UPDATE "ci_interest" SET  "type_id" = #{typeId}, "interest_name" = #{interestName} WHERE "id" = #{id}
+    </update>
+
+
     <!--添加兴趣-->
     <insert id="addInterest" parameterType="com.wisewin.backend.entity.bo.InterestBO">
        INSERT INTO "ci_interest"( "type_id", "interest_name","create_time") VALUES ( #{typeId},#{interestName},NOW());

@@ -43,6 +43,22 @@ public class InterestController extends BaseCotroller {
         log.info("result:{}",json);
     }
 
+
+    @RequestMapping("/updateInterest")
+    public void updateInterest(HttpServletRequest request, HttpServletResponse response ,InterestBO interestBO) {
+        if(StringUtils.isEmpty(interestBO.getInterestName()) || interestBO.getTypeId()==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            log.info("result:{}",json);
+            return;
+        }
+        interestService.updateInterest(interestBO);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
+        super.safeJsonPrint(response, json);
+        log.info("result:{}",json);
+    }
+
+
     /**
      * 添加兴趣
      * @param interestBO
@@ -67,10 +83,6 @@ public class InterestController extends BaseCotroller {
      * @param id  兴趣id
      * @return
      */
-
-    /**
-     * 删除一级兴趣
-     * */
     @RequestMapping("/delInterest")
     public void delInterest(HttpServletRequest request, HttpServletResponse response,Integer id) {
         //参数异常
