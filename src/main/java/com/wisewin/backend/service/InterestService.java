@@ -31,6 +31,16 @@ public class InterestService {
     }
 
     /**
+     * 修改兴趣
+     *
+     *
+     */
+    public  Integer updateInterest(InterestBO interestBO){
+        return interestDAO.updateInterest(interestBO);
+
+    }
+
+    /**
      * 添加兴趣
      * @param interestBO
      * @return
