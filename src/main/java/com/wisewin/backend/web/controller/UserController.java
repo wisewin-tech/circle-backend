@@ -3,6 +3,7 @@ package com.wisewin.backend.web.controller;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.TheGarageImgBO;
 import com.wisewin.backend.entity.bo.UserBO;
+import com.wisewin.backend.entity.bo.UserPictureBO;
 import com.wisewin.backend.entity.dto.BackgroundCountDTO;
 import com.wisewin.backend.entity.dto.GarageImgDTO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
@@ -27,7 +28,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
-public class UserController extends BaseCotroller{
+public class UserController extends BaseCotroller {
 
     @Resource
     private UserService userService;
@@ -43,114 +44,100 @@ public class UserController extends BaseCotroller{
      * userStatus 用户状态
      * robotStatus 是否为机器人
      * phone 手机号
+     *
      * @param response
      */
     @RequestMapping("/getUserList")
-    public void getUserList(UserBO userBO,Integer pageNo,Integer pageSize, HttpServletRequest request, HttpServletResponse response) {
+    public void getUserList(UserBO userBO, Integer pageNo, Integer pageSize, HttpServletRequest request, HttpServletResponse response) {
         //验证参数
-        if (userBO==null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
+        if (userBO == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
-            return ;
+            return;
         }
-        QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
+        QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
         //封装条件
-        Map<String,Object> queryMap=new HashMap<String, Object>();
-        queryMap.put("pageOffset",queryInfo.getPageOffset());
-        queryMap.put("pageSize",queryInfo.getPageSize());
-        queryMap.put("certificationStatus",userBO.getCertificationStatus());
-        queryMap.put("carStatus",userBO.getCarStatus());
-        queryMap.put("userStatus",userBO.getUserStatus());
-        queryMap.put("robotStatus",userBO.getRobotStatus());
-        queryMap.put("phone",userBO.getPhone());
+        Map<String, Object> queryMap = new HashMap<String, Object>();
+        queryMap.put("pageOffset", queryInfo.getPageOffset());
+        queryMap.put("pageSize", queryInfo.getPageSize());
+        queryMap.put("certificationStatus", userBO.getCertificationStatus());
+        queryMap.put("carStatus", userBO.getCarStatus());
+        queryMap.put("userStatus", userBO.getUserStatus());
+        queryMap.put("robotStatus", userBO.getRobotStatus());
+        queryMap.put("phone", userBO.getPhone());
         //查询
         Integer count = userService.getUserListCount(queryMap);
-        List<UserBO> userBOS=new ArrayList<UserBO>();
-        if(count!=0){
+        List<UserBO> userBOS = new ArrayList<UserBO>();
+        if (count != 0) {
             userBOS = userService.getUserList(queryMap);
         }
-        Map<String,Object>  resultMap = new HashMap<String, Object>();
-        resultMap.put("userBOS",userBOS);
-        resultMap.put("count",count);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("userBOS", userBOS);
+        resultMap.put("count", count);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
         super.safeJsonPrint(response, json);
         return;
     }
 
+    /**
+     * 查询用户详细信息（模式信息、背景图片、兴趣）
+     */
     @RequestMapping("/getModelByUserId")
-    public void getModelByUserId(Long userId,HttpServletRequest request, HttpServletResponse response){
+    public void getModelByUserId(Long userId, HttpServletRequest request, HttpServletResponse response) {
         //验证参数
-        if (userId==null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
+        if (userId == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
-            return ;
+            return;
         }
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success( userService.getModelByUserId(userId)));
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(userService.getModelByUserId(userId)));
         super.safeJsonPrint(response, json);
     }
 
-
     /**
-     * 修改用户信息
+     * 修改用户状态（拉黑，取消拉黑）
      */
-    @RequestMapping("/update")
-    public void updateUser(HttpServletRequest request,HttpServletResponse response,UserParam userParam) {
-        AdminBO loginUser = super.getLoginUser(request);
-        if(loginUser == null){
-            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-            super.safeHtmlPrint(response,languagejson);
-            return;
-        }
-        //如果id或者参数为空,提示参数异常
-        if (userParam.getId()==null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
-            super.safeJsonPrint(response, result);
-            return ;
-        }
-        Integer i = userService.updateUser(userParam);
-        if (i>0){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功！")) ;
+    @RequestMapping("/updUserStatus")
+    public void updUserStatus(HttpServletRequest request, HttpServletResponse response, Long userId, String status) {
+        if (userId == null || status == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
-        }else {
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure( "修改失败！")) ;
-            super.safeJsonPrint(response, result);
-            return ;
         }
-    }
-
-    /**
-     * 冻结用户
-     * @param request
-     * @param response
-     */
-    @RequestMapping("/userFrozen")
-    public void updateAccountStatus(HttpServletRequest request, HttpServletResponse response, Integer userId){
-        AdminBO loginUser = super.getLoginUser(request);
-        if(loginUser == null){
-            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-            super.safeHtmlPrint(response,languagejson);
-            return;
-        }
-        userService.updateAccountStatus(userId);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("操作成功！")) ;
+        UserParam userParam=new UserParam();
+        userParam.setId(userId);
+        userParam.setUserStatus(status);
+        userService.updateUser(userParam);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);
         return;
 
     }
 
     /**
+     * 添加机器人
+     */
+
+    /**
+     * 修改机器人信息
+     */
+
+
+
+
+    /**
      * 用户背景图审核
+     *
      * @param request
      * @param response
      */
     @RequestMapping("/queryBackGround")
     public void userBackGround(HttpServletRequest request, HttpServletResponse response, Integer userId,
-                               String pattern, String state, Integer pageOffset, Integer pageSize){
+                               String pattern, String state, Integer pageOffset, Integer pageSize) {
         AdminBO loginUser = super.getLoginUser(request);
-        if(loginUser == null){
-            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-            super.safeHtmlPrint(response,languagejson);
+        if (loginUser == null) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+            super.safeHtmlPrint(response, languagejson);
             return;
         }
         QueryInfo queryInfo = getQueryInfo(pageOffset, pageSize);
@@ -165,13 +152,14 @@ public class UserController extends BaseCotroller{
         condition.put("pattern", pattern);
         condition.put("state", state);
         BackgroundCountDTO backgroundCountDTO = userService.queryBackground(condition);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(backgroundCountDTO)) ;
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(backgroundCountDTO));
         super.safeJsonPrint(response, result);
         return;
     }
 
     /**
      * 车辆审核
+     *
      * @param request
      * @param response
      * @param pageOffset
@@ -180,11 +168,11 @@ public class UserController extends BaseCotroller{
     @RequestMapping("/queryGarage")
     public void queryGarage(HttpServletRequest request, HttpServletResponse response, Integer pageOffset, Integer pageSize,
                             Integer userId, String plateNumber, String branModel,
-                            String status, String headingCode){
+                            String status, String headingCode) {
         AdminBO loginUser = super.getLoginUser(request);
-        if(loginUser == null){
-            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-            super.safeHtmlPrint(response,languagejson);
+        if (loginUser == null) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+            super.safeHtmlPrint(response, languagejson);
             return;
         }
         QueryInfo queryInfo = getQueryInfo(pageOffset, pageSize);
@@ -201,27 +189,28 @@ public class UserController extends BaseCotroller{
         condition.put("status", status);
         condition.put("headingCode", headingCode);
         GarageImgDTO garageImgDTO = userService.queryGarage(condition);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(garageImgDTO)) ;
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(garageImgDTO));
         super.safeJsonPrint(response, result);
         return;
     }
 
     /**
      * 获取车辆图片
+     *
      * @param request
      * @param response
      * @param id
      */
     @RequestMapping("/queryGarageImg")
-    public void queryGarageImg(HttpServletRequest request, HttpServletResponse response, Integer id){
+    public void queryGarageImg(HttpServletRequest request, HttpServletResponse response, Integer id) {
         AdminBO loginUser = super.getLoginUser(request);
-        if(loginUser == null){
-            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-            super.safeHtmlPrint(response,languagejson);
+        if (loginUser == null) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+            super.safeHtmlPrint(response, languagejson);
             return;
         }
         List<TheGarageImgBO> theGarageImgBOS = userService.queryGarageImg(id);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(theGarageImgBOS)) ;
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(theGarageImgBOS));
         super.safeJsonPrint(response, result);
         return;
     }

@@ -4,25 +4,25 @@ package com.wisewin.backend.entity.bo;
 import java.util.Date;
 
 public class InterestBO {
-    private Integer id; //系统兴趣
-    private Integer typeId; //系统兴趣分类id
+    private Long id; //系统兴趣
+    private Long typeId; //系统兴趣分类id
     private String typeName; //系统兴趣分类名称
     private String interestName;// 兴趣
     private Date createTime;//创建时间
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getTypeId() {
+    public Long getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(Integer typeId) {
+    public void setTypeId(Long typeId) {
         this.typeId = typeId;
     }
 

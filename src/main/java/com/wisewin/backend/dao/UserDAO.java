@@ -1,12 +1,11 @@
 package com.wisewin.backend.dao;
 
-import com.wisewin.backend.entity.bo.ModelBO;
-import com.wisewin.backend.entity.bo.TheGarageImgBO;
-import com.wisewin.backend.entity.bo.UserBO;
-import com.wisewin.backend.entity.bo.UserPictureBO;
+import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.dto.GarageDTO;
 import com.wisewin.backend.entity.dto.UserBackgroundDTO;
 import com.wisewin.backend.entity.param.UserParam;
+import org.apache.ibatis.annotations.Param;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 import java.util.Map;
@@ -18,11 +17,6 @@ public interface UserDAO {
     Integer getUserListCount(Map<String, Object> map);
     //根据用户查询模式的信息
     List<ModelBO> getModelByUserId(Long userId);
-    //根据模式id查询背景墙列表
-    List<UserPictureBO> getPictureByModelId(Long modelId);
-
-    //通过id查询用户信息
-    UserBO queryUserById(Integer id);
     //修改用户信息
     Integer updateUser(UserParam userParam);
 

@@ -2,6 +2,7 @@ package com.wisewin.backend.entity.bo;
 
 import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,16 @@ public class ModelBO extends BaseModel {
     private Long beShieldingCount;//被屏蔽次数
     private Date updateTime;
 
-    private List<UserPictureBO> pictureBOList;
+    private List<UserPictureBO> pictureBOList;//背景图
+    private List<InterestTypeBO> interestTypeBOList=new ArrayList<InterestTypeBO>();//兴趣分类
+
+    public List<InterestTypeBO> getInterestTypeBOList() {
+        return interestTypeBOList;
+    }
+
+    public void setInterestTypeBOList(List<InterestTypeBO> interestTypeBOList) {
+        this.interestTypeBOList = interestTypeBOList;
+    }
 
     public List<UserPictureBO> getPictureBOList() {
         return pictureBOList;

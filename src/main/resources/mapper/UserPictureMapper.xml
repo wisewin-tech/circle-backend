@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 背景图管理 -->
+<mapper namespace="com.wisewin.backend.dao.UserPictureDAO">
+    <sql id="limit">
+        limit #{pageSize} offset #{pageOffset}
+    </sql>
+   <!--根据模式id查询背景墙列表-->
+    <select id="getPictureByModelId" parameterType="java.lang.Long" resultType="com.wisewin.backend.entity.bo.UserPictureBO">
+        select * from ci_user_picture where model_id=#{modelId}
+    </select>
+    <!--根据审核状态查询背景墙列表-->
+    <select id="getPictureByStatus" resultType="com.wisewin.backend.entity.bo.UserPictureBO">
+        select * from ci_user_picture
+        where picture_status=#{status}
+        order by create_time desc
+        <include refid="limit" />
+    </select>
+    <!--根据审核状态查询背景墙列表数量-->
+    <select id="getPictureByStatusCount" resultType="java.lang.Integer">
+        select count(1) from ci_user_picture where picture_status=#{status}
+    </select>
+    <!--修改背景墙状态-->
+    <update id="updPictureById" parameterType="com.wisewin.backend.entity.bo.UserPictureBO">
+        update ci_user_picture
+        <set>
+            <if test="pictureStatus!=null and pictureStatus!=''">
+                picture_status=#{pictureStatus},
+            </if>
+            <if test="pictureUrl!=null and pictureUrl!=''">
+                picture_url=#{pictureUrl},
+            </if>
+            update_time=now()
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

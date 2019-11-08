@@ -1,10 +1,9 @@
 package com.wisewin.backend.service;
 
+import com.wisewin.backend.dao.InterestTypeDAO;
 import com.wisewin.backend.dao.UserDAO;
-import com.wisewin.backend.entity.bo.ModelBO;
-import com.wisewin.backend.entity.bo.TheGarageImgBO;
-import com.wisewin.backend.entity.bo.UserBO;
-import com.wisewin.backend.entity.bo.UserPictureBO;
+import com.wisewin.backend.dao.UserPictureDAO;
+import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.dto.BackgroundCountDTO;
 import com.wisewin.backend.entity.dto.GarageDTO;
 import com.wisewin.backend.entity.dto.GarageImgDTO;
@@ -12,10 +11,12 @@ import com.wisewin.backend.entity.dto.UserBackgroundDTO;
 import com.wisewin.backend.entity.param.UserParam;
 import com.wisewin.backend.util.MD5Util;
 import com.wisewin.backend.util.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,51 +24,40 @@ import java.util.Map;
 @Service("userService")
 @Transactional
 public class UserService {
-
     @Resource
     private UserDAO userDAO;
+    @Resource
+    private InterestTypeDAO interestTypeDAO;
+    @Resource
+    private UserPictureDAO userPictureDAO;
 
     //查询用户信息列表
     public List<UserBO> getUserList(Map<String, Object> map) {
         List<UserBO> userBOS=userDAO.getUserList(map);
         return userBOS;
     }
-    //查询用户信息列表数量
-    public Integer getUserListCount(Map<String, Object> map) {
-        return userDAO.getUserListCount(map);
-    }
     //根据用户查询模式的信息
     public List<ModelBO> getModelByUserId(Long userId){
         List<ModelBO> modelBOList=userDAO.getModelByUserId(userId);
         for (ModelBO modelBO:modelBOList) {
-           if(modelBO!=null&&modelBO.getName()!=null){
-               modelBO.setPictureBOList(userDAO.getPictureByModelId(modelBO.getId()));
-           }
+            if(modelBO!=null&&modelBO.getName()!=null){
+                //每个模式下的背景图
+                modelBO.setPictureBOList(userPictureDAO.getPictureByModelId(modelBO.getId()));
+                //每个模式下的兴趣分类，兴趣分类下包括兴趣
+                modelBO.setInterestTypeBOList(interestTypeDAO.getInterestTypeList(modelBO.getId()));
+            }
         }
         return modelBOList;
     }
-
-
-    /**
-     * 修改用户信息
-     * @param userParam
-     * @return
-     */
+    //查询用户信息列表数量
+    public Integer getUserListCount(Map<String, Object> map) {
+        return userDAO.getUserListCount(map);
+    }
+    //修改用户信息
     public Integer updateUser(UserParam userParam){
         return userDAO.updateUser(userParam);
     }
 
-    /**
-     * 冻结用户
-     * @param id
-     */
-    public void updateAccountStatus(Integer id){
-        UserParam userParam = new UserParam();
-        userParam.setId(id);
-        userParam.setAccountStatus("frozen");
-        userDAO.updateUser(userParam);
-        return;
-    }
 
     /**
      * 获取审核背景图
