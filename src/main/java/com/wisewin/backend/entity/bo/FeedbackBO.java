@@ -16,7 +16,7 @@ public class FeedBackBO extends BaseModel{
     private String status;//状态
     private Integer adminId;//操作员id
     private Date updateTime;//修改时间
-
+    private String test;
     public Integer getId() {
         return id;
     }
