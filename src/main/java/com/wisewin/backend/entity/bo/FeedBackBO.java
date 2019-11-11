@@ -7,14 +7,11 @@ import java.util.Date;
 public class FeedBackBO extends BaseModel {
     private Integer id;//意见反馈
     private Integer userId;//用户id
+    private String phone;
     private String content;//反馈内容
-    private String image;//图片
-    private String contactWay;//联系方式
-    private String contactNumber;//联系号码
-    private String disposeResult;//处理结果
-    private Date createTime;//创建时间
     private String status;//状态
-    private Integer adminId;//操作员id
+    private Date createTime;//创建时间
+    private String adminName;//操作员id
     private Date updateTime;//修改时间
 
     public Integer getId() {
@@ -41,44 +38,12 @@ public class FeedBackBO extends BaseModel {
         this.content = content;
     }
 
-    public String getImage() {
-        return image;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getContactWay() {
-        return contactWay;
-    }
-
-    public void setContactWay(String contactWay) {
-        this.contactWay = contactWay;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }
-
-    public String getDisposeResult() {
-        return disposeResult;
-    }
-
-    public void setDisposeResult(String disposeResult) {
-        this.disposeResult = disposeResult;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getStatus() {
@@ -89,12 +54,20 @@ public class FeedBackBO extends BaseModel {
         this.status = status;
     }
 
-    public Integer getAdminId() {
-        return adminId;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 
     public Date getUpdateTime() {
