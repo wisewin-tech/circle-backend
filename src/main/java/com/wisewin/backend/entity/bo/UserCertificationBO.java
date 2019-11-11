@@ -16,7 +16,24 @@ public class UserCertificationBO extends BaseModel {
     private Date updateTime;
     private Integer adminId;//操作员id
     private String adminName;
+    private Date userCreateTime;//用户注册时间
+    private String phone;//用户手机号
 
+    public Date getUserCreateTime() {
+        return userCreateTime;
+    }
+
+    public void setUserCreateTime(Date userCreateTime) {
+        this.userCreateTime = userCreateTime;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public String getAdminName() {
         return adminName;
