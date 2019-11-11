@@ -102,7 +102,7 @@
         select ci_user_certification.*,sys_admin.name as adminName,
         u.create_time as userCreateTime,u.phone
         from ci_user_certification,sys_admin,ci_user as u
-        where sys_admin.id=ci_user_certification.admin_id and u.id=ci_user_certification.userId
+        where sys_admin.id=ci_user_certification.admin_id and u.id=ci_user_certification.user_id
         <if test="status!=null and status!=''">
             and ci_user_certification.status=#{status}
         </if>
