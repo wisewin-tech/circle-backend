@@ -13,6 +13,15 @@ public class FeedBackBO extends BaseModel {
     private Date createTime;//创建时间
     private String adminName;//操作员id
     private Date updateTime;//修改时间
+    private Integer adminId;
+
+    public Integer getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
+    }
 
     public Integer getId() {
         return id;
