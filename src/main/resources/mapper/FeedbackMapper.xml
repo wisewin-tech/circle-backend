@@ -26,9 +26,12 @@
         select count(1)
         from ci_user inner join ci_feedback on ci_feedback.user_id=ci_user.id
         left join sys_admin on ci_feedback.admin_id=sys_admin.id
-        <if test="status!=null and status!=''">
-            AND ci_feedback.status = #{status}
-        </if>
+        <where>
+            <if test="status!=null and status!=''">
+                AND ci_feedback.status = #{status}
+            </if>
+        </where>
+
     </select>
 
     <!--修改状态-->
