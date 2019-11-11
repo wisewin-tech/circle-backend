@@ -17,7 +17,7 @@ public class FeedbackService {
     /**
      * 查询意见反馈信息
      */
-    public List<FeedBackBO> getFeedbackList(String status,Integer pageOffset,Integer pageSize){
+    public List<FeedBackBO> getFeedbackList(String status, Integer pageOffset, Integer pageSize){
         return feedbackDAO.getFeedbackList(status,pageOffset,pageSize);
     }
 

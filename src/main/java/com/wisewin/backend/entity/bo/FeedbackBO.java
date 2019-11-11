@@ -1,10 +1,10 @@
 package com.wisewin.backend.entity.bo;
 
-import com.wisewin.backend.common.base.BaseModel;
+import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.util.Date;
 
-public class FeedBackBO extends BaseModel{
+public class FeedBackBO extends BaseModel {
     private Integer id;//意见反馈
     private Integer userId;//用户id
     private String content;//反馈内容
@@ -16,7 +16,7 @@ public class FeedBackBO extends BaseModel{
     private String status;//状态
     private Integer adminId;//操作员id
     private Date updateTime;//修改时间
-    private String test;
+
     public Integer getId() {
         return id;
     }
