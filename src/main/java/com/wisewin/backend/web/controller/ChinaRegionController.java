@@ -36,18 +36,18 @@ public class ChinaRegionController extends BaseCotroller {
     }
 
     //删除
-    @RequestMapping("/getChinaRegionBOLi1st")
-    public void getChinaRegionBOLis1t(HttpServletResponse response, HttpServletRequest request) throws InterruptedException {
-        List<ChinaRegionBO> list= chinaRegionService.getChinaRegionBOList();
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
+    @RequestMapping("/delChinaRegion")
+    public void delChinaRegion(Long id,HttpServletResponse response, HttpServletRequest request) throws InterruptedException {
+        chinaRegionService.delChinaRegion(id);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, json);
     }
 
-    //增加一级地区（省、自治区、直辖市）
-    @RequestMapping("/getChinaRegionBO2List")
-    public void getChinaRegio2nBOList(HttpServletResponse response, HttpServletRequest request) throws InterruptedException {
-        List<ChinaRegionBO> list= chinaRegionService.getChinaRegionBOList();
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
+    //增加地区
+    @RequestMapping("/addChinaRegionBO")
+    public void addChinaRegionBO(ChinaRegionBO chinaRegionBO,HttpServletResponse response, HttpServletRequest request) throws InterruptedException {
+        chinaRegionService.addChinaRegionBO(chinaRegionBO);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, json);
     }
 

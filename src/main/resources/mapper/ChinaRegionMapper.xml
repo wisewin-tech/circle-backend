@@ -13,6 +13,18 @@
         update china set name=#{name} where id=#{id}
     </update>
 
+    <delete id="delChinaRegionBOById" parameterType="java.lang.Long">
+        delete from china where id=#{id}
+    </delete>
+
+    <delete id="delChinaRegionBOByPid" parameterType="java.lang.Long">
+        delete from china where pid=#{pid}
+    </delete>
+
+    <insert id="addChinaRegionBO" parameterType="com.wisewin.backend.entity.bo.ChinaRegionBO">
+        insert into china (name,pid) values (#{name},#{pid});
+    </insert>
+
 
 
 </mapper>
