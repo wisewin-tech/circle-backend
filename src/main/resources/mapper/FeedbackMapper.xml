@@ -2,38 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 【用户】 -->
-<mapper namespace="com.wisewin.backend.dao.FeedbackDAO"><!--
-    <resultMap id="feedback" type="com.wisewin.backend.entity.bo.FeedbackBO">
-        <id column="id" property="id"/>
-        <result column="user_id" property="userid"/>
-        <result column="content" property="content"/>
-        <result column="image" property="image"/>
-        <result column="contact_way" property="contactway"/>
-        <result column="contact_number" property="contactnumber"/>
-        <result column="create_time" property="createtime"/>
-        <result column="status" property="status"/>
-        <result column="admin_id" property="adminid"/>
-        <result column="update_time" property="updatetime"/>
-        <collection property="list" ofType="com.wisewin.backend.entity.bo.FeedbackBO">
-
-        </collection>
-
-
-    </resultMap>-->
-    <!--通过状态查询-->
-    <select id="selectFeedback" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.FeedBackResultBO">
-        SELECT u.name userName,ad.name adminName,f.content,f.image,f.contact_way,f.contact_number,f.create_time,f.status,f.update_time,f.id
-        FROM ce_feedback f LEFT JOIN  ce_admin  ad  ON f.admin_id = ad.id
-        LEFT JOIN  ce_user u ON f.user_id = u.id
+<!-- 意见反馈 -->
+<mapper namespace="com.wisewin.backend.dao.FeedbackDAO">
+    <!-- 通过状态查询 -->
+    <select id="getFeedbackList"  resultType="com.wisewin.backend.entity.bo.FeedBackBO">
+        select ci_feedback.*,sys_admin.name as adminName,ci_user.phone
+        from ci_user inner join ci_feedback on ci_feedback.user_id=ci_user.id
+        left join sys_admin on ci_feedback.admin_id=sys_admin.id
         <where>
-            <if test="feedbackParam.status!=null and feedbackParam.status!=''">
-                AND f.status = #{feedbackParam.status}
-            </if>
-            <if test="feedbackParam.begin!=null and feedbackParam.end!=null ">
-                AND f.create_time BETWEEN #{feedbackParam.begin} AND #{feedbackParam.end}
+            <if test="status!=null and status!=''">
+                AND ci_feedback.status = #{status}
             </if>
         </where>
+        order by create_time desc
         <include refid="limit" />
     </select>
     <sql id="limit">
@@ -41,40 +22,24 @@
     </sql>
 
     <!--查询所有条数-->
-    <select id="selectbylimitCount"   parameterType="java.util.Map"   resultType="java.lang.Integer">
-        SELECT  count(1)  FROM  ce_feedback
-        <where>
-
-            <if test="feedbackParam.status!=null and feedbackParam.status!=''">
-                AND status = #{feedbackParam.status}
-            </if>
-            <if test="feedbackParam.begin!=null and feedbackParam.end!=null ">
-                AND create_time BETWEEN #{feedbackParam.begin} AND #{feedbackParam.end}
-            </if>
-        </where>
-
-    </select>
-    <!--通过id查询所有信息-->
-    <select id="getFeedback" parameterType="com.wisewin.backend.entity.bo.FeedbackBO"
-            resultType="com.wisewin.backend.entity.bo.FeedbackBO">
-        select * from ce_feedback
-        where 1=1
-        <if test="id!=null and id!=''">
-            and id=#{id}
-        </if>
+    <select id="getFeedbackListCount"   resultType="java.lang.Integer">
+        select count(1)
+        from ci_user inner join ci_feedback on ci_feedback.user_id=ci_user.id
+        left join sys_admin on ci_feedback.admin_id=sys_admin.id
         <if test="status!=null and status!=''">
-            and  status=#{status}
+            AND ci_feedback.status = #{status}
         </if>
     </select>
+
     <!--修改状态-->
-    <update id="updateFeedback"  parameterType="com.wisewin.backend.entity.bo.FeedbackBO" >
-        UPDATE ce_feedback
+    <update id="updFeedback"  parameterType="com.wisewin.backend.entity.bo.FeedBackBO" >
+        UPDATE ci_feedback
         <set>
             <if test="status!=null and status!=''" > status=#{status},</if>
-            <if test="adminid!=null and adminid!=''" > admin_id=#{adminid},</if>
+            <if test="adminId!=null and adminId!=''" > admin_id=#{adminId},</if>
              update_time= now()
         </set>
-        WHERE   id=#{id}
+        WHERE  id=#{id}
     </update>
 
 

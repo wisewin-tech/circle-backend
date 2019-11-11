@@ -1,40 +1,24 @@
 package com.wisewin.backend.dao;
 
-import com.wisewin.backend.entity.bo.FeedBackResultBO;
-import com.wisewin.backend.entity.bo.FeedbackBO;
-import com.wisewin.backend.entity.param.FeedbackParam;
-
-import java.util.Date;
+import com.wisewin.backend.entity.bo.FeedBackBO;
+import org.apache.ibatis.annotations.Param;
 import java.util.List;
-import java.util.Map;
 
 public interface FeedbackDAO {
     /**
      * 通过状态查询意见反馈
-     * @param map
-     * @return
      */
-    List<FeedBackResultBO> selectFeedback(Map<String,Object> map);
+    List<FeedBackBO> getFeedbackList(@Param("status") String status, @Param("pageOffset")Integer pageOffset, @Param("pageSize")Integer pageSize);
 
 
     /**
      *查询总条数
-     * @param map
-     * @return
      */
-    Integer selectbylimitCount(Map<String,Object> map);
+    Integer getFeedbackListCount(@Param("status") String status);
 
     /**
      * 修改意见反馈状态
-     * @param feedbackParam
-     * @return
      */
-    boolean updateFeedback(FeedbackParam feedbackParam);
+    boolean updFeedback(FeedBackBO feedBackBO);
 
-    /**
-     * 查询所有信息
-     * @param feedbackBO
-     * @return
-     */
-    List<FeedbackBO> getFeedback(FeedbackBO feedbackBO);
 }

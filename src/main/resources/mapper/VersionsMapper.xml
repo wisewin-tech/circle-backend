@@ -8,7 +8,7 @@
     <!--添加版本-->
     <insert id="addVersions" parameterType="com.wisewin.backend.entity.bo.VersionsBO">
         insert into sys_versions
-        (title,downurl,platform,`type`,subcontent,versioncode,versionname,create_time,admin_id)
+        (title,downurl,platform,type,subcontent,versioncode,versionname,create_time,admin_id)
         values
         (#{title},#{downurl},#{platform},#{type},#{subcontent},#{versioncode},#{versionname},now(),#{adminId})
     </insert>

@@ -4,7 +4,7 @@ import com.wisewin.backend.common.base.BaseModel;
 
 import java.util.Date;
 
-public class FeedbackBO extends BaseModel{
+public class FeedBackBO extends BaseModel{
     private Integer id;//意见反馈
     private Integer userId;//用户id
     private String content;//反馈内容
