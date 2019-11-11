@@ -25,4 +25,6 @@
     <select id="getValueByKey" resultType="com.wisewin.backend.entity.bo.KeyValueBO" parameterType="java.lang.String">
          select * from sys_key_value where key=#{key}
     </select>
+
+
 </mapper>
