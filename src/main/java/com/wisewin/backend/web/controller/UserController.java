@@ -1,8 +1,6 @@
 package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.*;
-import com.wisewin.backend.entity.dto.BackgroundCountDTO;
-import com.wisewin.backend.entity.dto.GarageImgDTO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.UserParam;
 import com.wisewin.backend.query.QueryInfo;
@@ -14,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -156,18 +155,13 @@ public class UserController extends BaseCotroller {
      * 添加机器人
      */
     @RequestMapping("/addRobotUser")
-    public void addRobotUser(String userJson, HttpServletRequest request, HttpServletResponse response){
-        if (userJson == null) {
+    @ResponseBody
+    public void addRobotUser(@RequestBody UserBO userBO, HttpServletRequest request, HttpServletResponse response){
+        if (userBO == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
-
-        UserBO userBO = (UserBO) JsonUtils.getObject4JsonString(userJson, UserBO.class);
-        System.err.println(userBO.getPhone());
-        System.err.println(userBO.getCarStatus());
-        System.err.println(userBO.getRobotStatus());
-        System.err.println(userBO.getModelBOList().size());
         userService.addRobotUser(userBO);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);

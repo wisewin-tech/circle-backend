@@ -5,20 +5,20 @@
 <!-- 【用户】 -->
 <mapper namespace="com.wisewin.backend.dao.UserDAO">
     <!--添加user-->
-    <insert id="addUser" parameterType="com.wisewin.backend.entity.bo.UserBO">
+    <insert id="addUser" parameterType="com.wisewin.backend.entity.bo.UserBO" useGeneratedKeys="true" keyProperty="id">
         insert into ci_user
         (phone,password,latitude,longitude,certification_status,car_status,user_status,robot_status,create_time)
         values
         (#{phone},#{password},#{latitude},#{longitude},#{certificationStatus},#{carStatus},#{userStatus},#{robotStatus},now())
     </insert>
     <!--添加模块信息-->
-    <insert id="addModel" parameterType="com.wisewin.backend.entity.bo.ModelBO">
+    <insert id="addModel" parameterType="com.wisewin.backend.entity.bo.ModelBO" useGeneratedKeys="true" keyProperty="id">
         insert into ci_model
         (model,sex,birthday,constellation,height,weight,education,birthplace,
         sex_status,car_certification_status,be_like_count,
         be_super_like_count,super_like_count,name)
         values
-        #{model},#{sex},#{birthday},#{constellation},#{height},#{weight},#{education},#{birthplace},
+        (#{model},#{sex},#{birthday},#{constellation},#{height},#{weight},#{education},#{birthplace},
         #{sexStatus},#{carCertificationStatus},#{beLikeCount},
         #{beSuperLikeCount},#{superLikeCount},#{name})
     </insert>

@@ -82,6 +82,7 @@ public class UserService {
     //添加机器人
     public void addRobotUser(UserBO userBO) {
         //添加user
+        userBO.setRobotStatus("yes");
         userDAO.addUser(userBO);
         //循环添加模块信息
         for (ModelBO modelBO : userBO.getModelBOList()) {
