@@ -1,6 +1,7 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.InterestBO;
+import com.wisewin.backend.entity.bo.SelectBO;
 import com.wisewin.backend.entity.bo.UserInterestBO;
 import org.apache.ibatis.annotations.Param;
 
@@ -52,4 +53,7 @@ public interface InterestDAO {
      * 查询兴趣分类
      */
     List<InterestBO> queryInterestType();
+
+
+    List<SelectBO> querySelect();
 }

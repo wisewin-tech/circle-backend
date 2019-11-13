@@ -51,4 +51,18 @@
     <delete id="delUserInterest" parameterType="java.lang.Long">
         delete from ci_user_interest where model_id=#{modelid}
     </delete>
+
+
+    <select id="querySelect" resultMap="selectMap">
+       SELECT ty.type_name,st.id,st.interest_name	 FROM  "ci_interest" st
+            LEFT JOIN "ci_interest_type" ty ON ty."id" =st.type_id
+    </select>
+
+    <resultMap id="selectMap" type="com.wisewin.backend.entity.bo.SelectBO" >
+        <result column="type_name" property="label" ></result>
+        <collection property="options" ofType="com.wisewin.backend.entity.bo.OptionsBO">
+            <result column="id" property="value" ></result>
+            <result column="interest_name" property="label" ></result>
+        </collection>
+    </resultMap>
 </mapper>

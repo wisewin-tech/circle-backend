@@ -2,6 +2,7 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.InterestDAO;
 import com.wisewin.backend.entity.bo.InterestBO;
+import com.wisewin.backend.entity.bo.SelectBO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -63,4 +64,8 @@ public class InterestService {
         return interestDAO.queryInterestType();
     }
 
+    public List<SelectBO> querySelect() {
+        return interestDAO.querySelect();
+
+    }
 }

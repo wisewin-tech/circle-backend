@@ -1,6 +1,7 @@
 package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.InterestBO;
+import com.wisewin.backend.entity.bo.SelectBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.service.InterestService;
 import com.wisewin.backend.util.JsonUtils;
@@ -113,6 +114,18 @@ public class InterestController extends BaseCotroller {
         log.info("result:{}",result);
 
     }
+    /**
+     * 查询兴趣下拉框
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/querySelect")
+    public void querySelect(HttpServletRequest request, HttpServletResponse response) {
+        List<SelectBO> interestBOS = interestService.querySelect();
+        String result= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(interestBOS));
+        super.safeHtmlPrint(response,result);
+        log.info("result:{}",result);
 
+    }
 
 }
