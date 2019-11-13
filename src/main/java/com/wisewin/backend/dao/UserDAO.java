@@ -12,8 +12,7 @@ public interface UserDAO {
     Integer addUser(UserBO userBO);
     //添加模块信息
     Integer addModel(ModelBO modelBO);
-    //添加兴趣信息
-    Integer addInterest(UserInterestBO interestBO);
+
 
     //查询用户列表信息
     List<UserBO> getUserList(Map<String, Object> map);
@@ -22,7 +21,9 @@ public interface UserDAO {
     //根据用户查询模式的信息
     List<ModelBO> getModelByUserId(Long userId);
     //修改用户信息
-    Integer updateUser(UserParam userParam);
+    Integer updateUser(UserBO userParam);
+    //修改用户模式信息
+    Integer updateUserModel(ModelBO modelBO);
 
     //查询用户认证列表
     List<UserCertificationBO> getUserCertification(@Param("status") String status,@Param("pageOffset") Integer pageOffset,@Param("pageSize") Integer pageSize);

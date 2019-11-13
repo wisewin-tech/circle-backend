@@ -1,5 +1,6 @@
 package com.wisewin.backend.service;
 
+import com.wisewin.backend.dao.InterestDAO;
 import com.wisewin.backend.dao.InterestTypeDAO;
 import com.wisewin.backend.dao.UserDAO;
 import com.wisewin.backend.dao.UserPictureDAO;
@@ -29,6 +30,8 @@ public class UserService {
     @Resource
     private InterestTypeDAO interestTypeDAO;
     @Resource
+    private InterestDAO interestDAO;
+    @Resource
     private UserPictureDAO userPictureDAO;
 
     //查询用户信息列表
@@ -57,7 +60,7 @@ public class UserService {
     }
 
     //修改用户信息
-    public Integer updateUser(UserParam userParam) {
+    public Integer updateUser(UserBO userParam) {
         return userDAO.updateUser(userParam);
     }
 
@@ -65,6 +68,7 @@ public class UserService {
     public List<UserCertificationBO> getUserCertification(String status,Integer pageOffset,Integer pageSize) {
         return userDAO.getUserCertification(status,pageOffset,pageSize);
     }
+
     //获取用户认证列表数量
     public Integer getUserCertificationCount(String status) {
         return userDAO.getUserCertificationCount(status);
@@ -73,7 +77,7 @@ public class UserService {
     //修改用户认证状态
     public void updUserCertificationStatus(UserCertificationBO userCertificationBO) {
         userDAO.updUserCertificationStatus(userCertificationBO);
-        UserParam userParam = new UserParam();
+        UserBO userParam = new UserBO();
         userParam.setCertificationStatus(userCertificationBO.getStatus());
         userParam.setId(userCertificationBO.getId());
         userDAO.updateUser(userParam);
@@ -91,18 +95,31 @@ public class UserService {
             //模块信息中循环添加背景图
             for (UserPictureBO userPictureBO : modelBO.getPictureBOList()) {
                 userPictureBO.setModelId(modelBO.getId());
-                userPictureDAO.addUserPicture(userPictureBO);
             }
+            userPictureDAO.addUserPicture(modelBO.getPictureBOList());
             //模块信息中循环添加兴趣
             for (UserInterestBO userInterestBO : modelBO.getUserInterestBOS()) {
                 userInterestBO.setModelId(modelBO.getId());
-                userDAO.addInterest(userInterestBO);
             }
+            interestDAO.addInterestList(modelBO.getUserInterestBOS());
+
         }
     }
 
-    //修改机器人
+    //修改机器人信息
     public void updRobotUser(UserBO userParam) {
+        userDAO.updateUser(userParam);
+    }
 
+    //修改机器人模式信息
+    public void updRobotModel(ModelBO modelBO) {
+        //修改模式信息
+        userDAO.updateUserModel(modelBO);
+        //修改模式下的背景图信息
+        userPictureDAO.delUserPicture(modelBO.getId());
+        userPictureDAO.addUserPicture(modelBO.getPictureBOList());
+        //修改模式下的兴趣信息
+        interestDAO.delUserInterest(modelBO.getId());
+        interestDAO.addInterestList(modelBO.getUserInterestBOS());
     }
 }

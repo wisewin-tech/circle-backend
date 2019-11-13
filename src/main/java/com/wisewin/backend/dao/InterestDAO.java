@@ -1,6 +1,7 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.InterestBO;
+import com.wisewin.backend.entity.bo.UserInterestBO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -23,6 +24,16 @@ public interface InterestDAO {
      * @return
      */
     Integer addInterest(InterestBO interestBO);
+
+    /**
+     * 添加用户兴趣集合
+     */
+    Integer addInterestList(@Param("interestList") List<UserInterestBO> interestList);
+
+    /**
+     * 根据模式id删除用户兴趣
+     */
+    Integer delUserInterest(Long modelId);
 
     /**
      * 修改兴趣

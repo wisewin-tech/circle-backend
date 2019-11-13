@@ -5,8 +5,8 @@ import com.wisewin.backend.entity.bo.common.base.BaseModel;
 public class UserInterestBO extends BaseModel {
     private Long id;//兴趣id
     private Long modelId;//模式id
-    private Long typeId;//模式分类id
-    private String interestName;//兴趣分类名称
+    private Long typeId;//兴趣分类id
+    private String interestName;//兴趣名称
 
     public Long getId() {
         return id;

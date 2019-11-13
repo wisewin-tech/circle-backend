@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--二级兴趣管理-->
+
 <mapper namespace="com.wisewin.backend.dao.InterestDAO">
 
     <!--通过兴趣分类id查询分类下的兴趣-->
@@ -38,4 +38,17 @@
         select * from "ci_interest_type"
     </select>
 
+    <!--添加用户兴趣集合-->
+    <insert id="addInterestList">
+        insert into ci_user_interest
+        (model_id,type_id,interest_name)
+        values
+        <foreach item="item" index="index" collection="interestList" open="" close="" separator=",">
+            (#{item.modelId},#{item.typeId},#{item.interestName})
+        </foreach>
+    </insert>
+    <!--根据模式id删除用户兴趣-->
+    <delete id="delUserInterest" parameterType="java.lang.Long">
+        delete from ci_user_interest where model_id=#{modelid}
+    </delete>
 </mapper>

@@ -22,6 +22,51 @@
         #{sexStatus},#{carCertificationStatus},#{beLikeCount},
         #{beSuperLikeCount},#{superLikeCount},#{name})
     </insert>
+    <!--修改模块信息-->
+    <update id="updateUserModel" parameterType="com.wisewin.backend.entity.bo.ModelBO">
+        update ci_model
+        <set>
+            <if test="sex!=null and sex!=''">
+                sex=#{sex},
+            </if>
+            <if test="birthday!=null and birthday!=''">
+                birthday=#{birthday},
+            </if>
+            <if test="constellation!=null and constellation!=''">
+                constellation=#{constellation},
+            </if>
+            <if test="height!=null and height!=''">
+                height=#{height},
+            </if>
+            <if test="weight!=null and weight!=''">
+                weight=#{weight},
+            </if>
+            <if test="education!=null and education!=''">
+                education=#{education},
+            </if>
+            <if test="birthplace!=null and birthplace!=''">
+                birthplace=#{birthplace},
+            </if>
+            <if test="sexStatus!=null and sexStatus!=''">
+                sex_status=#{sexStatus},
+            </if>
+            <if test="carCertificationStatus!=null and carCertificationStatus!=''">
+                car_certification_status=#{carCertificationStatus},
+            </if>
+            <if test="beLikeCount!=null and beLikeCount!=''">
+                be_like_count=#{beLikeCount},
+            </if>
+            <if test="superLikeCount!=null and superLikeCount!=''">
+                super_like_count=#{superLikeCount},
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            update_time=now()
+        </set>
+        where id=#{id}
+    </update>
+
     <!--添加兴趣信息-->
     <insert id="addInterest" parameterType="com.wisewin.backend.entity.bo.UserInterestBO">
         insert into ci_user_interest
@@ -66,7 +111,7 @@
         select * from ci_model where user_id=#{userId}
     </select>
     <!--修改用户信息-->
-    <update id="updateUser" parameterType="com.wisewin.backend.entity.param.UserParam">
+    <update id="updateUser" parameterType="com.wisewin.backend.entity.bo.UserBO">
         update ci_user
         <set>
             <if test="phone!=null and phone!=''">

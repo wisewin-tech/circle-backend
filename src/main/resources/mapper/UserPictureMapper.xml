@@ -9,9 +9,14 @@
         insert into ci_user_picture
         (model_id,picture_url,sort,picture_status,create_time,update_time)
         values
-        (#{modelId},#{pictureUrl},#{sort},#{pictureStatus},now(),now())
+        <foreach item="item" index="index" collection="picList" open="" close="" separator=",">
+            (#{item.modelId},#{item.pictureUrl},#{item.sort},#{item.pictureStatus},now(),now())
+        </foreach>
     </insert>
-
+    <!--根据模式id删除背景图-->
+    <delete id="delUserPicture" parameterType="java.lang.Long">
+        delete from ci_user_picture where model_id=#{modelId}
+    </delete>
 
     <sql id="limit">
         limit #{pageSize} offset #{pageOffset}

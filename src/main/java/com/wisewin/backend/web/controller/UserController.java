@@ -100,7 +100,7 @@ public class UserController extends BaseCotroller {
             super.safeJsonPrint(response, result);
             return;
         }
-        UserParam userParam=new UserParam();
+        UserBO userParam=new UserBO();
         userParam.setId(userId);
         userParam.setUserStatus(status);
         userService.updateUser(userParam);
@@ -179,6 +179,23 @@ public class UserController extends BaseCotroller {
             return;
         }
         userService.updRobotUser(userParam);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
+        super.safeJsonPrint(response, result);
+        return;
+    }
+
+    /**
+     * 修改机器人模式信息
+     */
+    @RequestMapping("/updRobotModel")
+    @ResponseBody
+    public void updRobotModel(@RequestBody ModelBO modelBO,HttpServletRequest request, HttpServletResponse response){
+        if (modelBO == null||modelBO.getId()==null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        userService.updRobotModel(modelBO);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);
         return;
