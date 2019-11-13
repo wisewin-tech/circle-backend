@@ -134,6 +134,20 @@ public class UserService {
         userPictureDAO.addUserPicture(modelBO.getPictureBOList());
         //修改模式下的兴趣信息
         interestDAO.delUserInterest(modelBO.getId());
-        interestDAO.addInterestList(modelBO.getUserInterestBOS());
+        ArrayList<UserInterestBO> userInterestBOS=new ArrayList<UserInterestBO>();
+        for (InterestTypeBO interestTypeBO : modelBO.getInterestTypeBOList()) {
+            if(interestTypeBO.getInterestStrList()!=null){
+                for (String interestName : interestTypeBO.getInterestStrList()) {
+                    UserInterestBO userInterestBO=new UserInterestBO();
+                    userInterestBO.setTypeId(interestTypeBO.getTypeId());
+                    userInterestBO.setModelId(modelBO.getId());
+                    userInterestBO.setInterestName(interestName);
+                    userInterestBOS.add(userInterestBO);
+                }
+            }
+        }
+        if(userInterestBOS.size()!=0){
+            interestDAO.addInterestList(userInterestBOS);
+        }
     }
 }
