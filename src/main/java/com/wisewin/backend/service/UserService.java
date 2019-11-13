@@ -93,16 +93,30 @@ public class UserService {
             modelBO.setUserId(userBO.getId());
             userDAO.addModel(modelBO);
             //模块信息中循环添加背景图
-            for (UserPictureBO userPictureBO : modelBO.getPictureBOList()) {
-                userPictureBO.setModelId(modelBO.getId());
+            if(modelBO.getPictureBOList()!=null){
+                for (UserPictureBO userPictureBO : modelBO.getPictureBOList()) {
+                    userPictureBO.setModelId(modelBO.getId());
+                }
             }
-            userPictureDAO.addUserPicture(modelBO.getPictureBOList());
+            if(modelBO.getPictureBOList().size()!=0){
+                userPictureDAO.addUserPicture(modelBO.getPictureBOList());
+            }
             //模块信息中循环添加兴趣
-            for (UserInterestBO userInterestBO : modelBO.getUserInterestBOS()) {
-                userInterestBO.setModelId(modelBO.getId());
+            ArrayList<UserInterestBO> userInterestBOS=new ArrayList<UserInterestBO>();
+            for (InterestTypeBO interestTypeBO : modelBO.getInterestTypeBOList()) {
+                if(interestTypeBO.getInterestStrList()!=null){
+                    for (String interestName : interestTypeBO.getInterestStrList()) {
+                        UserInterestBO userInterestBO=new UserInterestBO();
+                        userInterestBO.setTypeId(interestTypeBO.getTypeId());
+                        userInterestBO.setModelId(modelBO.getId());
+                        userInterestBO.setInterestName(interestName);
+                        userInterestBOS.add(userInterestBO);
+                    }
+                }
             }
-            interestDAO.addInterestList(modelBO.getUserInterestBOS());
-
+            if(userInterestBOS.size()!=0){
+                interestDAO.addInterestList(userInterestBOS);
+            }
         }
     }
 

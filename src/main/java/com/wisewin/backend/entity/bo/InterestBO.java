@@ -9,6 +9,15 @@ public class InterestBO {
     private String typeName; //系统兴趣分类名称
     private String interestName;// 兴趣
     private Date createTime;//创建时间
+    private Long modelId;//模式id
+
+    public Long getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(Long modelId) {
+        this.modelId = modelId;
+    }
 
     public Long getId() {
         return id;

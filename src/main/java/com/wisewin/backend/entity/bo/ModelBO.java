@@ -32,7 +32,7 @@ public class ModelBO extends BaseModel {
     private Long beShieldingCount;//被屏蔽次数
     private Date updateTime;
 
-    private List<UserPictureBO> pictureBOList;//背景图
+    private List<UserPictureBO> pictureBOList=new ArrayList<UserPictureBO>();//背景图
     private List<InterestTypeBO> interestTypeBOList=new ArrayList<InterestTypeBO>();//兴趣分类
     private List<UserInterestBO> userInterestBOS=new ArrayList<UserInterestBO>();//用户兴趣
 
