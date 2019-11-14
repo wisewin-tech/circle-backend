@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 好友 -->
+<mapper namespace="com.wisewin.backend.dao.MatchingFriendEdDAO">
+
+    <select id="getFriendList" resultType="com.wisewin.backend.entity.bo.MatchingFriendEdBO" parameterType="java.util.Map">
+        select m.*,u.phone as userPhone,f.phone as friedPhone
+        from ci_matching_friended as m,ci_user as u,ci_user as f
+        where m.user_id=u.id and m.friends_id=f.id
+        <if test="userId!=null and userId!=''">
+            and (m.user_id=#{userId} or m.friends_id=#{userId})
+        </if>
+        <if test="model!=null and model!=''">
+            and (m.model=#{model})
+        </if>
+        <if test="friendsStatus!=null and friendsStatus!=''">
+            and (friends_status=#{friendsStatus})
+        </if>
+        order by m.create_time desc
+    </select>
+    <select id="getFriendListCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1)
+        from ci_matching_friended as m,ci_user as u,ci_user as f
+        where m.user_id=u.id and m.friends_id=f.id
+        <if test="userId!=null and userId!=''">
+            and (m.user_id=#{userId} or m.friends_id=#{userId})
+        </if>
+        <if test="model!=null and model!=''">
+            and (m.model=#{model})
+        </if>
+        <if test="friendsStatus!=null and friendsStatus!=''">
+            and (friends_status=#{friendsStatus})
+        </if>
+    </select>
+
+</mapper>

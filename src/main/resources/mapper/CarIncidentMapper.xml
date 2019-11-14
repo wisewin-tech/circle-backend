@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 事件 -->
+<mapper namespace="com.wisewin.backend.dao.CarIncidentDAO">
+
+    <select id="getCarIncident" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.CarIncidentBO">
+        select ci_car_incident.*,ci_user.phone from ci_car_incident,ci_user
+        where ci_car_incident.user_id=ci_user.id
+        <if test="userId!=null and userId!=''">
+            and ci_car_incident.user_id=#{userId}
+        </if>
+        <if test="phone!=null and phone!=''">
+            and ci_user.phone like '%${phone}%'
+        </if>
+        <if test="afterTime!=null and afterTime!=''">
+            and ci_car_incident.creat_time&gt;=#{afterTime}
+        </if>
+        <if test="beforeTime!=null and beforeTime!=''">
+            and ci_car_incident.creat_time&lt;#{beforeTime}
+        </if>
+        <if test="origin!=null and origin!=''">
+            AND ci_car_incident.origin like '%${origin}%'
+        </if>
+        <if test="destination!=null and destination!=''">
+            AND ci_car_incident.destination like '%${destination}%'
+        </if>
+        <if test="incidentStatus!=null and incidentStatus!=''">
+            AND ci_car_incident.incidentStatus=#{incidentStatus}
+        </if>
+        order by ci_car_incident.create_time desc
+        limit #{pageSize} offset #{pageOffset}
+    </select>
+
+    <select id="getCarIncidentCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from ci_car_incident,ci_user
+        where ci_car_incident.user_id=ci_user.id
+        <if test="userId!=null and userId!=''">
+            and ci_car_incident.user_id=#{userId}
+        </if>
+        <if test="phone!=null and phone!=''">
+            and ci_user.phone like '%${phone}%'
+        </if>
+        <if test="afterTime!=null and afterTime!=''">
+            and ci_car_incident.creat_time&gt;=#{afterTime}
+        </if>
+        <if test="beforeTime!=null and beforeTime!=''">
+            and ci_car_incident.creat_time&lt;#{beforeTime}
+        </if>
+        <if test="origin!=null and origin!=''">
+            AND ci_car_incident.origin like '%${origin}%'
+        </if>
+        <if test="destination!=null and destination!=''">
+            AND ci_car_incident.destination like '%${destination}%'
+        </if>
+        <if test="incidentStatus!=null and incidentStatus!=''">
+            AND ci_car_incident.incidentStatus=#{incidentStatus}
+        </if>
+    </select>
+
+</mapper>

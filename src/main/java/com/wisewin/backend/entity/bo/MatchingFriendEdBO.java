@@ -7,12 +7,30 @@ import java.util.Date;
 public class MatchingFriendEdBO extends BaseModel {
     private Long id;//好友关系表
     private Long userId;//用户id
+    private String userPhone;
+    private String friendPhone;
     private Long friendsId;//朋友id
     private String model;//模式
     private String friendsStatus;//状态
     private Date createTime;//创建时间
     private Date closeTime;//结束时间
     private String remark;//备注
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    public String getFriendPhone() {
+        return friendPhone;
+    }
+
+    public void setFriendPhone(String friendPhone) {
+        this.friendPhone = friendPhone;
+    }
 
     public Long getId() {
         return id;
