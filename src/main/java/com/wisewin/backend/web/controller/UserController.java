@@ -195,38 +195,23 @@ public class UserController extends BaseCotroller {
      * 修改机器人信息
      */
     @RequestMapping("/updRobotUser")
-    public void updRobotUser(UserBO userParam,HttpServletRequest request, HttpServletResponse response){
-        if (userParam == null) {
+    public void updRobotUser(String userBOJson,HttpServletRequest request, HttpServletResponse response){
+        if (userBOJson == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
-        userService.updRobotUser(userParam);
+        List<UserBO> userBOS=JsonUtils.getJSONtoList(userBOJson,UserBO.class);
+        if(userBOS==null||userBOS.size()==0||userBOS.get(0)==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        userService.updRobotUser(userBOS.get(0));
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);
         return;
     }
 
-    /**
-     * 修改机器人模式信息
-     */
-    @RequestMapping("/updRobotModel")
-    public void updRobotModel(String modelBOJson,HttpServletRequest request, HttpServletResponse response){
-        if (modelBOJson == null) {
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeJsonPrint(response, result);
-            return;
-        }
-        List<ModelBO> modelBOS=JsonUtils.getJSONtoList(modelBOJson,ModelBO.class);
-        if(modelBOS==null||modelBOS.size()==0||modelBOS.get(0)==null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000002"));
-            super.safeJsonPrint(response, result);
-            return;
-        }
-        userService.updRobotModel(modelBOS.get(0));
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
-        super.safeJsonPrint(response, result);
-        return;
-    }
 
 }

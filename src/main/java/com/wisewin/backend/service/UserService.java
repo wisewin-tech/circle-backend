@@ -144,6 +144,9 @@ public class UserService {
     //修改机器人信息
     public void updRobotUser(UserBO userParam) {
         userDAO.updateUser(userParam);
+        for (ModelBO modelBO:userParam.getModelBOList()) {
+            this.updRobotModel(modelBO);
+        }
     }
 
     //修改机器人模式信息
