@@ -29,20 +29,16 @@ public class MatchingFriendEdController extends BaseCotroller {
     MatchingFriendEdService matchingFriendEdService;
 
     @RequestMapping("/getFriendsList")
-    public void getFriendsList(Long userId, Integer pageNo, Integer pageSize, HttpServletRequest request, HttpServletResponse response) {
-        //验证参数
-        if (userId == null) {
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeJsonPrint(response, result);
-            return;
-        }
+    public void getFriendsList(Long userId,String model,String friendsStatus, Integer pageNo, Integer pageSize, HttpServletRequest request, HttpServletResponse response) {
         //查询
         QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
         Map<String, Object> queryMap = new HashMap<String, Object>();
         queryMap.put("pageOffset", queryInfo.getPageOffset());
         queryMap.put("pageSize", queryInfo.getPageSize());
-        queryMap.put("model", CircleConstants.CAR.getValue());
+        queryMap.put("model", model);
         queryMap.put("userId",userId);
+        queryMap.put("friendsStatus",friendsStatus);
+
         Integer count = matchingFriendEdService.getFriendListCount(queryMap);
         List<MatchingFriendEdBO> matchingFriendEdBOS = new ArrayList<MatchingFriendEdBO>();
         if (count != 0) {
