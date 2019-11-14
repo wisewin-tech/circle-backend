@@ -83,6 +83,12 @@ public class UserService {
         userDAO.updateUser(userParam);
     }
 
+    //查询机器人
+    public void addRobotUser(Long id) {
+        UserBO userBO=userDAO.getUserById(id);
+
+    }
+
     //添加机器人
     public void addRobotUser(UserBO userBO) {
         //添加user

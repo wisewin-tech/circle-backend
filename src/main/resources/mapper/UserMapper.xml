@@ -4,6 +4,10 @@
 
 <!-- 【用户】 -->
 <mapper namespace="com.wisewin.backend.dao.UserDAO">
+    <!--查询用户信息-->
+    <select id="getUserById" resultType="com.wisewin.backend.entity.bo.UserBO" parameterType="java.lang.Long">
+        select * from ci_user where id=#{id}
+    </select>
     <!--添加user-->
     <insert id="addUser" parameterType="com.wisewin.backend.entity.bo.UserBO" useGeneratedKeys="true" keyProperty="id">
         insert into ci_user

@@ -9,7 +9,7 @@
         insert into sys_dictionary_value (kid,value) values (#{kid},#{value})
     </insert>
     <select id="getDIcs"  resultType="com.wisewin.backend.entity.bo.DictionaryValueBO">
-        select sys_dictionary_value.*,sys_dictionary.name from sys_dictionary_value,sys_dictionary
+        select sys_dictionary_value.*,sys_dictionary.key from sys_dictionary_value,sys_dictionary
         where sys_dictionary_value.kid=sys_dictionary.id
             <if test="kid!=null ">
                 and kid=#{kid}

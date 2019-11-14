@@ -13,7 +13,8 @@ public interface UserDAO {
     //添加模块信息
     Integer addModel(ModelBO modelBO);
 
-
+    //查询用户信息
+    UserBO getUserById(Long id);
     //查询用户列表信息
     List<UserBO> getUserList(Map<String, Object> map);
     //查询用户列表条数
