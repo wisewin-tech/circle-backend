@@ -84,9 +84,19 @@ public class UserService {
     }
 
     //查询机器人
-    public void addRobotUser(Long id) {
+    public UserBO getRobotUser(Long id) {
         UserBO userBO=userDAO.getUserById(id);
-
+        List<ModelBO> modelBOList = userDAO.getModelByUserId(id);
+        for (ModelBO modelBO : modelBOList) {
+            if (modelBO != null && modelBO.getName() != null) {
+                //每个模式下的背景图
+                modelBO.setPictureBOList(userPictureDAO.getPictureByModelId(modelBO.getId()));
+                //每个模式下的兴趣分类，兴趣分类下包括兴趣
+                modelBO.setInterestTypeBOList(interestTypeDAO.getInterestTypeList(modelBO.getId()));
+            }
+        }
+        userBO.setModelBOList(modelBOList);
+        return userBO;
     }
 
     //添加机器人
