@@ -151,18 +151,42 @@ public class UserController extends BaseCotroller {
         return;
     }
 
+
     /**
-     * 添加机器人
+     * 查询机器人
      */
-    @RequestMapping("/addRobotUser")
-    @ResponseBody
-    public void addRobotUser(@RequestBody UserBO userBO, HttpServletRequest request, HttpServletResponse response){
-        if (userBO == null) {
+    @RequestMapping("/getRobotUser")
+    public void getRobotUser(Long userId, HttpServletRequest request, HttpServletResponse response){
+        if (userId == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
-        userService.addRobotUser(userBO);
+
+        //userService.addRobotUser(userBOS.get(0));
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
+        super.safeJsonPrint(response, result);
+        return;
+    }
+
+
+    /**
+     * 添加机器人
+     */
+    @RequestMapping("/addRobotUser")
+    public void addRobotUser(String userBOJson, HttpServletRequest request, HttpServletResponse response){
+        if (userBOJson == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        List<UserBO> userBOS=JsonUtils.getJSONtoList(userBOJson,UserBO.class);
+        if(userBOS==null||userBOS.size()==0||userBOS.get(0)==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000002"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        userService.addRobotUser(userBOS.get(0));
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);
         return;
@@ -188,14 +212,19 @@ public class UserController extends BaseCotroller {
      * 修改机器人模式信息
      */
     @RequestMapping("/updRobotModel")
-    @ResponseBody
-    public void updRobotModel(@RequestBody ModelBO modelBO,HttpServletRequest request, HttpServletResponse response){
-        if (modelBO == null||modelBO.getId()==null) {
+    public void updRobotModel(String modelBOJson,HttpServletRequest request, HttpServletResponse response){
+        if (modelBOJson == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
-        userService.updRobotModel(modelBO);
+        List<ModelBO> modelBOS=JsonUtils.getJSONtoList(modelBOJson,ModelBO.class);
+        if(modelBOS==null||modelBOS.size()==0||modelBOS.get(0)==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000002"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        userService.updRobotModel(modelBOS.get(0));
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);
         return;

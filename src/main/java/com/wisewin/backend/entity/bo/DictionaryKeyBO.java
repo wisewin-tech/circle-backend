@@ -4,7 +4,7 @@ package com.wisewin.backend.entity.bo;
 public class DictionaryKeyBO {
 
     private Integer id;
-    private String name;
+    private String key;
 
     public Integer getId() {
         return id;
@@ -14,11 +14,4 @@ public class DictionaryKeyBO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

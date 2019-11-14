@@ -6,17 +6,17 @@
 <mapper namespace="com.wisewin.backend.dao.DictionaryValueDAO">
 
     <insert id="addDic" parameterType="com.wisewin.backend.entity.bo.DictionaryValueBO">
-        insert into ce_dictionary_value (kid,value,sort) values (#{kid},#{value},#{sort})
+        insert into sys_dictionary_value (kid,value) values (#{kid},#{value})
     </insert>
     <select id="getDIcs"  resultType="com.wisewin.backend.entity.bo.DictionaryValueBO">
-        select ce_dictionary_value.*,ce_dictionary.name from ce_dictionary_value,ce_dictionary
-        where ce_dictionary_value.kid=ce_dictionary.id
+        select sys_dictionary_value.*,sys_dictionary.name from sys_dictionary_value,sys_dictionary
+        where sys_dictionary_value.kid=sys_dictionary.id
             <if test="kid!=null ">
                 and kid=#{kid}
             </if>
     </select>
     <update id="updDic" parameterType="com.wisewin.backend.entity.bo.DictionaryValueBO">
-        update ce_dictionary_value
+        update sys_dictionary_value
         <set>
             <if test="kid!=null and kid!=''">
                 kid=#{kid},
@@ -28,7 +28,7 @@
         where id=#{id}
     </update>
     <delete id="delDic">
-        delete from ce_dictionary_value
+        delete from sys_dictionary_value
         where
         <foreach collection="idArr" item="id"  separator="or">
             id=#{id}
@@ -36,6 +36,6 @@
     </delete>
     <!--查询valueid-->
     <select id="getIdByValue" resultType="java.lang.Integer" parameterType="java.lang.String">
-        SELECT id FROM ce_dictionary_value WHERE value= #{value}
+        SELECT id FROM sys_dictionary_value WHERE value= #{value}
     </select>
 </mapper>

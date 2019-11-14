@@ -6,7 +6,7 @@
 <mapper namespace="com.wisewin.backend.dao.DictionaryDAO">
 
     <select id="getDictionaryBOs" resultType="com.wisewin.backend.entity.bo.DictionaryKeyBO">
-        select * from ce_dictionary
+        select * from sys_dictionary
     </select>
 
 </mapper>

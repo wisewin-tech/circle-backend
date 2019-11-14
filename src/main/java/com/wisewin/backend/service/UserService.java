@@ -88,6 +88,8 @@ public class UserService {
         //添加user
         userBO.setRobotStatus("yes");
         userDAO.addUser(userBO);
+        System.out.println(userBO.getModelBOList());
+        System.out.println(userBO.getModelBOList().get(0).getPictureBOList());
         //循环添加模块信息
         for (ModelBO modelBO : userBO.getModelBOList()) {
             modelBO.setUserId(userBO.getId());
