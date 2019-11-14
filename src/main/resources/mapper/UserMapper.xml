@@ -20,11 +20,11 @@
         insert into ci_model
         (model,sex,birthday,constellation,height,weight,education,birthplace,
         sex_status,car_certification_status,be_like_count,
-        be_super_like_count,super_like_count,name)
+        be_super_like_count,super_like_count,name,user_id,describe)
         values
         (#{model},#{sex},#{birthday},#{constellation},#{height},#{weight},#{education},#{birthplace},
         #{sexStatus},#{carCertificationStatus},#{beLikeCount},
-        #{beSuperLikeCount},#{superLikeCount},#{name})
+        #{beSuperLikeCount},#{superLikeCount},#{name},#{userId},#{describe})
     </insert>
     <!--修改模块信息-->
     <update id="updateUserModel" parameterType="com.wisewin.backend.entity.bo.ModelBO">

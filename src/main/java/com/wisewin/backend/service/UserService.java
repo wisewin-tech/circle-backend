@@ -86,7 +86,11 @@ public class UserService {
     //查询机器人
     public UserBO getRobotUser(Long id) {
         UserBO userBO=userDAO.getUserById(id);
+        System.out.println(id);
         List<ModelBO> modelBOList = userDAO.getModelByUserId(id);
+        System.out.println(modelBOList.size());
+        System.out.println(modelBOList.size());
+        System.out.println(modelBOList.size());
         for (ModelBO modelBO : modelBOList) {
             if (modelBO != null && modelBO.getName() != null) {
                 //每个模式下的背景图
@@ -104,10 +108,9 @@ public class UserService {
         //添加user
         userBO.setRobotStatus("yes");
         userDAO.addUser(userBO);
-        System.out.println(userBO.getModelBOList());
-        System.out.println(userBO.getModelBOList().get(0).getPictureBOList());
         //循环添加模块信息
         for (ModelBO modelBO : userBO.getModelBOList()) {
+            System.out.println("============");
             modelBO.setUserId(userBO.getId());
             userDAO.addModel(modelBO);
             //模块信息中循环添加背景图

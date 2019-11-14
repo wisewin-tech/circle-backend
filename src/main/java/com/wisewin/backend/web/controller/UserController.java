@@ -181,7 +181,7 @@ public class UserController extends BaseCotroller {
         }
         List<UserBO> userBOS=JsonUtils.getJSONtoList(userBOJson,UserBO.class);
         if(userBOS==null||userBOS.size()==0||userBOS.get(0)==null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000002"));
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002"));
             super.safeJsonPrint(response, result);
             return;
         }
