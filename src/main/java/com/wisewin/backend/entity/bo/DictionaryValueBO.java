@@ -4,8 +4,16 @@ package com.wisewin.backend.entity.bo;
 public class DictionaryValueBO {
     private Integer id;
     private Integer kid;
+    private String key;
     private String value;
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public Integer getId() {
         return id;
