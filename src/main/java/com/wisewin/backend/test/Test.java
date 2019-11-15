@@ -1,6 +1,9 @@
 package com.wisewin.backend.test;
 
 
+import com.wisewin.backend.entity.bo.UserBO;
+import com.wisewin.backend.util.JsonUtils;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,13 +15,6 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) {
-        List list1 = new ArrayList();
-        list1.add("aaa");
-        List list2 = new ArrayList();
-        list1.add("aaa");
-
-        String a = "ssssss";
-        System.out.println(a);
     }
 
 

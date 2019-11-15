@@ -15,10 +15,10 @@
             and ci_user.phone like '%${phone}%'
         </if>
         <if test="afterTime!=null and afterTime!=''">
-            and ci_car_incident.creat_time&gt;=#{afterTime}
+            and ci_car_incident.create_time&gt;=#{afterTime}
         </if>
         <if test="beforeTime!=null and beforeTime!=''">
-            and ci_car_incident.creat_time&lt;#{beforeTime}
+            and ci_car_incident.create_time&lt;#{beforeTime}
         </if>
         <if test="origin!=null and origin!=''">
             AND ci_car_incident.origin like '%${origin}%'
@@ -27,7 +27,7 @@
             AND ci_car_incident.destination like '%${destination}%'
         </if>
         <if test="incidentStatus!=null and incidentStatus!=''">
-            AND ci_car_incident.incidentStatus=#{incidentStatus}
+            AND ci_car_incident.incident_status=#{incidentStatus}
         </if>
         order by ci_car_incident.create_time desc
         limit #{pageSize} offset #{pageOffset}
@@ -43,10 +43,10 @@
             and ci_user.phone like '%${phone}%'
         </if>
         <if test="afterTime!=null and afterTime!=''">
-            and ci_car_incident.creat_time&gt;=#{afterTime}
+            and ci_car_incident.create_time&gt;=#{afterTime}
         </if>
         <if test="beforeTime!=null and beforeTime!=''">
-            and ci_car_incident.creat_time&lt;#{beforeTime}
+            and ci_car_incident.create_time&lt;#{beforeTime}
         </if>
         <if test="origin!=null and origin!=''">
             AND ci_car_incident.origin like '%${origin}%'
@@ -55,7 +55,7 @@
             AND ci_car_incident.destination like '%${destination}%'
         </if>
         <if test="incidentStatus!=null and incidentStatus!=''">
-            AND ci_car_incident.incidentStatus=#{incidentStatus}
+            AND ci_car_incident.incident_status=#{incidentStatus}
         </if>
     </select>
 
