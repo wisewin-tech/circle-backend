@@ -107,10 +107,10 @@ public class UserService {
     public void addRobotUser(UserBO userBO) {
         //添加user
         userBO.setRobotStatus("yes");
+        userBO.setUserStatus("no");
         userDAO.addUser(userBO);
         //循环添加模块信息
         for (ModelBO modelBO : userBO.getModelBOList()) {
-            System.out.println("============");
             modelBO.setUserId(userBO.getId());
             userDAO.addModel(modelBO);
             //模块信息中循环添加背景图

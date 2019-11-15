@@ -184,7 +184,19 @@ public class UserController extends BaseCotroller {
             super.safeJsonPrint(response, result);
             return;
         }
-        userService.addRobotUser(userBOS.get(0));
+        UserBO userBO=userBOS.get(0);
+        //判断手机号是否可用
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("phone",userBO.getPhone());
+        List<UserBO> userBOSResult=userService.getUserList(map);
+        if(userBOSResult!=null&&userBOSResult.size()>0){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000007"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+
+
+        userService.addRobotUser(userBO);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, result);
         return;
