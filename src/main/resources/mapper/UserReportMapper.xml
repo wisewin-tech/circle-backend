@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 好友 -->
+<mapper namespace="com.wisewin.backend.dao.UserReportDAO">
+
+    <select id="getUserReportList" resultMap="getUserReportListMap">
+        select m.*,u.phone as userPhone,f.phone as beReportPhone,p.url
+        from ci_user_report as m,ci_user as u,ci_user as f,ci_user_report_pic as p
+        where m.user_id=u.id and m.be_report_user_id=f.id and m.id=p.report_id
+        <if test="status!=null and status!=''">
+            and status=#{status}
+        </if>
+        order by m.create_time desc
+        limit #{pageSize} offset #{pageOffset}
+    </select>
+    <resultMap id="getUserReportListMap" type="com.wisewin.backend.entity.bo.UserReportBO">
+        <result column="id" property="id"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="userPhone" property="userPhone"></result>
+        <result column="be_report_user_id" property="beReportUserId"></result>
+        <result column="beReportPhone" property="beReportPhone"></result>
+        <result column="status" property="status"></result>
+        <result column="reason" property="reason"></result>
+        <result column="describe" property="describe"></result>
+        <result column="createTime" property="createTime"></result>
+        <collection property="userReportPicBOS" ofType="com.wisewin.backend.entity.bo.UserReportPicBO">
+            <result column="url" property="url"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getUserReportListCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1)
+        from ci_user_report as m,ci_user as u,ci_user as f
+        where m.user_id=u.id and m.be_report_user_id=f.id
+        <if test="status!=null and status!=''">
+            and status=#{status}
+        </if>
+    </select>
+
+    <update id="updUserReport" parameterType="com.wisewin.backend.entity.bo.UserReportBO">
+        update ci_user_report set status=#{status} where id=#{id}
+    </update>
+</mapper>

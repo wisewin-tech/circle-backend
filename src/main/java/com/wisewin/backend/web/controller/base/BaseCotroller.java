@@ -221,14 +221,11 @@ public class BaseCotroller {
 
     /** 获取登录用户*/
     public AdminBO getLoginUser (HttpServletRequest request ) {
-//        Object obj=this.getSession(request, SysConstants.CURRENT_LOGIN_USER);
-//        if(obj==null){
-//            return null;
-//        }
-//        return (AdminBO) obj ;
-        AdminBO adminBO=new AdminBO();
-        adminBO.setId(1);
-        return  adminBO;
+        Object obj=this.getSession(request, SysConstants.CURRENT_LOGIN_USER);
+        if(obj==null){
+            return null;
+        }
+        return (AdminBO) obj ;
     }
 
     /** putLoginUser*/
