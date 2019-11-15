@@ -162,8 +162,8 @@
     <select id="getUserCertificationCount" parameterType="java.lang.String"
             resultType="java.lang.Integer">
         select count(1)
-        from ci_user_certification,sys_admin
-        where sys_admin.id=ci_user_certification.admin_id
+        from ci_user_certification,sys_admin,ci_user as u
+        where sys_admin.id=ci_user_certification.admin_id and u.id=ci_user_certification.user_id
         <if test="status!=null and status!=''">
             and ci_user_certification.status=#{status}
         </if>

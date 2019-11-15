@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.wisewin.backend.dao.CarCertificationDAO">
+
+    <select id="getCarCertificationList" resultType="com.wisewin.backend.entity.bo.CarCertificationBO">
+        select ci_car_certification.*,ci_user.phone
+        from ci_car_certification,ci_user
+        where ci_user.id=ci_car_certification.user_id
+        <if test="status!=null and status!=''">
+            and ci_car_certification.car_certification_status=#{status}
+        </if>
+        <if test="afterTime!=null and afterTime!=''">
+            and ci_car_certification.create_time&gt;=#{afterTime}
+        </if>
+        <if test="beforeTime!=null and beforeTime!=''">
+            and ci_car_certification.create_time&lt;#{beforeTime}
+        </if>
+        order by ci_car_certification.create_time desc
+        limit #{pageSize} offset #{pageOffset}
+    </select>
+
+    <select id="getCarCertificationListCount" resultType="java.lang.Integer">
+        select count(1)
+        from ci_car_certification,ci_user
+        where ci_user.id=ci_car_certification.user_id
+        <if test="status!=null and status!=''">
+            and ci_car_certification.car_certification_status=#{status}
+        </if>
+        <if test="afterTime!=null and afterTime!=''">
+            and ci_car_certification.create_time&gt;=#{afterTime}
+        </if>
+        <if test="beforeTime!=null and beforeTime!=''">
+            and ci_car_certification.create_time&lt;#{beforeTime}
+        </if>
+    </select>
+
+    <update id="updCarCertification" parameterType="com.wisewin.backend.entity.bo.CarCertificationBO">
+        update ci_car_certification set car_certification_status=#{carCertificationStatus} where id=#{id}
+    </update>
+</mapper>
