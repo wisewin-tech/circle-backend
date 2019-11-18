@@ -24,7 +24,7 @@ public class UserReportController extends BaseCotroller {
     UserReportService userReportService;
 
     //查询举报列表
-    @RequestMapping("/getCarIncidentList")
+    @RequestMapping("/getUserReportList")
     public void getCarIncidentList(String status, Integer pageNo, Integer pageSize, Date beforeTime, Date afterTime, HttpServletRequest request, HttpServletResponse response) {
         //验证参数
         QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);

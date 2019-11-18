@@ -153,10 +153,10 @@ public class UserService {
     public void updRobotModel(ModelBO modelBO) {
         //修改模式信息
         userDAO.updateUserModel(modelBO);
-        //修改模式下的背景图信息
+        //重新添加模式下的背景图信息
         userPictureDAO.delUserPicture(modelBO.getId());
         userPictureDAO.addUserPicture(modelBO.getPictureBOList());
-        //修改模式下的兴趣信息
+        //重新添加模式下的兴趣信息
         interestDAO.delUserInterest(modelBO.getId());
         ArrayList<UserInterestBO> userInterestBOS=new ArrayList<UserInterestBO>();
         for (InterestTypeBO interestTypeBO : modelBO.getInterestTypeBOList()) {
