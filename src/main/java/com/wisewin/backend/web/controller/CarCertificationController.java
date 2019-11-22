@@ -16,9 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-/**
- * 举报
- */
 @Controller
 @RequestMapping("/CarCertification")
 public class CarCertificationController extends BaseCotroller {
@@ -51,7 +48,6 @@ public class CarCertificationController extends BaseCotroller {
             super.safeJsonPrint(response, result);
             return;
         }
-        //查询
         carCertificationService.updCarCertification(carCertificationBO);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, json);
