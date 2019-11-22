@@ -16,7 +16,8 @@
         (#{phone},#{password},#{latitude},#{longitude},#{certificationStatus},#{carStatus},#{userStatus},#{robotStatus},now())
     </insert>
     <!--添加模块信息-->
-    <insert id="addModel" parameterType="com.wisewin.backend.entity.bo.ModelBO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addModel" parameterType="com.wisewin.backend.entity.bo.ModelBO" useGeneratedKeys="true"
+            keyProperty="id">
         insert into ci_model
         (model,sex,birthday,constellation,height,weight,education,birthplace,
         sex_status,car_certification_status,be_like_count,
@@ -185,5 +186,49 @@
         where id=#{id}
     </update>
 
+    <select id="getUserAllCount" resultType="java.lang.Long">
+        select count(1) from ci_user where robot_status='no'
+    </select>
+    <select id="getUserRegisteredCount" resultType="java.lang.Long">
+        select count(1) from ci_user where robot_status='no'
+        <if test="year!=null and year!=''">
+            and extract(year from create_time)=#{year}
+        </if>
+        <if test="month!=null and month!=''">
+            and extract(month from create_time)=#{month}
+        </if>
+        <if test="day!=null and day!=''">
+            and extract(day from create_time)=#{day}
+        </if>
+    </select>
+    <select id="getUserActiveCount" resultType="java.lang.Long">
+        select count(1) from ci_user_active
+        <where>
+            <if test="year!=null and year!=''">
+                and extract(year from create_time)=#{year}
+            </if>
+            <if test="month!=null and month!=''">
+                and extract(month from create_time)=#{month}
+            </if>
+            <if test="day!=null and day!=''">
+                and extract(day from create_time)=#{day}
+            </if>
+        </where>
+    </select>
+    <select id="getMatchingCount" resultType="com.wisewin.backend.entity.bo.StatisticalBO">
+        select model as name,count(1) as value from ci_matching_friended
+        <where>
+            <if test="year!=null and year!=''">
+                and extract(year from create_time)=#{year}
+            </if>
+            <if test="month!=null and month!=''">
+                and extract(month from create_time)=#{month}
+            </if>
+            <if test="day!=null and day!=''">
+                and extract(day from create_time)=#{day}
+            </if>
+        </where>
+        group by model
+    </select>
 
 </mapper>

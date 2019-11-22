@@ -19,6 +19,15 @@ public class CarCertificationBO extends BaseModel {
     private String carCertificationStatus;//是否通过
     private Date createTime;
     private Date updateTime;
+    private String carType;//车辆类型(car代表汽车，mot代表摩托车)
+
+    public String getCarType() {
+        return carType;
+    }
+
+    public void setCarType(String carType) {
+        this.carType = carType;
+    }
 
     public String getPhone() {
         return phone;
