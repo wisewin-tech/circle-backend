@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class DateUtils {
 
@@ -568,10 +569,16 @@ public class DateUtils {
     
 	public static void main(String[] args) {
 
-		Date date1 = DateUtils.parseDate("2016-05-18", DATE_PATTERN);
-		Date date2 = DateUtils.parseDate("2016-12-31", DATE_PATTERN);
+		List<String> strings=getMonthFullDay(2019,11,1);
+		for (String st:strings
+			 ) {
+			System.out.println(st);
 
-		System.out.println(DateUtils.getQuot(date1, date2));
+		}
+//		Date date1 = DateUtils.parseDate("2016-05-18", DATE_PATTERN);
+//		Date date2 = DateUtils.parseDate("2016-12-31", DATE_PATTERN);
+//
+//		System.out.println(DateUtils.getQuot(date1, date2));
 //		System.out.println(DateUtils.getAppointDate(DateUtils.parseDate("2015-01-04", DATE_PATTERN), 100));
 
 		/***
@@ -589,4 +596,51 @@ public class DateUtils {
 		String dayBefore=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 		return dayBefore;
     }
+
+
+	public static String getLastDay(int year,int month){
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DAY_OF_MONTH, 0);
+		return format(cal.getTime());
+	}
+    //获取某一个月中每一天的日期集合
+	public static List<String> getMonthFullDay(int year , int month,int day){
+		List<String> fullDayList = new ArrayList<String>();
+		if(day <= 0 ) day = 1;
+		Calendar cal = Calendar.getInstance();// 获得当前日期对象
+		cal.clear();// 清除信息
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month - 1);// 1月从0开始
+		cal.set(Calendar.DAY_OF_MONTH, day);// 设置为1号,当前日期既为本月第一天
+		int count = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		for (int j = 0; j <= (count-1);) {
+			if(format(cal.getTime()).equals(getLastDay(year, month)))
+				break;
+			cal.add(Calendar.DAY_OF_MONTH, j == 0 ? +0 : +1);
+			j++;
+			cal.setTime(cal.getTime());
+			fullDayList.add(cal.get(Calendar.DATE)+"");//获取日
+		}
+		return fullDayList;
+	}
+
+	//获取一年中12个月
+	public static List<String> getMonthList(){
+    	List<String> list=new ArrayList<String>();
+    	list.add("1");
+    	list.add("2");
+    	list.add("3");
+    	list.add("4");
+    	list.add("5");
+    	list.add("6");
+    	list.add("7");
+    	list.add("8");
+    	list.add("9");
+    	list.add("10");
+    	list.add("11");
+    	list.add("12");
+    	return list;
+	}
 }

@@ -189,45 +189,87 @@
     <select id="getUserAllCount" resultType="java.lang.Long">
         select count(1) from ci_user where robot_status='no'
     </select>
-    <select id="getUserRegisteredCount" resultType="java.lang.Long">
-        select count(1) from ci_user where robot_status='no'
-        <if test="year!=null and year!=''">
+
+    <select id="getUserRegisteredCount" resultType="com.wisewin.backend.entity.bo.StatisticalBO">
+        select count(1) as value
+        <if test="type=='year'">
+            ,extract(year from create_time) as year
+        </if>
+        <if test="type=='month'">
+            ,extract(year from create_time) as year
+            ,extract(month from create_time) as month
+        </if>
+        <if test="type=='day'">
+            ,extract(year from create_time) as year
+            ,extract(month from create_time) as month
+            ,extract(day from create_time) as day
+        </if>
+
+        from ci_user where robot_status='no'
+
+        <if test="type=='day' or type=='month'">
             and extract(year from create_time)=#{year}
         </if>
-        <if test="month!=null and month!=''">
+        <if test="type=='day'">
             and extract(month from create_time)=#{month}
         </if>
-        <if test="day!=null and day!=''">
-            and extract(day from create_time)=#{day}
+
+        <if test="type=='year'">
+            group by year
+        </if>
+        <if test="type=='month'">
+            group by year,month
+        </if>
+        <if test="type=='day'">
+            group by year,month,day
         </if>
     </select>
-    <select id="getUserActiveCount" resultType="java.lang.Long">
-        select count(1) from ci_user_active
+
+    <select id="getUserActiveCount" resultType="com.wisewin.backend.entity.bo.StatisticalBO">
+        select count(1) as value
+        <if test="type=='year'">
+            ,extract(year from create_time) as year
+        </if>
+        <if test="type=='month'">
+            ,extract(year from create_time) as year
+            ,extract(month from create_time) as month
+        </if>
+        <if test="type=='day'">
+            ,extract(year from create_time) as year
+            ,extract(month from create_time) as month
+            ,extract(day from create_time) as day
+        </if>
+
+        from ci_user_active
         <where>
-            <if test="year!=null and year!=''">
+            <if test="type=='day' or type=='month'">
                 and extract(year from create_time)=#{year}
             </if>
-            <if test="month!=null and month!=''">
+            <if test="type=='day'">
                 and extract(month from create_time)=#{month}
             </if>
-            <if test="day!=null and day!=''">
-                and extract(day from create_time)=#{day}
-            </if>
         </where>
+
+        <if test="type=='year'">
+            group by year
+        </if>
+        <if test="type=='month'">
+            group by year,month
+        </if>
+        <if test="type=='day'">
+            group by year,month,day
+        </if>
     </select>
+
     <select id="getMatchingCount" resultType="com.wisewin.backend.entity.bo.StatisticalBO">
         select model as name,count(1) as value from ci_matching_friended
-        <where>
-            <if test="year!=null and year!=''">
-                and extract(year from create_time)=#{year}
-            </if>
-            <if test="month!=null and month!=''">
-                and extract(month from create_time)=#{month}
-            </if>
-            <if test="day!=null and day!=''">
-                and extract(day from create_time)=#{day}
-            </if>
-        </where>
+        where extract(year from create_time)=#{year}
+        <if test="type=='month' or type=='day'">
+            and extract(month from create_time)=#{month}
+        </if>
+        <if test="type=='day'">
+            and extract(day from create_time)=#{day}
+        </if>
         group by model
     </select>
 

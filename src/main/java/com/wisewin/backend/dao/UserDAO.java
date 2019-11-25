@@ -36,9 +36,9 @@ public interface UserDAO {
     //查询总用户数
     Long getUserAllCount();
     //根据日期查询注册数
-    Long getUserRegisteredCount(@Param("year")Integer year,@Param("month")Integer month,@Param("day")Integer day);
+    List<StatisticalBO> getUserRegisteredCount(@Param("year")Integer year,@Param("month")Integer month,@Param("day")Integer day,@Param("type")String type);
     //根据日期查询活跃数
-    Long getUserActiveCount(@Param("year")Integer year,@Param("month")Integer month,@Param("day")Integer day);
+    List<StatisticalBO> getUserActiveCount(@Param("year")Integer year,@Param("month")Integer month,@Param("day")Integer day,@Param("type")String type);
     //分组查询每个模式下的匹配数
-    List<StatisticalBO> getMatchingCount(@Param("year")Integer year,@Param("month")Integer month,@Param("day")Integer day);
+    List<StatisticalBO> getMatchingCount(@Param("year")Integer year,@Param("month")Integer month,@Param("day")Integer day,@Param("type")String type);
 }

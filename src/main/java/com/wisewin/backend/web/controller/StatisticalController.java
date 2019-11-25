@@ -20,13 +20,13 @@ public class StatisticalController extends BaseCotroller {
     StatisticalService statisticalService;
 
     @RequestMapping("/getStatistical")
-    public void getStatistical(Date date, HttpServletResponse response){
+    public void getStatistical(Date date,String type, HttpServletResponse response){
         if (date == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(statisticalService.getStatisticalMap(date)));
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(statisticalService.getStatisticalMap(date,type)));
         super.safeJsonPrint(response, result);
         return;
     }
