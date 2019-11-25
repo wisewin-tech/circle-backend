@@ -21,17 +21,45 @@ public class StatisticalService {
     @Resource
     UserDAO userDAO;
 
-    public Map<String, List<StatisticalBO>> getStatisticalMap(Date date, String type) {
+    public Map<String, Object> getStatisticalMap(Date date, String type) {
         //获取今天日期
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int year = calendar.get(Calendar.YEAR);//获取年份
         int month = calendar.get(Calendar.MONTH) + 1;//获取月份
         int day = calendar.get(Calendar.DATE);//获取日
-        Map<String, List<StatisticalBO>> map = new HashMap<String, List<StatisticalBO>>();
+        Map<String, Object> map = new HashMap<String, Object>();
 
         //一、分别查询三个模式的匹配情况
-        map.put("matchingStatistical", userDAO.getMatchingCount(year, month, day,type));
+        List<StatisticalBO> matchingStatistical=userDAO.getMatchingCount(year, month, day,type);
+        boolean dateBool=true;
+        boolean friendBool=true;
+        boolean carBool=true;
+        for (StatisticalBO statisticalBO:matchingStatistical) {
+            if(statisticalBO.getName().equals("date")){
+                dateBool=false;
+            }else if(statisticalBO.getName().equals("friend")){
+                friendBool=false;
+            }else if(statisticalBO.getName().equals("car")){
+                carBool=false;
+            }
+        }
+        if(dateBool){
+            StatisticalBO statisticalBO=new StatisticalBO();
+            statisticalBO.setValue(0L);
+            statisticalBO.setName("date");
+        }
+        if(friendBool){
+            StatisticalBO statisticalBO=new StatisticalBO();
+            statisticalBO.setValue(0L);
+            statisticalBO.setName("friend");
+        }
+        if(carBool){
+            StatisticalBO statisticalBO=new StatisticalBO();
+            statisticalBO.setValue(0L);
+            statisticalBO.setName("car");
+        }
+        map.put("matchingStatistical",matchingStatistical );
         //二、查询注册数统计
         List<StatisticalBO> registeredCountList = userDAO.getUserRegisteredCount(year, month, day, type);
         //循环拼接日期,以及容错某个日期人数为0
@@ -42,6 +70,11 @@ public class StatisticalService {
         //循环拼接日期,以及容错某个日期人数为0
         getStatisticalBOList(type,activeCountList,year,month);
         map.put("activeCountList", activeCountList);
+
+        List<String> dayList = DateUtils.getMonthFullDay(year,month,1);//月当中日期集合
+        map.put("dayList",dayList);
+        List<String> monthList = DateUtils.getMonthList();//月集合
+        map.put("monthList",monthList);
         return map;
     }
 
