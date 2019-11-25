@@ -69,13 +69,20 @@ public class StatisticalService {
         getStatisticalBOList(type,activeCountList,year,month);
         map.put("activeCountList", activeCountList);
         if("month".equals(type)){
+            List<String> monthList = DateUtils.getMonthList();//月集合
+            map.put("dayList",monthList);
+        }else if("year".equals(type)){
+            Set<String> set=new HashSet<String>();
+            for (StatisticalBO st :registeredCountList) {
+                set.add(st.getYear());
+            }
+            for (StatisticalBO st :activeCountList) {
+                set.add(st.getYear());
+            }
+            map.put("dayList",set);
+        }else{
             List<String> dayList = DateUtils.getMonthFullDay(year,month,1);//月当中日期集合
             map.put("dayList",dayList);
-        }else if("year".equals(type)){
-            List<String> monthList = DateUtils.getMonthList();//年集合
-            map.put("dayList",monthList);
-        }else{
-            map.put("dayList",new String[]{ String.valueOf(day)});
         }
 
 
