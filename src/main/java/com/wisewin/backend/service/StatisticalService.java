@@ -38,28 +38,26 @@ public class StatisticalService {
         for (StatisticalBO statisticalBO:matchingStatistical) {
             if(statisticalBO.getName().equals("date")){
                 dateBool=false;
+                map.put(statisticalBO.getName(),statisticalBO.getValue());
             }else if(statisticalBO.getName().equals("friend")){
                 friendBool=false;
+                map.put(statisticalBO.getName(),statisticalBO.getValue());
             }else if(statisticalBO.getName().equals("car")){
                 carBool=false;
+                map.put(statisticalBO.getName(),statisticalBO.getValue());
             }
         }
         if(dateBool){
-            StatisticalBO statisticalBO=new StatisticalBO();
-            statisticalBO.setValue(0L);
-            statisticalBO.setName("date");
+            map.put("date",0L);
         }
         if(friendBool){
-            StatisticalBO statisticalBO=new StatisticalBO();
-            statisticalBO.setValue(0L);
-            statisticalBO.setName("friend");
+            map.put("friend",0L);
         }
         if(carBool){
-            StatisticalBO statisticalBO=new StatisticalBO();
-            statisticalBO.setValue(0L);
-            statisticalBO.setName("car");
+            map.put("car",0L);
         }
-        map.put("matchingStatistical",matchingStatistical );
+
+
         //二、查询注册数统计
         List<StatisticalBO> registeredCountList = userDAO.getUserRegisteredCount(year, month, day, type);
         //循环拼接日期,以及容错某个日期人数为0
@@ -70,11 +68,17 @@ public class StatisticalService {
         //循环拼接日期,以及容错某个日期人数为0
         getStatisticalBOList(type,activeCountList,year,month);
         map.put("activeCountList", activeCountList);
+        if("month".equals(type)){
+            List<String> dayList = DateUtils.getMonthFullDay(year,month,1);//月当中日期集合
+            map.put("dayList",dayList);
+        }else if("year".equals(type)){
+            List<String> monthList = DateUtils.getMonthList();//年集合
+            map.put("dayList",monthList);
+        }else{
+            map.put("dayList",new String[]{ String.valueOf(day)});
+        }
 
-        List<String> dayList = DateUtils.getMonthFullDay(year,month,1);//月当中日期集合
-        map.put("dayList",dayList);
-        List<String> monthList = DateUtils.getMonthList();//月集合
-        map.put("monthList",monthList);
+
         return map;
     }
 

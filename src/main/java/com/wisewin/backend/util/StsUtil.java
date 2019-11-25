@@ -85,11 +85,6 @@ public class StsUtil {
     }
 
 
-    /**
-     * 获取临时OSS
-     * @param roleSessionName
-     * @return
-     */
     public static void main(String[]  args){
         Map<String, String> testa = getStsOss("testa");
 

@@ -10,8 +10,8 @@ public class UserBO extends BaseModel {
     private Long id; //用户
     private String phone; //手机
     private String password;//密码
-    private String longitude;//经度
-    private String latitude;//纬度
+    private Double longitude;//经度
+    private Double latitude;//纬度
     private String certificationStatus;//用户认证状态
     private String carStatus;//汽车认证状态
     private String userStatus;//用户状态
@@ -52,19 +52,19 @@ public class UserBO extends BaseModel {
         this.password = password;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
