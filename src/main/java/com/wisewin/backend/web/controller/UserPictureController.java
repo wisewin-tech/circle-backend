@@ -65,7 +65,9 @@ public class UserPictureController extends BaseCotroller {
             super.safeJsonPrint(response, result);
             return;
         }
-        userPictureBO.setPictureUrl(keyValue.getValues());
+        if(userPictureBO.getPictureStatus().equals("no")){
+            userPictureBO.setPictureUrl(keyValue.getValues());
+        }
         userPictureService.updPictureById(userPictureBO);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, json);
