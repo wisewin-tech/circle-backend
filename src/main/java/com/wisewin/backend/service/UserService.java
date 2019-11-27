@@ -1,26 +1,22 @@
 package com.wisewin.backend.service;
 
+import com.alibaba.druid.support.logging.Log;
 import com.wisewin.backend.dao.InterestDAO;
 import com.wisewin.backend.dao.InterestTypeDAO;
 import com.wisewin.backend.dao.UserDAO;
 import com.wisewin.backend.dao.UserPictureDAO;
 import com.wisewin.backend.entity.bo.*;
-import com.wisewin.backend.entity.dto.BackgroundCountDTO;
-import com.wisewin.backend.entity.dto.GarageDTO;
-import com.wisewin.backend.entity.dto.GarageImgDTO;
-import com.wisewin.backend.entity.dto.UserBackgroundDTO;
+import com.wisewin.backend.entity.dto.*;
 import com.wisewin.backend.entity.param.UserParam;
 import com.wisewin.backend.util.MD5Util;
 import com.wisewin.backend.util.StringUtils;
+import com.wisewin.backend.web.controller.Test;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("userService")
 @Transactional
@@ -173,5 +169,143 @@ public class UserService {
         if(userInterestBOS.size()!=0){
             interestDAO.addInterestList(userInterestBOS);
         }
+    }
+
+
+
+    public void test(){
+        String[] models=new String[]{"date","friend","car"};
+        for(int i=0;i<1000;i++){
+            System.out.println(i+"...............");
+            UserDTO userDTO=new UserDTO();
+            userDTO.setPhone(Test.getTel());
+            userDTO.setPassword(userDTO.getPhone());
+            String[] strings = Test.randomLonLat(73.66, 135.05, 3.86, 53.55);
+            userDTO.setLongitude(new Double(strings[0]));
+            userDTO.setLatitude(new Double(strings[1]));
+            userDTO.setCertificationStatus(Test.getYesNo());
+            userDTO.setCarStatus(Test.getYesNo());
+            userDTO.setUserStatus("no");
+            userDTO.setRobotStatus("no");
+            userDTO.setRobotStatus("no");
+            userDTO.setDriver(Test.getYesNo());
+            userPictureDAO.addTestUser(userDTO); //用户信息
+            //添加模式信息
+            for(String mo:models){
+                ModelDTO modelDTO=new ModelDTO();
+                modelDTO.setModel(mo);
+                modelDTO.setUserId(userDTO.getId());
+                String name=Test.getName();
+                modelDTO.setName(name);
+                modelDTO.setDescribe("大家好我是"+name+",是兄弟就来砍我!");
+                String sex=Test.getSex();
+                modelDTO.setSex(sex);
+                modelDTO.setSexCount(0L);
+                Calendar dateBetweenMaxAndMin = Test.getDateBetweenMaxAndMin();
+                modelDTO.setBirthday(dateBetweenMaxAndMin.getTime());
+                modelDTO.setConstellation(Test.getConstellation(dateBetweenMaxAndMin.get(Calendar.MONTH)+1,dateBetweenMaxAndMin.get(Calendar.DAY_OF_MONTH)));
+                modelDTO.setHeight(String.valueOf(Test.getNum(150,200)));
+                modelDTO.setWeight(String.valueOf(Test.getNum(40,90)));
+                modelDTO.setEducation(Test.educationStr());
+                modelDTO.setBirthplace(Test.getRoad());
+                modelDTO.setSearchDistance(String.valueOf(70));
+                if(sex.equals("男")){
+                    modelDTO.setSearchSex("女");
+                }else{
+                    modelDTO.setSearchSex("男");
+
+                }
+                modelDTO.setSearchAge(18+"-"+60);
+                modelDTO.setSexStatus(Test.getYesNo());
+                modelDTO.setCarCertificationStatus(Test.getYesNo());
+                modelDTO.setBeLikeCount(0L);
+                modelDTO.setBeSuperLikeCount(0L);
+                modelDTO.setSuperLikeCount(0L);
+                modelDTO.setSuperLikeCountTime(new Date());
+                modelDTO.setBeShieldingCount(0L);
+                modelDTO.setFirst("no");
+                modelDTO.setSlideCount(0L);
+                modelDTO.setSlideTime(new Date());
+                userPictureDAO.addTestModel(modelDTO);
+
+                for(int x=0;x<Test.getNum(3,5);x++){
+                    InterestDTO interestDTO=new InterestDTO();
+                    interestDTO.setTypeId(1L);
+                    interestDTO.setModelId(modelDTO.getId());
+                    String   first=Test.jianshen[Test.getNum(0,Test.jianshen.length-1)];
+                    interestDTO.setInterestName(first);
+                    userPictureDAO.addTestInterest(interestDTO);
+                }
+
+                for(int x=0;x<Test.getNum(3,5);x++){
+                    InterestDTO interestDTO=new InterestDTO();
+                    interestDTO.setTypeId(2L);
+                    interestDTO.setModelId(modelDTO.getId());
+                    String   first=Test.chongwu[Test.getNum(0,Test.chongwu.length-1)];
+                    interestDTO.setInterestName(first);
+                    userPictureDAO.addTestInterest(interestDTO);
+                }
+
+                for(int x=0;x<Test.getNum(3,5);x++){
+                    InterestDTO interestDTO=new InterestDTO();
+                    interestDTO.setTypeId(3L);
+                    interestDTO.setModelId(modelDTO.getId());
+                    String   first=Test.lvyou[Test.getNum(0,Test.lvyou.length-1)];
+                    interestDTO.setInterestName(first);
+                    userPictureDAO.addTestInterest(interestDTO);
+                }
+
+
+                for(int x=0;x<Test.getNum(3,5);x++){
+                    InterestDTO interestDTO=new InterestDTO();
+                    interestDTO.setTypeId(4L);
+                    interestDTO.setModelId(modelDTO.getId());
+                    String   first=Test.meijiu[Test.getNum(0,Test.meijiu.length-1)];
+                    interestDTO.setInterestName(first);
+                    userPictureDAO.addTestInterest(interestDTO);
+                }
+
+                for(int x=0;x<Test.getNum(3,5);x++){
+                    InterestDTO interestDTO=new InterestDTO();
+                    interestDTO.setTypeId(5L);
+                    interestDTO.setModelId(modelDTO.getId());
+                    String   first=Test.bianqian[Test.getNum(0,Test.bianqian.length-1)];
+                    interestDTO.setInterestName(first);
+                    userPictureDAO.addTestInterest(interestDTO);
+                }
+
+
+                for(int x=0;x<Test.getNum(6,7);x++){
+                    PictureDTO pictureDTO=new PictureDTO();
+                    pictureDTO.setModelId(modelDTO.getId());
+                    pictureDTO.setPictureStatus("audit");
+                    if(sex.equals("男")){
+                        pictureDTO.setPictureUrl(Test.nan[Test.getNum(0,Test.nan.length-1)]);
+                    }else{
+                        pictureDTO.setPictureUrl(Test.nv[Test.getNum(0,Test.nv.length-1)]);
+                    }
+                    pictureDTO.setSort(new Long(x));
+                    userPictureDAO.addTestImg(pictureDTO);
+                }
+
+            }
+
+
+            int num = Test.getNum(0, 10);
+            if(num%3==0){
+                IncidentDTO incidentDTO=new IncidentDTO();
+                incidentDTO.setUserId(userDTO.getId());
+                String[] split = Test.getRoad().split("-");
+                incidentDTO.setOrigin(split[0]);
+                incidentDTO.setDestination(split[1]);
+                incidentDTO.setIncidentStatus("yes");
+                incidentDTO.setIncidentTime(Test.getNum(0, 23)+":"+Test.getNum(1, 59)+":"+Test.getNum(1, 59));
+                incidentDTO.setIncident("兜风");
+                incidentDTO.setCreateTime(new Date());
+                userPictureDAO.addTestIncident(incidentDTO);
+            }
+        }
+
+        userPictureDAO.testOption();
     }
 }

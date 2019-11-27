@@ -1,6 +1,7 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.UserPictureBO;
+import com.wisewin.backend.entity.dto.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,4 +19,20 @@ public interface UserPictureDAO {
     Integer getPictureByStatusCount(@Param("status") String status,@Param("sort") Long sort,@Param("model") String model);
     //修改背景墙状态
     Integer updPictureById(UserPictureBO userPictureDAO);
+
+
+
+    //测试数据
+    void addTestUser(UserDTO userDTO);
+
+    void addTestModel(ModelDTO modelDTO);
+
+    void addTestImg(PictureDTO pictureDTO);
+
+    void addTestInterest(InterestDTO interestDTO);
+
+
+    void addTestIncident(IncidentDTO incidentDTO);
+
+    void testOption();
 }

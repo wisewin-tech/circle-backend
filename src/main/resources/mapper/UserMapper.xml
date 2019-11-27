@@ -273,4 +273,49 @@
         group by model
     </select>
 
+
+
+
+
+
+    <insert id="addTestUser"  parameterType="com.wisewin.backend.entity.dto.UserDTO" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO ci_user("phone", "password", "create_time", "latitude", "longitude", "certification_status", "car_status", "user_status", "robot_status", "where_is", "driver" )
+        VALUES (#{phone},#{password}, NOW(), #{latitude},#{longitude},#{certificationStatus},#{carStatus},#{userStatus},#{robotStatus},#{whereIs},#{driver});
+    </insert>
+
+    <insert id="addTestModel" parameterType="com.wisewin.backend.entity.dto.ModelDTO" useGeneratedKeys="true"
+            keyProperty="id" >
+          INSERT INTO "ci_model"( "model", "describe", "sex", "sex_count", "birthday", "constellation", "height", "weight",
+          "education", "birthplace", "search_distance", "search_sex", "search_age", "sex_status", "car_certification_status",
+          "be_like_count", "be_super_like_count", "super_like_count", "super_like_count_time", "be_shielding_count",
+           "user_id", "name", "first", "record", "slide_time", "slide_count")
+          VALUES (#{model},#{describe}, #{sex}, #{sexCount}, #{birthday},#{constellation}, #{height},#{weight},
+           #{education},#{birthplace}, #{searchDistance},#{searchSex}, #{searchAge},#{sexStatus},#{carCertificationStatus},
+            #{beLikeCount},#{beSuperLikeCount},#{superLikeCount}, #{superLikeCountTime},#{beShieldingCount},
+             #{userId},#{name},#{first},#{record},#{slideTime},#{slideCount});
+    </insert>
+
+
+    <insert id="addTestImg"  parameterType="com.wisewin.backend.entity.dto.PictureDTO" >
+        INSERT INTO ci_user_picture( "model_id", "picture_url", "sort", "picture_status", "create_time", "update_time")
+        VALUES (#{modelId},#{pictureUrl},#{sort},#{pictureStatus},NOW(),#{updateTime});
+    </insert>
+
+    <insert id="addTestInterest" parameterType="com.wisewin.backend.entity.dto.InterestDTO" >
+        INSERT INTO ci_user_interest("model_id", "type_id", "interest_name") VALUES (#{modelId},#{typeId},#{interestName});
+    </insert>
+
+
+    <insert id="addTestIncident" parameterType="com.wisewin.backend.entity.dto.IncidentDTO" >
+        INSERT INTO "ci_car_incident"("user_id", "origin", "destination", "incident_time", "incident",
+         "incident_status", "create_time", "update_time")
+         VALUES (#{userId},#{origin},#{destination}, #{incidentTime}, #{incident}, #{incidentStatus},NOW(),#{updateTime});
+    </insert>
+
+    <update id="testOption" >
+ UPDATE ci_user SET  where_is = ST_POINT(longitude, latitude )
+    </update>
+
+
 </mapper>

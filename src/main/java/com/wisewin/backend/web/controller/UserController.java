@@ -224,5 +224,12 @@ public class UserController extends BaseCotroller {
         return;
     }
 
+    @RequestMapping("/test")
+    public void test(){
+        //随机生成用户名
+        userService.test();
+    }
+
+
 
 }
