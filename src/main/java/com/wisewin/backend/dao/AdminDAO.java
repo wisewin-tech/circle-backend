@@ -64,7 +64,7 @@ public interface AdminDAO {
      * @param menuIdArr 菜单id数组
      * @return
      */
-    int addRoleMenu(@Param("roleId") Integer roleId, @Param("menuIdArr") String[] menuIdArr);
+    int addRoleMenu(@Param("roleId") Integer roleId, @Param("menuIdArr") List<Integer> menuIdArr);
 
     /**
      * 根据角色姓名 查询角色信息

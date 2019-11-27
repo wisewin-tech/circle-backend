@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 管理员
@@ -323,11 +320,15 @@ public class AdminController extends BaseCotroller {
         roleBO.setRoleName(roleName);
         adminService.addRole(roleBO);
         //添加权限
-        String[] menuIdArr= {};
+        List<Integer> menuIdList= new ArrayList<Integer>();
         if(menuIds!=null){
-            menuIdArr=menuIds.split(",");
+            String[] menuIdStrs=menuIds.split(",");
+            for (int i=0;i<menuIdStrs.length;i++){
+                menuIdList.add(new Integer(menuIdStrs[i]));
+            }
         }
-        adminService.addRoleMenu(roleBO.getId(),menuIdArr);
+
+        adminService.addRoleMenu(roleBO.getId(),menuIdList);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000")) ;
         super.safeJsonPrint(response , result);
 

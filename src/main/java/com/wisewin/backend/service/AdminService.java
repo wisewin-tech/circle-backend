@@ -217,7 +217,7 @@ public class AdminService {
      * @param menuIdArr 菜单id数组
      * @return
      */
-    public int addRoleMenu(Integer roleId, String[] menuIdArr) {
+    public int addRoleMenu(Integer roleId, List<Integer> menuIdArr) {
         return adminDAO.addRoleMenu(roleId, menuIdArr);
     }
 
@@ -238,9 +238,12 @@ public class AdminService {
      * @param menuIdArr 菜单id
      */
     public boolean updRoleToMenu(RoleBO roleBO, String menuIdArr) {
-        String[] menuIds = {};
+        List<Integer> menuIds = new ArrayList<Integer>();
         if(menuIdArr!=null){
-            menuIds=menuIdArr.split(",");
+            String[] menuIdStrs=menuIdArr.split(",");
+            for (int i=0;i<menuIdStrs.length;i++){
+                menuIds.add(new Integer(menuIdStrs[i]));
+            }
         }
         //删除这个角色所有权限
         adminDAO.delRoleMenuByRoleId(roleBO.getId());
