@@ -36,8 +36,8 @@
         <if test="model!=null and model!=''">
             and model=#{model}
         </if>
-        <if test="sort!=null and sort=='0'">
-            and sort=0
+        <if test="sort!=null">
+            and sort=#{sort}
         </if>
         order by create_time desc
         <include refid="limit"/>
@@ -53,11 +53,8 @@
         <if test="model!=null and model!=''">
             and model=#{model}
         </if>
-        <if test="sort!=null and sort=='0'">
-            and sort=0
-        </if>
-        <if test="sort!=null and sort=='1'">
-            and sort=0
+        <if test="sort!=null">
+            and sort=#{sort}
         </if>
     </select>
     <!--修改背景墙状态-->
