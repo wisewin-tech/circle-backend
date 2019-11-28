@@ -64,6 +64,7 @@ public class StatisticalService {
             map.put("car",0L);
         }
 
+
         //二、查询注册数统计
         List<StatisticalBO> registeredCountList = userDAO.getUserRegisteredCount(year, month, day, type);
         //循环拼接日期,以及容错某个日期人数为0

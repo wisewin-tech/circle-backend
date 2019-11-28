@@ -39,6 +39,9 @@ public class StatisticalBO {
     }
 
     public void setDay(String day) {
+        if(day.indexOf(".")!=-1){
+            day=day.substring(0,day.indexOf("."));
+        }
         this.day = day;
     }
 
