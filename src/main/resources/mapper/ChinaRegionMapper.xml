@@ -8,6 +8,9 @@
     <select id="getChinaRegionBOList" resultType="com.wisewin.backend.entity.bo.ChinaRegionBO" parameterType="java.lang.Long">
          SELECT * FROM china WHERE china.Pid=#{pid}
     </select>
+    <select id="getChinaRegionBOList2" resultType="com.wisewin.backend.entity.bo.ChinaRegionBO2" parameterType="java.lang.Long">
+         SELECT * FROM china WHERE china.Pid=#{pid}
+    </select>
 
     <update id="updChinaRegionBO" parameterType="com.wisewin.backend.entity.bo.ChinaRegionBO">
         update china set name=#{name} where id=#{id}

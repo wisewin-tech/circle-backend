@@ -2,6 +2,7 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.ChinaRegionDAO;
 import com.wisewin.backend.entity.bo.ChinaRegionBO;
+import com.wisewin.backend.entity.bo.ChinaRegionBO2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,13 @@ public class ChinaRegionService {
     @Resource
     ChinaRegionDAO regionDAO;
     private static final Logger log = LoggerFactory.getLogger(ChinaRegionService.class);
+
     //查询所有地方
     public List<ChinaRegionBO> getChinaRegionBOList() {
         log.info("start getChinaRegionBOList..................................");
         List<ChinaRegionBO> chinaRegionBOS = regionDAO.getChinaRegionBOList(0L);
         for (ChinaRegionBO region : chinaRegionBOS) {
-            region.setChinaRegionBOList(regionDAO.getChinaRegionBOList(region.getId()));
+            region.setChinaRegionBOList(regionDAO.getChinaRegionBOList2(region.getId()));
         }
         log.info("end getChinaRegionBOList.............................................");
         return chinaRegionBOS;
@@ -49,7 +51,7 @@ public class ChinaRegionService {
     }
 
     //增加
-    public Integer addChinaRegionBO(ChinaRegionBO chinaRegionBO){
+    public Integer addChinaRegionBO(ChinaRegionBO chinaRegionBO) {
         return regionDAO.addChinaRegionBO(chinaRegionBO);
     }
 

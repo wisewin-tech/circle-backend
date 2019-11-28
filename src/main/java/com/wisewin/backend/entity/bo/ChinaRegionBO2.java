@@ -4,19 +4,11 @@ import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.util.List;
 
-public class ChinaRegionBO extends BaseModel {
+public class ChinaRegionBO2 extends BaseModel {
     private Long id;
     private String name;
     private Long pid;
-    private List<ChinaRegionBO2>chinaRegionBOList;
 
-    public List<ChinaRegionBO2> getChinaRegionBOList() {
-        return chinaRegionBOList;
-    }
-
-    public void setChinaRegionBOList(List<ChinaRegionBO2> chinaRegionBOList) {
-        this.chinaRegionBOList = chinaRegionBOList;
-    }
 
     public Long getId() {
         return id;
