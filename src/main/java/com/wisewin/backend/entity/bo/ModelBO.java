@@ -8,6 +8,7 @@ import java.util.List;
 
 public class ModelBO extends BaseModel {
     private Long id;//模式
+    private Long modelId;//模式
     private Long userId;
     private String name;//昵称
     private String model;//模式类型
@@ -35,6 +36,14 @@ public class ModelBO extends BaseModel {
     private List<UserPictureBO> pictureBOList=new ArrayList<UserPictureBO>();//背景图
     private List<InterestTypeBO> interestTypeBOList=new ArrayList<InterestTypeBO>();//兴趣分类
     private List<UserInterestBO> userInterestBOS=new ArrayList<UserInterestBO>();//用户兴趣
+
+    public Long getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(Long modelId) {
+        this.modelId = modelId;
+    }
 
     public List<UserInterestBO> getUserInterestBOS() {
         return userInterestBOS;

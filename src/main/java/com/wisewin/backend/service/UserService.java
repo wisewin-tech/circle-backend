@@ -165,6 +165,7 @@ public class UserService {
         log.info("start updRobotModel..................................");
         log.info("modelBO:{}",	modelBO);
         //修改模式信息
+        modelBO.setId(modelBO.getModelId());
         userDAO.updateUserModel(modelBO);
         //重新添加模式下的背景图信息
         userPictureDAO.delUserPicture(modelBO.getId());
