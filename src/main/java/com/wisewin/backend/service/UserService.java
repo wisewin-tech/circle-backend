@@ -12,6 +12,8 @@ import com.wisewin.backend.util.MD5Util;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.Test;
 import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,7 @@ public class UserService {
     private InterestDAO interestDAO;
     @Resource
     private UserPictureDAO userPictureDAO;
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     //查询用户信息列表
     public List<UserBO> getUserList(Map<String, Object> map) {
@@ -38,6 +41,8 @@ public class UserService {
 
     //根据用户查询模式的信息
     public List<ModelBO> getModelByUserId(Long userId) {
+        log.info("start getModelByUserId..................................");
+        log.info("userId:{}",userId);
         List<ModelBO> modelBOList = userDAO.getModelByUserId(userId);
         for (ModelBO modelBO : modelBOList) {
             if (modelBO != null && modelBO.getName() != null) {
@@ -47,6 +52,9 @@ public class UserService {
                 modelBO.setInterestTypeBOList(interestTypeDAO.getInterestTypeList(modelBO.getId()));
             }
         }
+        log.info("result:{}", modelBOList);
+        log.info("end getModelByUserId.............................................");
+
         return modelBOList;
     }
 
@@ -72,21 +80,23 @@ public class UserService {
 
     //修改用户认证状态
     public void updUserCertificationStatus(UserCertificationBO userCertificationBO) {
+        log.info("start updUserCertificationStatus..................................");
+        log.info("UserCertificationBO:{}",userCertificationBO);
         userDAO.updUserCertificationStatus(userCertificationBO);
         UserBO userParam = new UserBO();
         userParam.setCertificationStatus(userCertificationBO.getStatus());
         userParam.setId(userCertificationBO.getId());
         userDAO.updateUser(userParam);
+        log.info("end updUserCertificationStatus.............................................");
     }
 
     //查询机器人
     public UserBO getRobotUser(Long id) {
+        log.info("start getRobotUser..................................");
+        log.info("id:{}",id);
         UserBO userBO=userDAO.getUserById(id);
         System.out.println(id);
         List<ModelBO> modelBOList = userDAO.getModelByUserId(id);
-        System.out.println(modelBOList.size());
-        System.out.println(modelBOList.size());
-        System.out.println(modelBOList.size());
         for (ModelBO modelBO : modelBOList) {
             if (modelBO != null && modelBO.getName() != null) {
                 //每个模式下的背景图
@@ -96,11 +106,15 @@ public class UserService {
             }
         }
         userBO.setModelBOList(modelBOList);
+        log.info("result:{}", userBO);
+        log.info("end getRobotUser.............................................");
         return userBO;
     }
 
     //添加机器人
     public void addRobotUser(UserBO userBO) {
+        log.info("start addRobotUser..................................");
+        log.info("userBO:{}",userBO);
         //添加user
         userBO.setRobotStatus("yes");
         userBO.setUserStatus("no");
@@ -135,6 +149,7 @@ public class UserService {
                 interestDAO.addInterestList(userInterestBOS);
             }
         }
+        log.info("end addRobotUser.............................................");
     }
 
     //修改机器人信息
@@ -147,6 +162,8 @@ public class UserService {
 
     //修改机器人模式信息
     public void updRobotModel(ModelBO modelBO) {
+        log.info("start updRobotModel..................................");
+        log.info("modelBO:{}",	modelBO);
         //修改模式信息
         userDAO.updateUserModel(modelBO);
         //重新添加模式下的背景图信息
@@ -169,6 +186,7 @@ public class UserService {
         if(userInterestBOS.size()!=0){
             interestDAO.addInterestList(userInterestBOS);
         }
+        log.info("end updRobotModel.............................................");
     }
 
 

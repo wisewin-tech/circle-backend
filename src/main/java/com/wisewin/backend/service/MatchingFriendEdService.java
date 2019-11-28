@@ -3,12 +3,14 @@ package com.wisewin.backend.service;
 import com.wisewin.backend.dao.MatchingFriendEdDAO;
 import com.wisewin.backend.entity.bo.MatchingFriendEdBO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class MatchingFriendEdService {
     @Resource
     MatchingFriendEdDAO matchingFriendEdDAO;

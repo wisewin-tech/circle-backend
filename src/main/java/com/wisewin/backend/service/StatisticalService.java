@@ -3,12 +3,16 @@ package com.wisewin.backend.service;
 import com.wisewin.backend.dao.UserDAO;
 import com.wisewin.backend.entity.bo.StatisticalBO;
 import com.wisewin.backend.util.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
 
 @Service
+@Transactional
 public class StatisticalService {
 
     /**
@@ -20,8 +24,11 @@ public class StatisticalService {
      */
     @Resource
     UserDAO userDAO;
+    private static final Logger log = LoggerFactory.getLogger(StatisticalService.class);
 
     public Map<String, Object> getStatisticalMap(Date date, String type) {
+        log.info("start getStatisticalMap..................................");
+        log.info("date:{}\ttype:{}", date, type);
         //获取今天日期
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -85,7 +92,8 @@ public class StatisticalService {
             map.put("dayList",dayList);
         }
 
-
+        log.info("result:{}", map);
+        log.info("end getStatisticalMap.............................................");
         return map;
     }
 
