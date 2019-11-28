@@ -1,7 +1,5 @@
 package com.wisewin.backend.entity.bo;
 
-import java.util.Date;
-
 public class StatisticalBO {
     private Long value;
     private String name;
@@ -23,6 +21,9 @@ public class StatisticalBO {
     }
 
     public void setYear(String year) {
+        if(year.indexOf(".")!=-1){
+            year=year.substring(0,year.indexOf("."));
+        }
         this.year = year;
     }
 
@@ -31,6 +32,9 @@ public class StatisticalBO {
     }
 
     public void setMonth(String month) {
+        if(month.indexOf(".")!=-1){
+            month=month.substring(0,month.indexOf("."));
+        }
         this.month = month;
     }
 
