@@ -59,4 +59,25 @@
         </if>
     </select>
 
+    <select id="getCarIncidentById" parameterType="java.lang.Long" resultType="com.wisewin.backend.entity.bo.CarIncidentBO">
+        select ci_car_incident.*,ci_user.phone from ci_car_incident,ci_user
+        where ci_car_incident.user_id=ci_user.id
+        and ci_car_incident.user_id=#{userId}
+        and incident_status='yes'
+    </select>
+
+    <insert id="addCarIncident" parameterType="com.wisewin.backend.entity.bo.CarIncidentBO">
+        insert into ci_car_incident
+        (user_id,origin,destination,incident_time,incident,incident_status,create_time)
+        values
+        (#{userId},#{origin},#{destination},#{incidentTime},#{incident},#{incidentStatus},now())
+    </insert>
+
+    <update id="updCarIncident" parameterType="com.wisewin.backend.entity.bo.CarIncidentBO">
+        update ci_car_incident
+        set origin=#{origin},destination=#{destination},
+        incident_time=#{incidentTime},incident=#{incident},
+        incident_status=#{incidentStatus},update_time=now()
+    </update>
+
 </mapper>

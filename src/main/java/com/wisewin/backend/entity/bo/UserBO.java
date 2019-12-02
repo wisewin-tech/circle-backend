@@ -18,6 +18,16 @@ public class UserBO extends BaseModel {
     private String robotStatus;//是否为机器人
     private Date createTime;//注册时间
 
+    private CarIncidentBO carIncidentBO;//事件
+
+    public CarIncidentBO getCarIncidentBO() {
+        return carIncidentBO;
+    }
+
+    public void setCarIncidentBO(CarIncidentBO carIncidentBO) {
+        this.carIncidentBO = carIncidentBO;
+    }
+
     private List<ModelBO> modelBOList;
 
     public List<ModelBO> getModelBOList() {

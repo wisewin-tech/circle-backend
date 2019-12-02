@@ -1,6 +1,7 @@
 package com.wisewin.backend.web.controller;
 
 import com.google.common.primitives.Ints;
+import com.wisewin.backend.util.MD5Util;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -175,7 +176,7 @@ public class Test {
      public static String getConstellation(int month, int day) {
         return day < dayArr[month - 1] ? constellationArr[month - 1] : constellationArr[month];
     }
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         // 中国的经纬度范围大约为：纬度3.86~53.55，经度73.66~135.05
 
      for(int i=0;i<1000;i++){
@@ -189,4 +190,7 @@ public class Test {
 
     }
 
+    public static void main(String[]args){
+        System.out.println(MD5Util.digest("123456"));
+    }
 }

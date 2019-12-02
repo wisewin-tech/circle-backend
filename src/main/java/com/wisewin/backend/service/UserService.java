@@ -1,10 +1,7 @@
 package com.wisewin.backend.service;
 
 import com.alibaba.druid.support.logging.Log;
-import com.wisewin.backend.dao.InterestDAO;
-import com.wisewin.backend.dao.InterestTypeDAO;
-import com.wisewin.backend.dao.UserDAO;
-import com.wisewin.backend.dao.UserPictureDAO;
+import com.wisewin.backend.dao.*;
 import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.dto.*;
 import com.wisewin.backend.entity.param.UserParam;
@@ -31,6 +28,9 @@ public class UserService {
     private InterestDAO interestDAO;
     @Resource
     private UserPictureDAO userPictureDAO;
+    @Resource
+    private CarIncidentDAO carIncidentDAO;
+
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     //查询用户信息列表
@@ -106,6 +106,8 @@ public class UserService {
             }
         }
         userBO.setModelBOList(modelBOList);
+        //查询事件
+        userBO.setCarIncidentBO(carIncidentDAO.getCarIncidentById(id));
         log.info("result:{}", userBO);
         log.info("end getRobotUser.............................................");
         return userBO;
@@ -120,6 +122,13 @@ public class UserService {
         userBO.setUserStatus("no");
         userDAO.addUser(userBO);
         userDAO.updUserPOINT(userBO.getId());
+        //添加事件
+        CarIncidentBO carIncidentBO=userBO.getCarIncidentBO();
+        if(carIncidentBO!=null){
+            carIncidentBO.setIncidentStatus("yes");
+            carIncidentDAO.addCarIncident(carIncidentBO);
+        }
+
         //循环添加模块信息
         for (ModelBO modelBO : userBO.getModelBOList()) {
             modelBO.setUserId(userBO.getId());
@@ -159,6 +168,12 @@ public class UserService {
         for (ModelBO modelBO:userParam.getModelBOList()) {
             this.updRobotModel(modelBO);
         }
+        //修改事件
+        CarIncidentBO carIncidentBO=userParam.getCarIncidentBO();
+        if(carIncidentBO!=null){
+            carIncidentBO.setIncidentStatus("yes");
+            carIncidentDAO.updCarIncident(carIncidentBO);
+        }
         userDAO.updUserPOINT(userParam.getId());
     }
 
@@ -187,6 +202,7 @@ public class UserService {
             }
         }
         if(userInterestBOS.size()!=0){
+
             interestDAO.addInterestList(userInterestBOS);
         }
         log.info("end updRobotModel.............................................");
