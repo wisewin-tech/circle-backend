@@ -119,6 +119,7 @@ public class UserService {
         userBO.setRobotStatus("yes");
         userBO.setUserStatus("no");
         userDAO.addUser(userBO);
+        userDAO.updUserPOINT(userBO.getId());
         //循环添加模块信息
         for (ModelBO modelBO : userBO.getModelBOList()) {
             modelBO.setUserId(userBO.getId());
@@ -158,6 +159,7 @@ public class UserService {
         for (ModelBO modelBO:userParam.getModelBOList()) {
             this.updRobotModel(modelBO);
         }
+        userDAO.updUserPOINT(userParam.getId());
     }
 
     //修改机器人模式信息

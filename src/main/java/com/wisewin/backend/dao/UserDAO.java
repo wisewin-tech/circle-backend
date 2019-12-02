@@ -41,4 +41,6 @@ public interface UserDAO {
     List<StatisticalBO> getUserActiveCount(@Param("year")Integer year,@Param("month")Integer month,@Param("day")Integer day,@Param("type")String type);
     //分组查询每个模式下的匹配数
     List<StatisticalBO> getMatchingCount(@Param("year")Integer year,@Param("month")Integer month,@Param("day")Integer day,@Param("type")String type);
+
+    Integer updUserPOINT(Long userId);
 }

@@ -314,8 +314,11 @@
     </insert>
 
     <update id="testOption" >
- UPDATE ci_user SET  where_is = ST_POINT(longitude, latitude )
+        UPDATE ci_user SET  where_is = ST_POINT(longitude, latitude )
     </update>
 
+    <update id="updUserPOINT" parameterType="java.lang.Long">
+        UPDATE ci_user SET  where_is = ST_POINT(longitude,latitude )  where id = #{userId}
+    </update>
 
 </mapper>
