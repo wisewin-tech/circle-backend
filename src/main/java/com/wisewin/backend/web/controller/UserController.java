@@ -6,6 +6,7 @@ import com.wisewin.backend.entity.param.UserParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.UserService;
 import com.wisewin.backend.util.JsonUtils;
+import com.wisewin.backend.util.hx.HXUtil;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,15 @@ public class UserController extends BaseCotroller {
     private UserService userService;
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
+    @RequestMapping("/addUser")
+    public void addUser(String msg,HttpServletRequest request, HttpServletResponse response) {
+        HXUtil hxUtil=new HXUtil();
+        hxUtil.sendToUser("18731612878","2248404572",msg);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(null));
+        super.safeJsonPrint(response, json);
+        return;
+    }
 
     /**
      * 查询所有用户信息

@@ -9,7 +9,7 @@ public class CarIncidentBO extends BaseModel {
     private Long userId;//用户id
     private String origin;//起点
     private String destination;//终点
-    private Date incidentTime;//时间
+    private String incidentTime;//时间
     private String incident;//事件
     private String incidentStatus;//状态
     private Date createTime;//创建时间
@@ -73,11 +73,12 @@ public class CarIncidentBO extends BaseModel {
         this.destination = destination;
     }
 
-    public Date getIncidentTime() {
+
+    public String getIncidentTime() {
         return incidentTime;
     }
 
-    public void setIncidentTime(Date incidentTime) {
+    public void setIncidentTime(String incidentTime) {
         this.incidentTime = incidentTime;
     }
 
