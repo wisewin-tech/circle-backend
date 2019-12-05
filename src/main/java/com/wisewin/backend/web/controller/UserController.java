@@ -31,14 +31,14 @@ public class UserController extends BaseCotroller {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    @RequestMapping("/addUser")
-    public void addUser(String msg,HttpServletRequest request, HttpServletResponse response) {
-        HXUtil hxUtil=new HXUtil();
-        hxUtil.sendToUser("18731612878","2248404572",msg);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(null));
-        super.safeJsonPrint(response, json);
-        return;
-    }
+//    @RequestMapping("/addUser")
+//    public void addUser(String msg,HttpServletRequest request, HttpServletResponse response) {
+//        HXUtil hxUtil=new HXUtil();
+//        hxUtil.sendToUser("18731612878","2248404572",msg);
+//        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(null));
+//        super.safeJsonPrint(response, json);
+//        return;
+//    }
 
     /**
      * 查询所有用户信息

@@ -107,7 +107,12 @@ public class UserService {
         }
         userBO.setModelBOList(modelBOList);
         //查询事件
-        userBO.setCarIncidentBO(carIncidentDAO.getCarIncidentById(id));
+        CarIncidentBO carIncidentBO=new CarIncidentBO();
+        CarIncidentBO carIncident=carIncidentDAO.getCarIncidentById(id);
+        if(carIncident!=null){
+            carIncidentBO=carIncident;
+        }
+        userBO.setCarIncidentBO(carIncidentBO);
         log.info("result:{}", userBO);
         log.info("end getRobotUser.............................................");
         return userBO;
