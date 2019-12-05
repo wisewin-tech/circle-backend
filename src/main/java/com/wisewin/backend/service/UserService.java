@@ -95,6 +95,9 @@ public class UserService {
         log.info("start getRobotUser..................................");
         log.info("id:{}",id);
         UserBO userBO=userDAO.getUserById(id);
+        if(userBO==null){
+            return null;
+        }
         System.out.println(id);
         List<ModelBO> modelBOList = userDAO.getModelByUserId(id);
         for (ModelBO modelBO : modelBOList) {
