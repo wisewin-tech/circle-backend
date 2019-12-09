@@ -178,7 +178,7 @@ public class UserService {
         }
         //修改事件
         CarIncidentBO carIncidentBO=userParam.getCarIncidentBO();
-        if(carIncidentBO!=null){
+        if(carIncidentBO!=null&&carIncidentBO.getId()!=null&&carIncidentBO.getId()!=0){
             carIncidentBO.setIncidentStatus("yes");
             carIncidentDAO.updCarIncident(carIncidentBO);
         }
