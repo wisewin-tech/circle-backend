@@ -116,6 +116,21 @@ public class UserService {
             carIncidentBO=carIncident;
         }
         userBO.setCarIncidentBO(carIncidentBO);
+
+        //时间类型为 null
+        userBO.setCreateTime(null);
+        userBO.setUserStatus(null);
+        userBO.getCarIncidentBO().setCreateTime(null);
+        userBO.getCarIncidentBO().setUpdateTime(null);
+        List<ModelBO> modelBOS=userBO.getModelBOList();
+        for (ModelBO modelBO:modelBOS) {
+            modelBO.setUpdateTime(null);
+            List<UserPictureBO> userPictureBOS=modelBO.getPictureBOList();
+            for (UserPictureBO userPictureBO:userPictureBOS) {
+                userPictureBO.setCreateTime(null);
+                userPictureBO.setUpdateTime(null);
+            }
+        }
         log.info("result:{}", userBO);
         log.info("end getRobotUser.............................................");
         return userBO;
