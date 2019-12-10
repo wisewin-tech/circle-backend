@@ -231,7 +231,6 @@ public class UserService {
             }
         }
         if(userInterestBOS.size()!=0){
-
             interestDAO.addInterestList(userInterestBOS);
         }
         log.info("end updRobotModel.............................................");
