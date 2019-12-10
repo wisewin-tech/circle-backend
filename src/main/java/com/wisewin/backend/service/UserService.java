@@ -209,6 +209,15 @@ public class UserService {
         userDAO.updateUserModel(modelBO);
         //重新添加模式下的背景图信息
         userPictureDAO.delUserPicture(modelBO.getId());
+        //模块信息中循环添加背景图
+        if(modelBO.getPictureBOList()!=null){
+            for (UserPictureBO userPictureBO : modelBO.getPictureBOList()) {
+                userPictureBO.setModelId(modelBO.getId());
+            }
+        }
+        if(modelBO.getPictureBOList().size()!=0){
+            userPictureDAO.addUserPicture(modelBO.getPictureBOList());
+        }
         userPictureDAO.addUserPicture(modelBO.getPictureBOList());
         //重新添加模式下的兴趣信息
         interestDAO.delUserInterest(modelBO.getId());
