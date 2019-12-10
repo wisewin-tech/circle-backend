@@ -214,10 +214,9 @@ public class UserService {
             for (UserPictureBO userPictureBO : modelBO.getPictureBOList()) {
                 userPictureBO.setModelId(modelBO.getId());
             }
-        }
-        if(modelBO.getPictureBOList().size()!=0){
             userPictureDAO.addUserPicture(modelBO.getPictureBOList());
         }
+
         userPictureDAO.addUserPicture(modelBO.getPictureBOList());
         //重新添加模式下的兴趣信息
         interestDAO.delUserInterest(modelBO.getId());
