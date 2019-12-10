@@ -216,8 +216,6 @@ public class UserService {
             }
             userPictureDAO.addUserPicture(modelBO.getPictureBOList());
         }
-
-        userPictureDAO.addUserPicture(modelBO.getPictureBOList());
         //重新添加模式下的兴趣信息
         interestDAO.delUserInterest(modelBO.getId());
         ArrayList<UserInterestBO> userInterestBOS=new ArrayList<UserInterestBO>();
