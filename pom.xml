@@ -99,7 +99,7 @@
 
       <artifactId>poi</artifactId>
 
-      <version>3.9</version>
+      <version>4.1.1</version>
 
       <exclusions>
 
